@@ -1,5 +1,6 @@
 import { listenerCount } from 'process';
-import React, { useReducer, Reducer } from 'react'
+import React, { useReducer, Reducer, useEffect } from 'react'
+import useLocalStorage from '../hooks/useLocalStorage';
 import { Action, ShoppingListItemProps, ShoppingListProps, ShoppingListReducer } from './ShoppingListReducer';
 
 
@@ -32,6 +33,20 @@ type ShoppingListContextProviderProps = {
 
 export function ShoppingListContextProvider(props:ShoppingListContextProviderProps) {
     const [recipts, dispatchRecipts] = useReducer<Reducer<ShoppingListProps[],Action>>(ShoppingListReducer, [])
+    const [storage, setStorage] = useLocalStorage<any>("shoppinglist",[])
+    
+    useEffect(() => {
+       setRecipts(storage)
+    }, [])
+
+    useEffect(() => {
+        setStorage(recipts)
+    })
+
+
+    const setRecipts = (recipts:ShoppingListProps[])=>{
+        dispatchRecipts({type:"setRecipts",data:recipts})
+    }
 
     const addRecipt = (recipt:ShoppingListProps)=>{
         dispatchRecipts({type:"addRecipt",data:recipt})

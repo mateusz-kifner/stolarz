@@ -17,13 +17,14 @@ export type OrderProps  = {
     is_anbandoned:boolean,
 
     date_of_issue:Date,
-    est_date_of_completion:Date,
+    est_date_of_completion:Date | null,
     date_of_completion:Date | null,
 
 }
 
 export type Action = 
 {type:"add",data:OrderProps}
+| {type:"set",data:OrderProps[]}
 | {type:"remove", id:number}
 | {type:"change", data:OrderProps}
 | {type:"populateWithPlaceholders"}
@@ -32,6 +33,8 @@ export type Action =
 
 export function OrdersReducer(prevState:OrderProps[],action:Action){
     switch(action.type){
+        case "set":
+            return [...action.data]
         case "add":
             return [...prevState, action.data]
         case "remove":

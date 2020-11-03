@@ -11,6 +11,7 @@ export type ContactsProps = {
 
 export type Action = 
 {type:"add",data:ContactsProps}
+| {type:"set",data:ContactsProps[]}
 | {type:"remove", id:number}
 | {type:"change", data:ContactsProps}
 | {type:"populateWithPlaceholders"}
@@ -19,6 +20,8 @@ export type Action =
 
 export function ContactsReducer(prevState:ContactsProps[],action:Action){
     switch(action.type){
+        case "set":
+            return [...action.data]
         case "add":
             if (action.data.id === undefined) action.data.id = prevState.length
             return [...prevState, action.data]

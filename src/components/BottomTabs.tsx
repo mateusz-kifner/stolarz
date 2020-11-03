@@ -7,11 +7,11 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 
 function BottomTabs({history}:import('react-router-dom').RouteChildrenProps) {
-    const [value, setValue] = React.useState<string>('recents')
+    const [value, setValue] = React.useState<string>('Orders')
   
-    const handleChange = (event:object, newValue:string) => {
+    const handleChange = (_:object, newValue:string) => {
       setValue(newValue)
-      history.push(newValue)
+      history.push("/"+newValue)
     };
   
     return (

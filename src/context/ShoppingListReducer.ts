@@ -8,6 +8,7 @@ export type ShoppingListItemProps = {
 
 export type ShoppingListProps = {
     id?:number,
+    name:string,
     items:ShoppingListItemProps[],
     budget:number | null,
     order_id: number | null,
@@ -17,6 +18,7 @@ export type ShoppingListProps = {
 export type Action = 
 // Add Recipt to list
 {type:"addRecipt",data:ShoppingListProps}
+| {type:"setRecipts",data:ShoppingListProps[]}
 | {type:"removeRecipt", list_id:number}
 | {type:"changeRecipt", list_data:ShoppingListProps}
 // Add Items to recipt
@@ -31,6 +33,8 @@ export type Action =
 export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action){
     console.log("reducer run")
     switch(action.type){
+        case "setRecipts":
+            return [...action.data]
         case "addRecipt":
             if (action.data.id === undefined) action.data.id = prevState.length
             action.data.items.map((value,index)=>{
@@ -99,6 +103,7 @@ export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action)
             for (let i=0;i<20;i++){
                 let new_recipt:ShoppingListProps={
                     id:i,
+                    name:"test",
                     budget: faker.random.number()%40000,
                     order_id:null,
                     items:[{

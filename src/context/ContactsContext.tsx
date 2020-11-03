@@ -1,6 +1,6 @@
-import React, { useReducer ,Reducer} from 'react'
+import React, { useReducer ,Reducer, useEffect} from 'react'
 import { Action, ContactsProps, ContactsReducer } from './ContactsReducer';
-
+import useLocalStorage from '../hooks/useLocalStorage'
 type ContactsContextProps = {
     contacts: ContactsProps[],
     addContact: (contact:ContactsProps)=>void,
@@ -26,7 +26,16 @@ type ContactsContextProviderProps = {
 
 export function ContactsContextProvider(props:ContactsContextProviderProps) {
     const [contacts, dispatchContacts] = useReducer<Reducer<ContactsProps[],Action>>(ContactsReducer, [])
+    const [storage, setStorage] = useLocalStorage<any>("contacts",[])
+    
+    useEffect(() => {
+       setContacts(storage)
+    }, [])
 
+    useEffect(() => {
+        setStorage(contacts)
+    })
+    
     const addContact = (contact:ContactsProps)=>{
         dispatchContacts({type:"add",data:contact})
     }
@@ -39,6 +48,10 @@ export function ContactsContextProvider(props:ContactsContextProviderProps) {
 
     const populateContactsWithPlaceholders = ()=>{
         dispatchContacts({type:"populateWithPlaceholders"})
+    }
+
+    const setContacts = (contacts:ContactsProps[])=>{
+        dispatchContacts({type:"set",data:contacts})
     }
     return (
         <ContactsContext.Provider value={{
