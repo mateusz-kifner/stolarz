@@ -3,6 +3,7 @@ import { Action, ContactsProps, ContactsReducer } from './ContactsReducer';
 import useLocalStorage from '../hooks/useLocalStorage'
 type ContactsContextProps = {
     contacts: ContactsProps[],
+    setContacts: (contact:ContactsProps[])=>void,
     addContact: (contact:ContactsProps)=>void,
     removeContact: (id:number)=>void,
     changeContact: (contact:ContactsProps)=>void,
@@ -11,6 +12,7 @@ type ContactsContextProps = {
 
 const initialContext = {
     contacts:[],
+    setContacts: (contact:ContactsProps[])=>{},
     addContact:(contact:ContactsProps)=>{},
     removeContact:(id:number)=>{},
     changeContact:(contact:ContactsProps)=>{},
@@ -36,6 +38,10 @@ export function ContactsContextProvider(props:ContactsContextProviderProps) {
         setStorage(contacts)
     })
     
+    const setContacts = (contacts:ContactsProps[])=>{
+        dispatchContacts({type:"set",data:contacts})
+    }
+
     const addContact = (contact:ContactsProps)=>{
         dispatchContacts({type:"add",data:contact})
     }
@@ -50,12 +56,11 @@ export function ContactsContextProvider(props:ContactsContextProviderProps) {
         dispatchContacts({type:"populateWithPlaceholders"})
     }
 
-    const setContacts = (contacts:ContactsProps[])=>{
-        dispatchContacts({type:"set",data:contacts})
-    }
+    
     return (
         <ContactsContext.Provider value={{
             contacts:contacts,
+            setContacts,
             addContact,
             removeContact,
             changeContact,

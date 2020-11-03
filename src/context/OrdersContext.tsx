@@ -5,12 +5,14 @@ import { Action, OrderProps, OrdersReducer } from './OrdersReducer';
 type OrdersContextProps={
     orders:OrderProps[],
     addOrder:(order:OrderProps)=>void,
+    setOrders:(order:OrderProps[])=>void,
     removeOrder:(id:number)=>void,
     changeOrder:(order:OrderProps)=>void,
     populateOrdersWithPlaceholders:()=>void
 }
 const initialContext = {
     orders:[],
+    setOrders:(order:OrderProps[])=>{},
     addOrder:(order:OrderProps)=>{},
     removeOrder:(id:number)=>{},
     changeOrder:(order:OrderProps)=>{},
@@ -49,6 +51,11 @@ export function OrdersContextProvider(props:OrdersContextProviderProps) {
     useEffect(() => {
         setStorage(orders)
     })
+
+    const setOrders = (orders:OrderProps[])=>{
+        dispatchOrders({type:"set",data:orders})
+    }
+    
     const addOrder = (order:OrderProps)=>{
         dispatchOrders({type:"add",data:order})
     }
@@ -63,13 +70,12 @@ export function OrdersContextProvider(props:OrdersContextProviderProps) {
         dispatchOrders({type:"populateWithPlaceholders"})
     }
 
-    const setOrders = (orders:OrderProps[])=>{
-        dispatchOrders({type:"set",data:orders})
-    }
+
     
     return (
         <OrdersContext.Provider value={{
             orders,
+            setOrders,
             addOrder,
             removeOrder,
             changeOrder,

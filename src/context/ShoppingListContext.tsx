@@ -6,6 +6,7 @@ import { Action, ShoppingListItemProps, ShoppingListProps, ShoppingListReducer }
 
 type ShoppingListContextProps = {
     recipts: ShoppingListProps[],
+    setRecipts: (recipts:ShoppingListProps[])=>void,
     addRecipt: (recipt:ShoppingListProps)=>void,
     removeRecipt: (id:number)=>void,
     changeRecipt: (recipt:ShoppingListProps)=>void,
@@ -16,6 +17,7 @@ type ShoppingListContextProps = {
 
 const initialContext = {
     recipts:[],
+    setRecipts: (recipts:ShoppingListProps[])=>{},
     addRecipt:(recipt:ShoppingListProps)=>{},
     removeRecipt:(id:number)=>{},
     changeRecipt:(recipt:ShoppingListProps)=>{},
@@ -71,7 +73,8 @@ export function ShoppingListContextProvider(props:ShoppingListContextProviderPro
     }
     return (
         <ShoppingListContext.Provider value={{
-            recipts:recipts,
+            recipts,
+            setRecipts,
             addRecipt,
             removeRecipt,
             changeRecipt,
