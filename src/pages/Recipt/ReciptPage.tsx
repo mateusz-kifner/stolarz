@@ -1,11 +1,11 @@
 import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
 import React, { useContext } from "react"
 import AddIcon from "@material-ui/icons/Add"
-import { ShoppingListContext } from "../../context/ShoppingListContext"
-import ShoppingListCard from "../../components/ShoppingListCard"
+import { ReciptContext } from "../../context/ReciptContext"
+import ReciptCard from "../../components/ReciptCard"
 
 const useStyles = makeStyles({
-  shoppingListContainer: {
+  reciptContainer: {
     height: "100%",
     position: "relative",
   },
@@ -20,25 +20,25 @@ const useStyles = makeStyles({
   },
 })
 
-function ShoppingListPage({
+function ReciptPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
   const { recipts, addRecipt, removeRecipt, changeRecipt } = useContext(
-    ShoppingListContext
+    ReciptContext,
   )
   const classes = useStyles()
 
   const goToAddPage = () => {
-    history.push("/ShoppingList/Add")
+    history.push("/Recipt/Add")
   }
 
   return (
-    <div className={classes.shoppingListContainer}>
+    <div className={classes.reciptContainer}>
       <List className={classes.listContainer}>
         {recipts.map((value) => {
           return (
-            <ListItem key={"shoppingList" + value.id}>
-              <ShoppingListCard {...value} />
+            <ListItem key={"recipt" + value.id}>
+              <ReciptCard {...value} />
             </ListItem>
           )
         })}
@@ -55,4 +55,4 @@ function ShoppingListPage({
   )
 }
 
-export default ShoppingListPage
+export default ReciptPage

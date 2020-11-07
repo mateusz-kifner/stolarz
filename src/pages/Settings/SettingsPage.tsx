@@ -2,12 +2,12 @@ import { Button } from "@material-ui/core"
 import React, { useContext } from "react"
 import { ContactsContext } from "../../context/ContactsContext"
 import { OrdersContext } from "../../context/OrdersContext"
-import { ShoppingListContext } from "../../context/ShoppingListContext"
+import { ReciptContext } from "../../context/ReciptContext"
 import faker from "faker"
 
 function SettingsPage() {
   const { orders, setOrders, addOrder, removeOrder, changeOrder } = useContext(
-    OrdersContext
+    OrdersContext,
   )
   const {
     contacts,
@@ -22,7 +22,7 @@ function SettingsPage() {
     addRecipt,
     removeRecipt,
     changeRecipt,
-  } = useContext(ShoppingListContext)
+  } = useContext(ReciptContext)
 
   // Fake Data
   const setFakeData = () => {

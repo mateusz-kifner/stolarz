@@ -1,16 +1,16 @@
 import faker from 'faker'
 
-export type ShoppingListItemProps = {
+export type ReciptItemProps = {
     id?:number,
     name:string,
     amount:number,
     is_bought?:boolean,
 }
 
-export type ShoppingListProps = {
+export type ReciptProps = {
     id?:number,
     name:string,
-    items:ShoppingListItemProps[],
+    items:ReciptItemProps[],
     budget:number | null,
     order_id: number | null,
     completed: boolean
@@ -18,20 +18,20 @@ export type ShoppingListProps = {
 
 export type Action = 
 // Add Recipt to list
-{type:"addRecipt",data:ShoppingListProps}
-| {type:"setRecipts",data:ShoppingListProps[]}
+{type:"addRecipt",data:ReciptProps}
+| {type:"setRecipts",data:ReciptProps[]}
 | {type:"removeRecipt", list_id:number}
-| {type:"changeRecipt", list_data:ShoppingListProps}
+| {type:"changeRecipt", list_data:ReciptProps}
 // Add Items to recipt
-| {type:"addItem", list_id:number, item_data:ShoppingListItemProps}
+| {type:"addItem", list_id:number, item_data:ReciptItemProps}
 | {type:"removeItem", list_id:number, item_id:number}
-| {type:"changeItem", list_id:number, item_id:number, item_data:ShoppingListItemProps}
+| {type:"changeItem", list_id:number, item_id:number, item_data:ReciptItemProps}
 // Placeholders
 | {type:"populateWithPlaceholders"}
 
 
 
-export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action){
+export function ReciptReducer(prevState:ReciptProps[],action:Action){
     console.log("reducer run")
     switch(action.type){
         case "setRecipts":
@@ -101,9 +101,9 @@ export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action)
         //     })
         
         case "populateWithPlaceholders":
-            var shoppingList:ShoppingListProps[] = []
+            var recipt:ReciptProps[] = []
             for (let i=0;i<20;i++){
-                let new_recipt:ShoppingListProps={
+                let new_recipt:ReciptProps={
                     id:i,
                     name:"test",
                     budget: faker.random.number()%40000,
@@ -117,9 +117,9 @@ export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action)
                     completed: (faker.random.number()%10 > 2) ? true : false
                 }
                
-                shoppingList.push(new_recipt)
+                recipt.push(new_recipt)
             }
-            return shoppingList
+            return recipt
         default:
             return prevState;
     }

@@ -19,11 +19,11 @@ import { OrderProps } from "../context/OrdersReducer"
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
 import MoneyOffIcon from "@material-ui/icons/MoneyOff"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
-import ShoppingListCard from "./ShoppingListCard"
-import { ShoppingListContext } from "../context/ShoppingListContext"
-import ShoppingListCardContent from "./ShoppingListCardContent"
+import ReciptCard from "./ReciptCard"
+import { ReciptContext } from "../context/ReciptContext"
+import ReciptCardContent from "./ReciptCardContent"
 import { UserSettingsContext } from "../context/UserSettingsContext"
-import ShoppingList from "./ShoppingList"
+import Recipt from "./Recipt"
 
 const useStyle = makeStyles((theme) => ({
   card: {
@@ -59,18 +59,18 @@ function OrderCard({
   is_price_paid,
   shopping_list_id,
 }: OrderProps) {
-  const { recipts } = useContext(ShoppingListContext)
+  const { recipts } = useContext(ReciptContext)
   const { expand_shopping_list_in_orders } = useContext(UserSettingsContext)
   const classes = useStyle()
   const [showNotes, setShowNotes] = useState<boolean>(false)
-  const [showShoppingList, setShowShoppingList] = useState<boolean>(false)
+  const [showRecipt, setShowRecipt] = useState<boolean>(false)
 
   const toggleNotes = () => {
     setShowNotes((prevState) => !prevState)
   }
 
-  const toggleShoppingList = () => {
-    setShowShoppingList((prevState) => !prevState)
+  const toggleRecipt = () => {
+    setShowRecipt((prevState) => !prevState)
   }
 
   return (
@@ -123,10 +123,8 @@ function OrderCard({
           </IconButton>
         )}
         {shopping_list_id != null && (
-          <IconButton aria-label="notes" onClick={toggleShoppingList}>
-            <ShoppingCartIcon
-              htmlColor={showShoppingList ? "#3f51b5" : "#757575"}
-            />
+          <IconButton aria-label="notes" onClick={toggleRecipt}>
+            <ShoppingCartIcon htmlColor={showRecipt ? "#3f51b5" : "#757575"} />
           </IconButton>
         )}
       </CardActions>
@@ -139,13 +137,13 @@ function OrderCard({
         </CardContent>
       </Collapse>
       {shopping_list_id != null && (
-        <Collapse in={showShoppingList}>
+        <Collapse in={showRecipt}>
           <Divider />
           <CardContent>
             {expand_shopping_list_in_orders ? (
-              <ShoppingList {...recipts[shopping_list_id]} />
+              <Recipt {...recipts[shopping_list_id]} />
             ) : (
-              <ShoppingListCardContent {...recipts[shopping_list_id]} />
+              <ReciptCardContent {...recipts[shopping_list_id]} />
             )}
           </CardContent>
         </Collapse>

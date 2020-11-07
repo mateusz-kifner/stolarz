@@ -1,7 +1,7 @@
 import React from "react"
 import { ContactsContextProvider } from "./context/ContactsContext"
 import { OrdersContextProvider } from "./context/OrdersContext"
-import { ShoppingListContextProvider } from "./context/ShoppingListContext"
+import { ReciptContextProvider } from "./context/ReciptContext"
 import { CssBaseline } from "@material-ui/core"
 import AppNavigation from "./AppNavigation"
 import { UserSettingsContextProvider } from "./context/UserSettingsContext"
@@ -11,13 +11,13 @@ function App() {
     <>
       <CssBaseline />
       <ContactsContextProvider>
-        <ShoppingListContextProvider>
+        <ReciptContextProvider>
           <OrdersContextProvider>
             <UserSettingsContextProvider>
               <AppNavigation />
             </UserSettingsContextProvider>
           </OrdersContextProvider>
-        </ShoppingListContextProvider>
+        </ReciptContextProvider>
       </ContactsContextProvider>
     </>
   )

@@ -9,8 +9,8 @@ import {
 } from "@material-ui/core"
 import React, { useState } from "react"
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
-import { ShoppingListProps } from "../context/ShoppingListReducer"
-import ShoppingList from "./ShoppingList"
+import { ReciptProps } from "../context/ReciptReducer"
+import Recipt from "./Recipt"
 import { Collapse } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
@@ -39,7 +39,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-function ShoppingListCardContent(shoppinglist: ShoppingListProps) {
+function ReciptCardContent(recipt: ReciptProps) {
   const classes = useStyle()
   const [showList, setShowList] = useState<boolean>(false)
   const [checked, setChecked] = useState<boolean>(false)
@@ -58,7 +58,7 @@ function ShoppingListCardContent(shoppinglist: ShoppingListProps) {
           <div className={classes.timeContianer}>
             <ShoppingCartIcon color="primary" />
             <Typography variant="subtitle1" component="h2" display="inline">
-              {shoppinglist.name}
+              {recipt.name}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -66,8 +66,7 @@ function ShoppingListCardContent(shoppinglist: ShoppingListProps) {
               display="inline"
               color="textSecondary"
             >
-              {shoppinglist.budget &&
-                (shoppinglist.budget / 100.0).toFixed(2) + "zł"}
+              {recipt.budget && (recipt.budget / 100.0).toFixed(2) + "zł"}
             </Typography>
             <div className={classes.cardActionQuickButton}></div>
             {checked ? (
@@ -100,11 +99,11 @@ function ShoppingListCardContent(shoppinglist: ShoppingListProps) {
       </CardActions>
       <Collapse in={showList}>
         <CardContent>
-          <ShoppingList {...shoppinglist} />
+          <Recipt {...recipt} />
         </CardContent>
       </Collapse>
     </>
   )
 }
 
-export default ShoppingListCardContent
+export default ReciptCardContent

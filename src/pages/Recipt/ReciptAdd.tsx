@@ -41,9 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ShoppingListAdd({
-  history,
-}: import("react-router-dom").RouteChildrenProps) {
+function ReciptAdd({ history }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
   const { register, handleSubmit, errors } = useForm()
   const today_date = new Date().toISOString().split("T")
@@ -60,7 +58,7 @@ function ShoppingListAdd({
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add shoppinglist</Typography>
+          <Typography variant="h6">Add recipt</Typography>
         </Toolbar>
       </AppBar>
       <form
@@ -99,7 +97,7 @@ function ShoppingListAdd({
             fullWidth
           />
 
-          <div>shoppinglist</div>
+          <div>recipt</div>
 
           <Button type="submit" color="primary" variant="contained" fullWidth>
             Submit
@@ -110,4 +108,4 @@ function ShoppingListAdd({
   )
 }
 
-export default ShoppingListAdd
+export default ReciptAdd
