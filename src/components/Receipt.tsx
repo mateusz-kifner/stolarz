@@ -1,18 +1,18 @@
 import React from "react"
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
-import { ReciptProps } from "../context/ReciptReducer"
+import { ReceiptProps } from "../context/ReceiptReducer"
 import CloseIcon from "@material-ui/icons/Close"
 import CheckIcon from "@material-ui/icons/Check"
 
-function Recipt(recipt: ReciptProps & { selectable?: boolean }) {
+function Receipt(receipt: ReceiptProps & { selectable?: boolean }) {
   return (
     <List dense>
-      {recipt.items.map((item) => {
+      {receipt.items.map((item) => {
         {
           console.log(item.name)
         }
         return (
-          <ListItem key={`recipt${recipt.id}item${item.id}`}>
+          <ListItem key={`receipt${receipt.id}item${item.id}`}>
             <ListItemIcon>
               {item.is_bought ? (
                 <CheckIcon htmlColor="#388E3C" />
@@ -33,4 +33,4 @@ function Recipt(recipt: ReciptProps & { selectable?: boolean }) {
   )
 }
 
-export default Recipt
+export default Receipt

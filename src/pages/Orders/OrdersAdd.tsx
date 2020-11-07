@@ -289,7 +289,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
               />
             </div>
           </FormControl>
-          <div>recipt</div>
+          <div>receipt</div>
 
           <Button type="submit" color="primary" variant="contained" fullWidth>
             Submit

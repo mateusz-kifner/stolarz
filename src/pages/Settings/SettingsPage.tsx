@@ -2,7 +2,7 @@ import { Button } from "@material-ui/core"
 import React, { useContext } from "react"
 import { ContactsContext } from "../../context/ContactsContext"
 import { OrdersContext } from "../../context/OrdersContext"
-import { ReciptContext } from "../../context/ReciptContext"
+import { ReceiptContext } from "../../context/ReceiptContext"
 import faker from "faker"
 
 function SettingsPage() {
@@ -17,12 +17,12 @@ function SettingsPage() {
     changeContact,
   } = useContext(ContactsContext)
   const {
-    recipts,
-    setRecipts,
-    addRecipt,
-    removeRecipt,
-    changeRecipt,
-  } = useContext(ReciptContext)
+    receipts,
+    setReceipts,
+    addReceipt,
+    removeReceipt,
+    changeReceipt,
+  } = useContext(ReceiptContext)
 
   // Fake Data
   const setFakeData = () => {
@@ -51,7 +51,7 @@ function SettingsPage() {
       email: "test2@gmail.com",
       is_good: false,
     })
-    addRecipt({
+    addReceipt({
       id: 0,
       name: "test0",
       order_id: 0,
@@ -62,7 +62,7 @@ function SettingsPage() {
         { id: 0, amount: 1, name: "Glue", is_bought: false },
       ],
     })
-    addRecipt({
+    addReceipt({
       id: 1,
       name: "test1",
       order_id: 1,
@@ -74,7 +74,7 @@ function SettingsPage() {
         { id: 0, amount: 100, name: "Screws 3cm", is_bought: true },
       ],
     })
-    addRecipt({
+    addReceipt({
       id: 2,
       name: "test2",
       order_id: 2,
@@ -137,7 +137,7 @@ function SettingsPage() {
 
   const resetAll = () => {
     setOrders([])
-    setRecipts([])
+    setReceipts([])
     setContacts([])
   }
   return (

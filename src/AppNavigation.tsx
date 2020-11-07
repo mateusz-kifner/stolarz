@@ -1,7 +1,7 @@
 import React from "react"
 import BottomTabs from "./components/BottomTabs"
 import OrdersPage from "./pages/Orders/OrdersPage"
-import ReciptPage from "./pages/Recipt/ReciptPage"
+import ReceiptPage from "./pages/Receipt/ReceiptPage"
 import FinancePage from "./pages/Finance/FinancePage"
 import TopBar from "./components/TopBar"
 import OrdersEdit from "./pages/Orders/OrdersEdit"
@@ -9,7 +9,7 @@ import OrdersAdd from "./pages/Orders/OrdersAdd"
 import DataView from "./components/DataView"
 import { makeStyles } from "@material-ui/core"
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
-import ReciptAdd from "./pages/Recipt/ReciptAdd"
+import ReceiptAdd from "./pages/Receipt/ReceiptAdd"
 import SettingsPage from "./pages/Settings/SettingsPage"
 import ContactsPage from "./pages/Contacts/ContactsPage"
 
@@ -44,8 +44,8 @@ function AppNavigation() {
             <Route path="/Orders" exact component={OrdersPage} />
             <Route path="/Orders/Add" exact component={OrdersAdd} />
             <Route path="/Orders/Edit" component={OrdersEdit} />
-            <Route path="/Recipt" exact component={ReciptPage} />
-            <Route path="/Recipt/Add" exact component={ReciptAdd} />
+            <Route path="/Receipt" exact component={ReceiptPage} />
+            <Route path="/Receipt/Add" exact component={ReceiptAdd} />
             <Route path="/Finances" exact component={FinancePage} />
             <Route path="/Contacts" exact component={ContactsPage} />
             <Route path="/DataView" exact component={DataView} />

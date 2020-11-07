@@ -19,11 +19,11 @@ import { OrderProps } from "../context/OrdersReducer"
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
 import MoneyOffIcon from "@material-ui/icons/MoneyOff"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
-import ReciptCard from "./ReciptCard"
-import { ReciptContext } from "../context/ReciptContext"
-import ReciptCardContent from "./ReciptCardContent"
+import ReceiptCard from "./ReceiptCard"
+import { ReceiptContext } from "../context/ReceiptContext"
+import ReceiptCardContent from "./ReceiptCardContent"
 import { UserSettingsContext } from "../context/UserSettingsContext"
-import Recipt from "./Recipt"
+import Receipt from "./Receipt"
 
 const useStyle = makeStyles((theme) => ({
   card: {
@@ -59,18 +59,18 @@ function OrderCard({
   is_price_paid,
   shopping_list_id,
 }: OrderProps) {
-  const { recipts } = useContext(ReciptContext)
+  const { receipts } = useContext(ReceiptContext)
   const { expand_shopping_list_in_orders } = useContext(UserSettingsContext)
   const classes = useStyle()
   const [showNotes, setShowNotes] = useState<boolean>(false)
-  const [showRecipt, setShowRecipt] = useState<boolean>(false)
+  const [showReceipt, setShowReceipt] = useState<boolean>(false)
 
   const toggleNotes = () => {
     setShowNotes((prevState) => !prevState)
   }
 
-  const toggleRecipt = () => {
-    setShowRecipt((prevState) => !prevState)
+  const toggleReceipt = () => {
+    setShowReceipt((prevState) => !prevState)
   }
 
   return (
@@ -123,8 +123,8 @@ function OrderCard({
           </IconButton>
         )}
         {shopping_list_id != null && (
-          <IconButton aria-label="notes" onClick={toggleRecipt}>
-            <ShoppingCartIcon htmlColor={showRecipt ? "#3f51b5" : "#757575"} />
+          <IconButton aria-label="notes" onClick={toggleReceipt}>
+            <ShoppingCartIcon htmlColor={showReceipt ? "#3f51b5" : "#757575"} />
           </IconButton>
         )}
       </CardActions>
@@ -137,13 +137,13 @@ function OrderCard({
         </CardContent>
       </Collapse>
       {shopping_list_id != null && (
-        <Collapse in={showRecipt}>
+        <Collapse in={showReceipt}>
           <Divider />
           <CardContent>
             {expand_shopping_list_in_orders ? (
-              <Recipt {...recipts[shopping_list_id]} />
+              <Receipt {...receipts[shopping_list_id]} />
             ) : (
-              <ReciptCardContent {...recipts[shopping_list_id]} />
+              <ReceiptCardContent {...receipts[shopping_list_id]} />
             )}
           </CardContent>
         </Collapse>

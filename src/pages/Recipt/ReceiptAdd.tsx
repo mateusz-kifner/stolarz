@@ -41,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ReciptAdd({ history }: import("react-router-dom").RouteChildrenProps) {
+function ReceiptAdd({
+  history,
+}: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
   const { register, handleSubmit, errors } = useForm()
   const today_date = new Date().toISOString().split("T")
@@ -58,7 +60,7 @@ function ReciptAdd({ history }: import("react-router-dom").RouteChildrenProps) {
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add recipt</Typography>
+          <Typography variant="h6">Add receipt</Typography>
         </Toolbar>
       </AppBar>
       <form
@@ -97,7 +99,7 @@ function ReciptAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             fullWidth
           />
 
-          <div>recipt</div>
+          <div>receipt</div>
 
           <Button type="submit" color="primary" variant="contained" fullWidth>
             Submit
@@ -108,4 +110,4 @@ function ReciptAdd({ history }: import("react-router-dom").RouteChildrenProps) {
   )
 }
 
-export default ReciptAdd
+export default ReceiptAdd

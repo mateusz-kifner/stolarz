@@ -1,70 +1,70 @@
 import faker from 'faker'
 
-export type ReciptItemProps = {
+export type ReceiptItemProps = {
     id?:number,
     name:string,
     amount:number,
     is_bought?:boolean,
 }
 
-export type ReciptProps = {
+export type ReceiptProps = {
     id?:number,
     name:string,
-    items:ReciptItemProps[],
+    items:ReceiptItemProps[],
     budget:number | null,
     order_id: number | null,
     completed: boolean
 }
 
 export type Action = 
-// Add Recipt to list
-{type:"addRecipt",data:ReciptProps}
-| {type:"setRecipts",data:ReciptProps[]}
-| {type:"removeRecipt", list_id:number}
-| {type:"changeRecipt", list_data:ReciptProps}
-// Add Items to recipt
-| {type:"addItem", list_id:number, item_data:ReciptItemProps}
+// Add Receipt to list
+{type:"addReceipt",data:ReceiptProps}
+| {type:"setReceipts",data:ReceiptProps[]}
+| {type:"removeReceipt", list_id:number}
+| {type:"changeReceipt", list_data:ReceiptProps}
+// Add Items to receipt
+| {type:"addItem", list_id:number, item_data:ReceiptItemProps}
 | {type:"removeItem", list_id:number, item_id:number}
-| {type:"changeItem", list_id:number, item_id:number, item_data:ReciptItemProps}
+| {type:"changeItem", list_id:number, item_id:number, item_data:ReceiptItemProps}
 // Placeholders
 | {type:"populateWithPlaceholders"}
 
 
 
-export function ReciptReducer(prevState:ReciptProps[],action:Action){
+export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
     console.log("reducer run")
     switch(action.type){
-        case "setRecipts":
+        case "setReceipts":
             return [...action.data]
-        case "addRecipt":
+        case "addReceipt":
             if (action.data.id === undefined) action.data.id = prevState.length
             action.data.items.map((value,index)=>{
                 if (value.id === undefined) value.id = index
                 return value
             })
             return [...prevState, action.data]
-        case "removeRecipt":
+        case "removeReceipt":
             return prevState.filter((data)=>{
                 if (data.id === action.list_id) return false
                 return true
             })
-        case "changeRecipt":
-            return prevState.map((recipt)=>{
-                if (recipt.id === action.list_data.id) return action.list_data
-                return recipt
+        case "changeReceipt":
+            return prevState.map((receipt)=>{
+                if (receipt.id === action.list_data.id) return action.list_data
+                return receipt
             });
         case "addItem":
-            return prevState.map((recipt)=>{
-                if (recipt.id === action.list_id) {
-                    console.log(recipt)
-                    let new_recipt = {...recipt}
-                    new_recipt.items = [...recipt.items]
-                    if (action.item_data.id === undefined) action.item_data.id = recipt.items.length
+            return prevState.map((receipt)=>{
+                if (receipt.id === action.list_id) {
+                    console.log(receipt)
+                    let new_receipt = {...receipt}
+                    new_receipt.items = [...receipt.items]
+                    if (action.item_data.id === undefined) action.item_data.id = receipt.items.length
                     if (action.item_data.is_bought === undefined) action.item_data.is_bought = false
-                    new_recipt.items.push(action.item_data)
-                    return new_recipt
+                    new_receipt.items.push(action.item_data)
+                    return new_receipt
                 }
-                return recipt
+                return receipt
             })
         case "removeItem":
             return prevState.map((value)=>{
@@ -101,9 +101,9 @@ export function ReciptReducer(prevState:ReciptProps[],action:Action){
         //     })
         
         case "populateWithPlaceholders":
-            var recipt:ReciptProps[] = []
+            var receipt:ReceiptProps[] = []
             for (let i=0;i<20;i++){
-                let new_recipt:ReciptProps={
+                let new_receipt:ReceiptProps={
                     id:i,
                     name:"test",
                     budget: faker.random.number()%40000,
@@ -117,9 +117,9 @@ export function ReciptReducer(prevState:ReciptProps[],action:Action){
                     completed: (faker.random.number()%10 > 2) ? true : false
                 }
                
-                recipt.push(new_recipt)
+                receipt.push(new_receipt)
             }
-            return recipt
+            return receipt
         default:
             return prevState;
     }

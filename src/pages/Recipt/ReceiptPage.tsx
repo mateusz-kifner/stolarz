@@ -1,11 +1,11 @@
 import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
 import React, { useContext } from "react"
 import AddIcon from "@material-ui/icons/Add"
-import { ReciptContext } from "../../context/ReciptContext"
-import ReciptCard from "../../components/ReciptCard"
+import { ReceiptContext } from "../../context/ReceiptContext"
+import ReceiptCard from "../../components/ReceiptCard"
 
 const useStyles = makeStyles({
-  reciptContainer: {
+  receiptContainer: {
     height: "100%",
     position: "relative",
   },
@@ -20,25 +20,25 @@ const useStyles = makeStyles({
   },
 })
 
-function ReciptPage({
+function ReceiptPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { recipts, addRecipt, removeRecipt, changeRecipt } = useContext(
-    ReciptContext,
+  const { receipts, addReceipt, removeReceipt, changeReceipt } = useContext(
+    ReceiptContext,
   )
   const classes = useStyles()
 
   const goToAddPage = () => {
-    history.push("/Recipt/Add")
+    history.push("/Receipt/Add")
   }
 
   return (
-    <div className={classes.reciptContainer}>
+    <div className={classes.receiptContainer}>
       <List className={classes.listContainer}>
-        {recipts.map((value) => {
+        {receipts.map((value) => {
           return (
-            <ListItem key={"recipt" + value.id}>
-              <ReciptCard {...value} />
+            <ListItem key={"receipt" + value.id}>
+              <ReceiptCard {...value} />
             </ListItem>
           )
         })}
@@ -55,4 +55,4 @@ function ReciptPage({
   )
 }
 
-export default ReciptPage
+export default ReceiptPage

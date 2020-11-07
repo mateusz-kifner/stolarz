@@ -4,10 +4,13 @@ import {
   ContactsContextProvider,
 } from "../context/ContactsContext"
 import { OrdersContext, OrdersContextProvider } from "../context/OrdersContext"
-import { ReciptContext, ReciptContextProvider } from "../context/ReciptContext"
+import {
+  ReceiptContext,
+  ReceiptContextProvider,
+} from "../context/ReceiptContext"
 
 function DataView() {
-  const { recipts } = useContext(ReciptContext)
+  const { receipts } = useContext(ReceiptContext)
   const { orders } = useContext(OrdersContext)
   const { contacts } = useContext(ContactsContext)
 
@@ -15,7 +18,7 @@ function DataView() {
     <>
       <h1>List</h1>
       <table>
-        {recipts.map((value) => {
+        {receipts.map((value) => {
           return (
             <tr>
               <td>{value.id}</td>

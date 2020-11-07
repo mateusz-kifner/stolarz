@@ -9,8 +9,8 @@ import {
 } from "@material-ui/core"
 import React, { useState } from "react"
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
-import { ReciptProps } from "../context/ReciptReducer"
-import Recipt from "./Recipt"
+import { ReceiptProps } from "../context/ReceiptReducer"
+import Receipt from "./Receipt"
 import { Collapse } from "@material-ui/core"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
@@ -39,7 +39,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-function ReciptCardContent(recipt: ReciptProps) {
+function ReceiptCardContent(receipt: ReceiptProps) {
   const classes = useStyle()
   const [showList, setShowList] = useState<boolean>(false)
   const [checked, setChecked] = useState<boolean>(false)
@@ -58,7 +58,7 @@ function ReciptCardContent(recipt: ReciptProps) {
           <div className={classes.timeContianer}>
             <ShoppingCartIcon color="primary" />
             <Typography variant="subtitle1" component="h2" display="inline">
-              {recipt.name}
+              {receipt.name}
             </Typography>
             <Typography
               variant="subtitle1"
@@ -66,7 +66,7 @@ function ReciptCardContent(recipt: ReciptProps) {
               display="inline"
               color="textSecondary"
             >
-              {recipt.budget && (recipt.budget / 100.0).toFixed(2) + "zł"}
+              {receipt.budget && (receipt.budget / 100.0).toFixed(2) + "zł"}
             </Typography>
             <div className={classes.cardActionQuickButton}></div>
             {checked ? (
@@ -99,11 +99,11 @@ function ReciptCardContent(recipt: ReciptProps) {
       </CardActions>
       <Collapse in={showList}>
         <CardContent>
-          <Recipt {...recipt} />
+          <Receipt {...receipt} />
         </CardContent>
       </Collapse>
     </>
   )
 }
 
-export default ReciptCardContent
+export default ReceiptCardContent

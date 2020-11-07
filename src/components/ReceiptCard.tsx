@@ -1,7 +1,7 @@
 import { Card, makeStyles } from "@material-ui/core"
 import React from "react"
-import { ReciptProps } from "../context/ReciptReducer"
-import ReciptCardContent from "./ReciptCardContent"
+import { ReceiptProps } from "../context/ReceiptReducer"
+import ReceiptCardContent from "./ReceiptCardContent"
 
 const useStyle = makeStyles((theme) => ({
   card: {
@@ -9,14 +9,14 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-function ReciptCard(recipt: ReciptProps) {
+function ReceiptCard(receipt: ReceiptProps) {
   const classes = useStyle()
 
   return (
     <Card className={classes.card}>
-      <ReciptCardContent {...recipt} />
+      <ReceiptCardContent {...receipt} />
     </Card>
   )
 }
 
-export default ReciptCard
+export default ReceiptCard

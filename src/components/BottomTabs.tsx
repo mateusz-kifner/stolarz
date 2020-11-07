@@ -25,7 +25,7 @@ function BottomTabs({
       />
       <BottomNavigationAction
         label="Shopping List"
-        value="Recipt"
+        value="Receipt"
         icon={<ShoppingCartIcon />}
       />
       <BottomNavigationAction
