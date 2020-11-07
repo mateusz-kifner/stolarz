@@ -1,4 +1,5 @@
 import { Button, makeStyles, Typography } from "@material-ui/core"
+import clsx from "clsx"
 import React, { useState } from "react"
 import { Controller } from "react-hook-form"
 import PersonIcon from "@material-ui/icons/Person"
@@ -31,10 +32,13 @@ const useStyles = makeStyles((theme) => {
         borderColor: theme.palette.text.primary,
       },
     },
+    redBorder: {
+      borderColor: theme.palette.error.main,
+    },
   }
 })
 
-function ContactChoose({ control, name }: any) {
+function ContactChoose({ control, name, defaultValue, rules, error }: any) {
   const classes = useStyles()
   const [contact, setContact] = useState<ContactsProps | undefined>()
   const [showContacts, setShowContacts] = useState<boolean>(false)
@@ -43,17 +47,19 @@ function ContactChoose({ control, name }: any) {
     <Controller
       control={control}
       name={name}
-      rules={{ required: true }}
-      defaultValue={undefined}
+      rules={rules}
+      defaultValue={defaultValue}
       render={({ onChange, onBlur, value, name, ref }) => (
         <>
           <Button
-            className={classes.outline}
+            className={
+              error ? clsx(classes.outline, classes.redBorder) : classes.outline
+            }
             startIcon={<PersonIcon />}
             onClick={() => setShowContacts(true)}
           >
             {contact == null ? (
-              <Typography>Choose contact</Typography>
+              <Typography>Choose contact *</Typography>
             ) : (
               <Typography>{`${contact.name} ${
                 contact.surname && contact.surname

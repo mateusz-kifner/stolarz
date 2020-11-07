@@ -32,7 +32,6 @@ export type Action =
 
 
 export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
-    console.log("reducer run")
     switch(action.type){
         case "setReceipts":
             return [...action.data]
@@ -77,29 +76,6 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                 }
                 return value
             })
-        // case "removeItem":
-        //     return prevState.map((value)=>{
-        //         if (value.id === action.list_id) {
-        //             let new_items = value.items.filter((_, index)=>{
-        //                 if (index === action.item_id) return false;
-        //                 return true;
-        //             })
-        //             return {...value, items:new_items}
-        //         }
-        //         return value
-        //     })
-        // case "changeItem":
-        //     return prevState.map((value)=>{
-        //         if (value.id === action.list_id) {
-        //             let new_items = value.items.map((item_value, index)=>{
-        //                 if (index === action.item_id) return action.item_data;
-        //                 return item_value;
-        //             })
-        //             return {...value, items:new_items}
-        //         }
-        //         return value
-        //     })
-        
         case "populateWithPlaceholders":
             var receipt:ReceiptProps[] = []
             for (let i=0;i<20;i++){

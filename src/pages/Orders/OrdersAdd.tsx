@@ -64,15 +64,9 @@ const useStyles = makeStyles((theme) => {
       "&:hover": {
         borderColor: theme.palette.text.primary,
       },
-      "&$focused": {
+      "&:focused": {
         borderColor: theme.palette.primary.main,
         borderWidth: 2,
-      },
-      "&$error": {
-        borderColor: theme.palette.error.main,
-      },
-      "&$disabled": {
-        borderColor: theme.palette.action.disabled,
       },
     },
     outlineLabel: {
@@ -94,7 +88,9 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
     })
     .split("/")
   const today_date_iso = `${today_date[2]}-${today_date[1]}-${today_date[0]}`
-  const today_time = new Date().toLocaleTimeString().substring(0, 5)
+  const today_time = new Date()
+    .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+    .substring(0, 5)
   return (
     <Dialog fullScreen open>
       <AppBar position="static">
@@ -117,7 +113,13 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
         className={classes.form}
       >
         <Container maxWidth="sm" className={classes.fieldsContainer}>
-          <ContactChoose control={control} name="contact" />
+          <ContactChoose
+            control={control}
+            name="contact"
+            rules={{ required: true }}
+            defaultValue={null}
+            error={"contact" in errors}
+          />
           <TextField
             name="description"
             inputRef={register({ required: true })}

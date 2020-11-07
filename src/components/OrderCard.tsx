@@ -11,7 +11,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core"
-import React, { useContext, useState } from "react"
+import React, { memo, useContext, useState } from "react"
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
 import NoteIcon from "@material-ui/icons/Note"
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
@@ -24,6 +24,7 @@ import { ReceiptContext } from "../context/ReceiptContext"
 import ReceiptCardContent from "./ReceiptCardContent"
 import { UserSettingsContext } from "../context/UserSettingsContext"
 import Receipt from "./Receipt"
+import objectsHaveSameData from "../helpers/objectsHaveSameData"
 
 const useStyle = makeStyles((theme) => ({
   card: {
@@ -152,4 +153,6 @@ function OrderCard({
   )
 }
 
-export default OrderCard
+export default memo(OrderCard, (prevProps, nextProps) => {
+  return objectsHaveSameData(prevProps, nextProps)
+})

@@ -63,7 +63,7 @@ function ContactsAddDialog({
             email: string
           }) => {
             onAddClick({ ...values, is_good: true })
-          }
+          },
         )}
         className={classes.form}
       >
@@ -88,7 +88,9 @@ function ContactsAddDialog({
           <TextField
             name="tel"
             type="tel"
-            inputRef={register}
+            inputRef={register({
+              pattern: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
+            })}
             label="Phone number"
             error={"tel" in errors}
             variant="outlined"
