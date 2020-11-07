@@ -12,6 +12,7 @@ import React, { useContext } from "react"
 import EditIcon from "@material-ui/icons/Edit"
 import { ContactsContext } from "../context/ContactsContext"
 import { ContactsProps } from "../context/ContactsReducer"
+import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles((theme) => ({
   avatarCircle: {
@@ -39,7 +40,7 @@ function ContactsList({ onItemClick, onEditClick }: ContactsListProps) {
       {contacts.map((contact) => {
         return (
           <ListItem
-            key={contact.id}
+            key={uuidv4()}
             button
             onClick={() => {
               onItemClick && onItemClick(contact)

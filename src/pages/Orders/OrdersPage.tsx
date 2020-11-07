@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react"
 import OrderCard from "../../components/OrderCard"
 import AddIcon from "@material-ui/icons/Add"
 import { OrdersContext } from "../../context/OrdersContext"
+import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles({
   ordersContainer: {
@@ -24,7 +25,7 @@ function OrdersPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
   const { orders, addOrder, removeOrder, changeOrder } = useContext(
-    OrdersContext
+    OrdersContext,
   )
   const classes = useStyles()
   const goToAddPage = () => {
@@ -36,7 +37,7 @@ function OrdersPage({
       <List className={classes.listContainer}>
         {orders.map((value) => {
           return (
-            <ListItem key={"order" + value.id}>
+            <ListItem key={uuidv4()}>
               <OrderCard {...value} />
             </ListItem>
           )

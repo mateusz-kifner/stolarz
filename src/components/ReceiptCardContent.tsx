@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@material-ui/core"
 import React, { useState } from "react"
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import { ReceiptProps } from "../context/ReceiptReducer"
 import Receipt from "./Receipt"
 import { Collapse } from "@material-ui/core"
@@ -16,6 +15,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import ExpandLessIcon from "@material-ui/icons/ExpandLess"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
+import ReceiptIcon from "@material-ui/icons/Receipt"
 const useStyle = makeStyles((theme) => ({
   card: {
     width: "100%",
@@ -56,7 +56,7 @@ function ReceiptCardContent(receipt: ReceiptProps) {
       <CardActionArea onClick={toggleChecked}>
         <CardContent>
           <div className={classes.timeContianer}>
-            <ShoppingCartIcon color="primary" />
+            <ReceiptIcon color="primary" />
             <Typography variant="subtitle1" component="h2" display="inline">
               {receipt.name}
             </Typography>

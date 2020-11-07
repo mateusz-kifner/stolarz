@@ -3,6 +3,7 @@ import React, { useContext } from "react"
 import AddIcon from "@material-ui/icons/Add"
 import { ReceiptContext } from "../../context/ReceiptContext"
 import ReceiptCard from "../../components/ReceiptCard"
+import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles({
   receiptContainer: {
@@ -37,7 +38,7 @@ function ReceiptPage({
       <List className={classes.listContainer}>
         {receipts.map((value) => {
           return (
-            <ListItem key={"receipt" + value.id}>
+            <ListItem key={uuidv4()}>
               <ReceiptCard {...value} />
             </ListItem>
           )
