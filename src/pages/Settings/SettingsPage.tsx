@@ -87,6 +87,7 @@ function SettingsPage() {
     })
     addOrder({
       id: 0,
+      name: "Krzesłox2",
       desc: "Krzesłox2",
       advance_value: 10000,
       priceing_value: 40000,
@@ -103,6 +104,7 @@ function SettingsPage() {
     })
     addOrder({
       id: 1,
+      name: "Stół",
       desc: "Stół",
       advance_value: 30000,
       priceing_value: 60000,
@@ -119,6 +121,7 @@ function SettingsPage() {
     })
     addOrder({
       id: 2,
+      name: "Ławka",
       desc: "Ławka",
       advance_value: 40000,
       priceing_value: 80000,

@@ -25,6 +25,7 @@ import AddIcon from "@material-ui/icons/Add"
 import RemoveIcon from "@material-ui/icons/Remove"
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import ReceiptListItem from "./ReceiptListItem"
+import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
@@ -78,7 +79,6 @@ function reducer(prevState: ReceiptItemProps[], action: Action) {
           })
         }
       }
-      console.log("test")
       return [...prevState, action.item]
 
     case "remove":
@@ -87,6 +87,11 @@ function reducer(prevState: ReceiptItemProps[], action: Action) {
         return true
       })
     case "change":
+      if (action.item.amount < 1)
+        return prevState.filter((item) => {
+          if (item.id === action.item.id) return false
+          return true
+        })
       return prevState.map((item) => {
         if (item.id === action.item.id) return action.item
         return item
@@ -102,6 +107,7 @@ type ReceiptItemListProps = {
 }
 
 function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
+  const [uuid] = useState(uuidv4())
   const [items, dispatchItems] = useReducer<
     Reducer<ReceiptItemProps[], Action>
   >(reducer, receipt.items)
@@ -121,25 +127,25 @@ function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
     })
   }
 
-  const decrementAmount = useCallback((item: ReceiptItemProps) => {
+  const decrementAmount = (item: ReceiptItemProps) => {
     if (item.amount > 0) {
       dispatchItems({
         type: "change",
         item: { ...item, amount: item.amount - 1 },
       })
     }
-  }, [])
+  }
 
-  const toggleIsBought = useCallback((item: ReceiptItemProps) => {
+  const toggleIsBought = (item: ReceiptItemProps) => {
     dispatchItems({
       type: "change",
       item: { ...item, is_bought: !item.is_bought },
     })
-  }, [])
+  }
 
-  const addItem = useCallback((item: ReceiptItemProps) => {
+  const addItem = (item: ReceiptItemProps) => {
     dispatchItems({ type: "add", item })
-  }, [])
+  }
 
   return (
     <div className={classes.outline}>
@@ -147,7 +153,6 @@ function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
         <TextField
           fullWidth
           name="additem"
-          label="New item"
           value={addfield}
           onChange={(e) => {
             setAddfield(e.target.value)
@@ -171,21 +176,18 @@ function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
       <List dense>
         {items.map((item, index) => {
           return (
-            <>
-              <ReceiptListItem
-                item={item}
-                toggleIsBought={toggleIsBought}
-                incrementAmount={incrementAmount}
-                decrementAmount={decrementAmount}
-                key={index}
-              />
-              {index < items_len_minus_1 && <Divider />}
-            </>
+            <ReceiptListItem
+              item={item}
+              toggleIsBought={toggleIsBought}
+              incrementAmount={incrementAmount}
+              decrementAmount={decrementAmount}
+              key={uuid + index}
+            />
           )
         })}
         {items.length < 1 && (
           <Typography variant="subtitle2" align="center">
-            No items in recipt
+            No items in receipt
           </Typography>
         )}
       </List>

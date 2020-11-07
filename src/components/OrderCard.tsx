@@ -51,6 +51,7 @@ const useStyle = makeStyles((theme) => ({
 
 function OrderCard({
   id,
+  name,
   desc,
   notes,
   est_date_of_completion,
@@ -77,30 +78,34 @@ function OrderCard({
   return (
     <Card className={classes.card}>
       <CardActionArea>
-        <CardContent>
-          <div className={classes.timeContianer}>
-            <AccessAlarmIcon />
-            <Typography variant="subtitle1" component="h2">
-              {est_date_of_completion?.toLocaleString([], {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </Typography>
-            <div className={classes.cardMoneyIcon}>
-              {is_price_paid && is_advance_paid && (
-                <MonetizationOnIcon htmlColor="#388E3C" />
-              )}
-              {!is_advance_paid && !is_price_paid && (
-                <MoneyOffIcon htmlColor="#D32F2F" />
-              )}
-              {!is_price_paid && is_advance_paid && (
-                <AttachMoneyIcon htmlColor="#F57C00" />
-              )}
-            </div>
+        <CardContent className={classes.timeContianer}>
+          <Typography variant="h6" color="textPrimary" component="h1">
+            {name}
+          </Typography>
+          <div className={classes.cardMoneyIcon}>
+            {is_price_paid && is_advance_paid && (
+              <MonetizationOnIcon htmlColor="#388E3C" />
+            )}
+            {!is_advance_paid && !is_price_paid && (
+              <MoneyOffIcon htmlColor="#D32F2F" />
+            )}
+            {!is_price_paid && is_advance_paid && (
+              <AttachMoneyIcon htmlColor="#F57C00" />
+            )}
           </div>
+        </CardContent>
+        <Divider />
+        <CardContent className={classes.timeContianer}>
+          <AccessAlarmIcon />
+          <Typography variant="subtitle1" component="h2">
+            {est_date_of_completion?.toLocaleString(undefined, {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Typography>
         </CardContent>
         <Divider />
         <CardContent>

@@ -58,13 +58,14 @@ function ReceiptAdd({
     items: [],
   }
 
-  const handleReciptAdd = (recipt_form_form: any) => {
+  const handleReceiptAdd = (receipt_form_form: any) => {
     addReceipt({
-      ...recipt_form_form,
+      ...receipt_form_form,
       order_id: null,
-      items: [...recipt_form_form.items],
-      budget: moneyNoDivider(recipt_form_form.budget),
+      items: [...receipt_form_form.items],
+      budget: moneyNoDivider(receipt_form_form.budget),
     })
+    history.goBack()
   }
 
   return (
@@ -82,7 +83,7 @@ function ReceiptAdd({
           <Typography variant="h6">Add receipt</Typography>
         </Toolbar>
       </AppBar>
-      <form onSubmit={handleSubmit(handleReciptAdd)} className={classes.form}>
+      <form onSubmit={handleSubmit(handleReceiptAdd)} className={classes.form}>
         <Container maxWidth="sm" className={classes.fieldsContainer}>
           <TextField
             name="name"
@@ -122,7 +123,7 @@ function ReceiptAdd({
           />
 
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            Add recipt
+            Add receipt
           </Button>
         </Container>
       </form>

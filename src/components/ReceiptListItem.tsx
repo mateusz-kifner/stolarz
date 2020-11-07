@@ -1,5 +1,6 @@
 import {
   Checkbox,
+  Divider,
   IconButton,
   ListItem,
   ListItemIcon,
@@ -45,7 +46,6 @@ function ReceiptListItem({
           tabIndex={-1}
           checked={item.is_bought}
           onChange={() => toggleIsBought(item)}
-          inputProps={{ "aria-labelledby": "item" + item.id }}
         />
       </ListItemIcon>
       {item.amount < 1 && <DeleteForeverIcon htmlColor="#D32F2F" />}

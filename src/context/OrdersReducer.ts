@@ -2,6 +2,7 @@ import faker from 'faker'
 // TODO
 export type OrderProps  = {
     id:number,
+    name:string,
     desc:string,
     notes:string,
     client_id:number,
@@ -52,6 +53,7 @@ export function OrdersReducer(prevState:OrderProps[],action:Action){
             for (let i=0;i<40;i++){
                 let new_order:OrderProps= {
                     id:i,
+                    name:"test",
                     client_id:0,
                     desc:"wooden Table",
                     notes:"",

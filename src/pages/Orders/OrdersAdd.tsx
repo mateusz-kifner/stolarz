@@ -14,11 +14,14 @@ import {
   OutlinedInput,
   Checkbox,
   FormControlLabel,
+  Divider,
 } from "@material-ui/core"
-import React from "react"
+import React, { useState } from "react"
 import CloseIcon from "@material-ui/icons/Close"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import ContactChoose from "../../components/ContactChoose"
+import ReceiptItemList from "../../components/ReceiptList"
+import { ReceiptProps } from "../../context/ReceiptReducer"
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => {
       marginRight: "auto",
     },
     form: {
-      marginTop: "1.5rem",
+      marginTop: "3rem",
       marginBottom: "3rem",
     },
     fieldsContainer: {
@@ -74,6 +77,9 @@ const useStyles = makeStyles((theme) => {
       paddingLeft: "0.5rem",
       paddingRight: "0.5rem",
     },
+    divider: {
+      height: "1rem",
+    },
   }
 })
 
@@ -91,6 +97,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
   const today_time = new Date()
     .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
     .substring(0, 5)
+
   return (
     <Dialog fullScreen open>
       <AppBar position="static">
@@ -120,6 +127,16 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             defaultValue={null}
             error={"contact" in errors}
           />
+          <div className={classes.divider}></div>
+          <TextField
+            name="name"
+            inputRef={register({ required: true })}
+            label="Name"
+            error={"name" in errors}
+            variant="outlined"
+            fullWidth
+            required
+          />
           <TextField
             name="description"
             inputRef={register({ required: true })}
@@ -143,6 +160,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             rows={4}
             rowsMax={20}
           />
+          <div className={classes.divider}></div>
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="price_value">Price</InputLabel>
             <OutlinedInput
@@ -165,6 +183,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             }
             label="Price paid"
           />
+          <div className={classes.divider}></div>
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="advance_value">Advance</InputLabel>
             <OutlinedInput
@@ -187,6 +206,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             }
             label="Advance paid"
           />
+          <div className={classes.divider}></div>
           <FormControl fullWidth variant="outlined">
             <InputLabel
               htmlFor="date_of_completion"
@@ -291,10 +311,44 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
               />
             </div>
           </FormControl>
-          <div>receipt</div>
-
+          <div className={classes.divider}></div>
+          <TextField
+            name="budget"
+            inputRef={register}
+            label="Shopping budget"
+            error={"budget" in errors}
+            variant="outlined"
+            fullWidth
+          />
+          <Controller
+            name="items"
+            control={control}
+            defaultValue={null}
+            render={({ onChange }) => (
+              <FormControl fullWidth variant="outlined">
+                <InputLabel
+                  htmlFor="date_of_completion"
+                  shrink={true}
+                  className={classes.outlineLabel}
+                >
+                  Shopping List
+                </InputLabel>
+                <ReceiptItemList
+                  receipt={{
+                    name: "",
+                    budget: null,
+                    items: [],
+                    completed: false,
+                    order_id: null,
+                  }}
+                  onChange={onChange}
+                />
+              </FormControl>
+            )}
+          />
+          <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            Submit
+            Add order
           </Button>
         </Container>
       </form>
