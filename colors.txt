@@ -1,0 +1,4 @@
+success: #388E3C
+error: #D32F2F
+alert: #F57C00
+disable: #757575

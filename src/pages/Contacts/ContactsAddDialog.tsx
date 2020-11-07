@@ -8,24 +8,13 @@ import {
   Typography,
   makeStyles,
   Container,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Checkbox,
-  FormControlLabel,
 } from "@material-ui/core"
-import React, { useState } from "react"
+import React from "react"
 import CloseIcon from "@material-ui/icons/Close"
 import { useForm } from "react-hook-form"
+import { ContactsProps } from "../../context/ContactsReducer"
 
 const useStyles = makeStyles((theme) => ({
-  grid: {
-    width: "100%",
-    position: "relative",
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
   form: {
     marginTop: "1.5rem",
     marginBottom: "3rem",
@@ -35,74 +24,88 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     gap: "1rem",
   },
-  dateFlex: {
-    display: "flex",
-    gap: "1rem",
-  },
 }))
 
-function ShoppingListAdd({
-  history,
-}: import("react-router-dom").RouteChildrenProps) {
+type ContactsAddDialogProps = {
+  onCloseClick: () => void
+  onAddClick: (contact: ContactsProps) => void
+  open: boolean
+}
+
+function ContactsAddDialog({
+  onCloseClick,
+  onAddClick,
+  open,
+}: ContactsAddDialogProps) {
   const classes = useStyles()
   const { register, handleSubmit, errors } = useForm()
-  const today_date = new Date().toISOString().split("T")
-
   return (
-    <Dialog fullScreen open>
+    <Dialog fullScreen open={open ? true : false}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="close"
-            onClick={history.goBack}
+            onClick={onCloseClick}
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add shoppinglist</Typography>
+          <Typography variant="h6">Add contact</Typography>
         </Toolbar>
       </AppBar>
       <form
-        onSubmit={handleSubmit((values) => {
-          console.log(values)
-        })}
+        onSubmit={handleSubmit(
+          (values: {
+            name: string
+            surname: string
+            tel: string
+            email: string
+          }) => {
+            onAddClick({ ...values, is_good: true })
+          }
+        )}
         className={classes.form}
       >
         <Container maxWidth="sm" className={classes.fieldsContainer}>
           <TextField
             name="name"
             inputRef={register({ required: true })}
-            label="Contact"
-            error={"contact_id" in errors}
+            label="Name"
+            error={"name" in errors}
             variant="outlined"
             fullWidth
             required
           />
-          <FormControl variant="outlined" fullWidth>
-            <InputLabel htmlFor="budget">Budget</InputLabel>
-            <OutlinedInput
-              name="budget"
-              id="budget"
-              type="text"
-              inputRef={register}
-              endAdornment={<InputAdornment position="end">PLN</InputAdornment>}
-              labelWidth={56}
-            />
-          </FormControl>
           <TextField
-            name="order_id"
+            name="surname"
             inputRef={register}
-            label="Order_id"
-            error={"contact_id" in errors}
+            label="Surname"
+            error={"surname" in errors}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            name="tel"
+            type="tel"
+            inputRef={register}
+            label="Phone number"
+            error={"tel" in errors}
+            variant="outlined"
+            fullWidth
+          />
+          <TextField
+            name="email"
+            inputRef={register}
+            label="Email"
+            type="email"
+            error={"email" in errors}
             variant="outlined"
             fullWidth
           />
 
-          <div>shoppinglist</div>
-
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            Submit
+            Add
           </Button>
         </Container>
       </form>
@@ -110,4 +113,4 @@ function ShoppingListAdd({
   )
 }
 
-export default ShoppingListAdd
+export default ContactsAddDialog

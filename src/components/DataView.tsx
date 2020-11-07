@@ -57,9 +57,9 @@ function DataView(){
           <td>{value.client_id}</td>
           <td>{value.shopping_list_id}</td>
 
-          <td>{value.date_of_issue}</td>
-          <td>{value.est_date_of_completion}</td>
-          <td>{value.date_of_completion}</td>
+          <td>{value.date_of_issue.toLocaleString()}</td>
+          <td>{value.est_date_of_completion && value.est_date_of_completion.toLocaleString()}</td>
+          <td>{value.date_of_completion && value.date_of_completion.toLocaleString()}</td>
 
           <td>{value.is_completed?"true":"false"}</td>
           <td>{value.is_anbandoned?"true":"false"}</td>

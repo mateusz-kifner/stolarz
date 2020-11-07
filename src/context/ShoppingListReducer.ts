@@ -3,7 +3,8 @@ import faker from 'faker'
 export type ShoppingListItemProps = {
     id?:number,
     name:string,
-    amount:number
+    amount:number,
+    is_bought?:boolean,
 }
 
 export type ShoppingListProps = {
@@ -59,6 +60,7 @@ export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action)
                     let new_recipt = {...recipt}
                     new_recipt.items = [...recipt.items]
                     if (action.item_data.id === undefined) action.item_data.id = recipt.items.length
+                    if (action.item_data.is_bought === undefined) action.item_data.is_bought = false
                     new_recipt.items.push(action.item_data)
                     return new_recipt
                 }
@@ -109,7 +111,8 @@ export function ShoppingListReducer(prevState:ShoppingListProps[],action:Action)
                     items:[{
                         id:0,
                         name: faker.commerce.product(),
-                        amount: faker.random.number() % 20+1
+                        amount: faker.random.number() % 20+1,
+                        is_bought:false
                     }],
                     completed: (faker.random.number()%10 > 2) ? true : false
                 }

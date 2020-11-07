@@ -1,0 +1,84 @@
+import {
+  AppBar,
+  Dialog,
+  Fab,
+  IconButton,
+  makeStyles,
+  Toolbar,
+  Typography,
+} from "@material-ui/core"
+import React, { useContext, useState } from "react"
+import CloseIcon from "@material-ui/icons/Close"
+import AddIcon from "@material-ui/icons/Add"
+import ContactsList from "../../components/ContactsList"
+import { ContactsProps } from "../../context/ContactsReducer"
+import ContactsAddDialog from "./ContactsAddDialog"
+import { ContactsContext } from "../../context/ContactsContext"
+
+const useStyles = makeStyles((theme) => ({
+  flotingAdd: {
+    position: "absolute",
+    bottom: "5vmin",
+    right: "5vmin",
+  },
+}))
+
+type ContactsDialogProps = {
+  onCloseClick: () => void
+  onItemClick?: (contact: ContactsProps) => void
+
+  open?: boolean
+}
+
+function ContactsDialog({
+  onCloseClick,
+  onItemClick,
+  open,
+}: ContactsDialogProps) {
+  const classes = useStyles()
+  const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
+  const { addContact } = useContext(ContactsContext)
+
+  const onAddClick = (contact: ContactsProps) => {
+    addContact(contact)
+    setShowAddDialog(false)
+  }
+  const onEditClick = () => {}
+  return (
+    <>
+      <Dialog fullScreen open={open ? true : false}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="close"
+              onClick={onCloseClick}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6">Contacts</Typography>
+          </Toolbar>
+        </AppBar>
+        <ContactsList onEditClick={onEditClick} onItemClick={onItemClick} />
+        <Fab
+          color="secondary"
+          aria-label="add"
+          className={classes.flotingAdd}
+          onClick={() => {
+            setShowAddDialog(true)
+          }}
+        >
+          <AddIcon />
+        </Fab>
+      </Dialog>
+      <ContactsAddDialog
+        open={showAddDialog}
+        onCloseClick={() => setShowAddDialog(false)}
+        onAddClick={onAddClick}
+      />
+    </>
+  )
+}
+
+export default ContactsDialog
