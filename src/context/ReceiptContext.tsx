@@ -16,6 +16,8 @@ type ReceiptContextProps = {
   changeReceipt: (receipt: ReceiptProps) => void
   populateReceiptsWithPlaceholders: () => void
   addItem: (list_id: number, item_data: ReceiptItemProps) => void
+  changeItem: (list_id: number, item_data: ReceiptItemProps) => void
+
   removeItem: (list_id: number, item_id: number) => void
 }
 
@@ -27,6 +29,7 @@ const initialContext = {
   changeReceipt: (receipt: ReceiptProps) => {},
   populateReceiptsWithPlaceholders: () => {},
   addItem: (list_id: number, item_data: ReceiptItemProps) => {},
+  changeItem: (list_id: number, item_data: ReceiptItemProps) => {},
   removeItem: (list_id: number, item_id: number) => {},
 }
 
@@ -70,6 +73,10 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
     dispatchReceipts({ type: "addItem", list_id, item_data })
   }
 
+  const changeItem = (list_id: number, item_data: ReceiptItemProps) => {
+    dispatchReceipts({ type: "changeItem", list_id, item_data })
+  }
+
   const removeItem = (list_id: number, item_id: number) => {
     dispatchReceipts({ type: "removeItem", list_id, item_id })
   }
@@ -87,6 +94,7 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
         changeReceipt,
         populateReceiptsWithPlaceholders,
         addItem,
+        changeItem,
         removeItem,
       }}
     >

@@ -25,7 +25,7 @@ export type Action =
 // Add Items to receipt
 | {type:"addItem", list_id:number, item_data:ReceiptItemProps}
 | {type:"removeItem", list_id:number, item_id:number}
-| {type:"changeItem", list_id:number, item_id:number, item_data:ReceiptItemProps}
+| {type:"changeItem", list_id:number, item_data:ReceiptItemProps}
 // Placeholders
 | {type:"populateWithPlaceholders"}
 
@@ -61,6 +61,17 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                     if (action.item_data.id === undefined) action.item_data.id = receipt.items.length
                     if (action.item_data.is_bought === undefined) action.item_data.is_bought = false
                     new_receipt.items.push(action.item_data)
+                    return new_receipt
+                }
+                return receipt
+            })
+        case "changeItem":
+            return prevState.map((receipt)=>{
+                if (receipt.id === action.list_id) {
+                    let new_receipt = {...receipt}
+                    new_receipt.items = [...receipt.items]
+                    let id:number = (action.item_data as { id: number }& ReceiptItemProps).id
+                    new_receipt.items[id] = action.item_data
                     return new_receipt
                 }
                 return receipt

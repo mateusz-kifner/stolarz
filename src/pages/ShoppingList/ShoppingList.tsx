@@ -21,7 +21,7 @@ type ShoppingListProps = {
 }
 
 function ShoppingList({ ids, open, onCloseClick }: ShoppingListProps) {
-  const { receipts, changeReceipt } = useContext(ReceiptContext)
+  const { receipts, changeItem } = useContext(ReceiptContext)
   const [recipt, setRecipt] = useState<ReceiptProps>({
     id: -1,
     name: "",
@@ -32,15 +32,19 @@ function ShoppingList({ ids, open, onCloseClick }: ShoppingListProps) {
   })
 
   const onItemCheck = (receiptId: number, itemId: number) => {
-    let new_recipt = {
-      ...receipts[receiptId],
-      items: [...receipts[receiptId].items],
-    }
-    new_recipt.items[itemId] = {
-      ...new_recipt.items[itemId],
-      is_bought: !new_recipt.items[itemId].is_bought,
-    }
-    changeReceipt(new_recipt)
+    // let new_recipt = {
+    //   ...receipts[receiptId],
+    //   items: [...receipts[receiptId].items],
+    // }
+    // new_recipt.items[itemId] = {
+    //   ...new_recipt.items[itemId],
+    //   is_bought: !new_recipt.items[itemId].is_bought,
+    // }
+    // changeReceipt(new_recipt)
+    changeItem(receiptId, {
+      ...receipts[receiptId].items[itemId],
+      is_bought: !receipts[receiptId].items[itemId].is_bought,
+    })
   }
 
   return (
