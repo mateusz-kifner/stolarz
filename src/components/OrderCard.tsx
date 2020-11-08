@@ -12,19 +12,20 @@ import {
   Typography,
 } from "@material-ui/core"
 import React, { memo, useContext, useState } from "react"
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
-import NoteIcon from "@material-ui/icons/Note"
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import { OrderProps } from "../context/OrdersReducer"
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
-import MoneyOffIcon from "@material-ui/icons/MoneyOff"
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
-import ReceiptCard from "./ReceiptCard"
 import { ReceiptContext } from "../context/ReceiptContext"
 import ReceiptCardContent from "./ReceiptCardContent"
 import { UserSettingsContext } from "../context/UserSettingsContext"
 import Receipt from "./Receipt"
 import objectsHaveSameData from "../helpers/objectsHaveSameData"
+
+//icons
+import AccessAlarmIcon from "@material-ui/icons/AccessAlarm"
+import NoteIcon from "@material-ui/icons/Note"
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
+import MoneyOffIcon from "@material-ui/icons/MoneyOff"
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
 
 const useStyle = makeStyles((theme) => ({
   card: {
@@ -60,7 +61,8 @@ function OrderCard({
   is_advance_paid,
   is_price_paid,
   shopping_list_id,
-}: OrderProps) {
+  onClick,
+}: OrderProps & { onClick: (id: number) => void }) {
   const { receipts } = useContext(ReceiptContext)
   const { expand_shopping_list_in_orders } = useContext(UserSettingsContext)
   const classes = useStyle()
@@ -77,7 +79,7 @@ function OrderCard({
 
   return (
     <Card className={classes.card}>
-      <CardActionArea>
+      <CardActionArea onClick={() => onClick(id)}>
         <CardContent className={classes.timeContianer}>
           <Typography variant="h6" color="textPrimary" component="h1">
             {name}
@@ -149,7 +151,7 @@ function OrderCard({
             {expand_shopping_list_in_orders ? (
               <Receipt {...receipts[shopping_list_id]} />
             ) : (
-              <ReceiptCardContent {...receipts[shopping_list_id]} />
+              <ReceiptCardContent receipt={receipts[shopping_list_id]} />
             )}
           </CardContent>
         </Collapse>

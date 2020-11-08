@@ -60,7 +60,7 @@ function DataView() {
               <td>{value.advance_value}</td>
               <td>{value.is_advance_paid ? "true" : "false"}</td>
 
-              <td>{value.priceing_value}</td>
+              <td>{value.price_value}</td>
               <td>{value.is_price_paid ? "true" : "false"}</td>
 
               <td>{value.client_id}</td>

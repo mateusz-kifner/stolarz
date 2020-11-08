@@ -101,12 +101,12 @@ function reducer(prevState: ReceiptItemProps[], action: Action) {
   }
 }
 
-type ReceiptItemListProps = {
+type ReceiptListProps = {
   receipt: ReceiptProps
   onChange: (event: any) => void
 }
 
-function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
+function ReceiptList({ receipt, onChange }: ReceiptListProps) {
   const [uuid] = useState(uuidv4())
   const [items, dispatchItems] = useReducer<
     Reducer<ReceiptItemProps[], Action>
@@ -195,4 +195,4 @@ function ReceiptItemList({ receipt, onChange }: ReceiptItemListProps) {
   )
 }
 
-export default ReceiptItemList
+export default ReceiptList

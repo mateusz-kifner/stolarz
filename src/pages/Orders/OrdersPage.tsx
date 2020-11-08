@@ -19,6 +19,10 @@ const useStyles = makeStyles({
     bottom: "5vmin",
     right: "5vmin",
   },
+  bottomMargin: {
+    marginBottom: "30rem",
+    display: "block",
+  },
 })
 
 function OrdersPage({
@@ -38,10 +42,16 @@ function OrdersPage({
         {orders.map((value) => {
           return (
             <ListItem key={uuidv4()}>
-              <OrderCard {...value} />
+              <OrderCard
+                {...value}
+                onClick={(id) => {
+                  history.push("/Orders/Id/" + id)
+                }}
+              />
             </ListItem>
           )
         })}
+        <ListItem key={uuidv4()} className={classes.bottomMargin}></ListItem>
       </List>
       <Fab
         color="secondary"

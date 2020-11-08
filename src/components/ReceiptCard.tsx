@@ -9,12 +9,32 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-function ReceiptCard(receipt: ReceiptProps) {
+type ReceiptCardProps = {
+  receipt: ReceiptProps
+  onCheck?: (id: number) => void
+  checked?: boolean
+  onItemCheck?: (receiptId: number, itemid: number) => void
+  checkbox?: boolean
+}
+
+function ReceiptCard({
+  receipt,
+  onCheck,
+  checked,
+  onItemCheck,
+  checkbox,
+}: ReceiptCardProps) {
   const classes = useStyle()
 
   return (
     <Card className={classes.card}>
-      <ReceiptCardContent {...receipt} />
+      <ReceiptCardContent
+        receipt={receipt}
+        onCheck={onCheck}
+        checked={checked}
+        onItemCheck={onItemCheck}
+        checkbox={checkbox}
+      />
     </Card>
   )
 }

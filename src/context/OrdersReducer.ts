@@ -8,7 +8,7 @@ export type OrderProps  = {
     client_id:number,
     shopping_list_id:number | null,
 
-    priceing_value:number | null,
+    price_value:number | null,
     is_price_paid:boolean,
     
     advance_value:number | null,
@@ -57,7 +57,7 @@ export function OrdersReducer(prevState:OrderProps[],action:Action){
                     client_id:0,
                     desc:"wooden Table",
                     notes:"",
-                    priceing_value:faker.random.number()%4000+500,
+                    price_value:faker.random.number()%4000+500,
                     is_price_paid:false,
                     advance_value:faker.random.number()%500,
                     is_advance_paid:(faker.random.number()%10 > 2) ? true : false,

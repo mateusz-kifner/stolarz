@@ -12,6 +12,7 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
 import ReceiptAdd from "./pages/ShoppingList/ShoppingListAdd"
 import SettingsPage from "./pages/Settings/SettingsPage"
 import ContactsPage from "./pages/Contacts/ContactsPage"
+import OrderById from "./pages/Orders/OrderById"
 
 const useStyles = makeStyles({
   app: {
@@ -44,6 +45,7 @@ function AppNavigation() {
             <Route path="/Orders" exact component={OrdersPage} />
             <Route path="/Orders/Add" exact component={OrdersAdd} />
             <Route path="/Orders/Edit" component={OrdersEdit} />
+            <Route path="/Orders/Id/:id" component={OrderById} />
             <Route path="/Receipt" exact component={ReceiptPage} />
             <Route path="/Receipt/Add" exact component={ReceiptAdd} />
             <Route path="/Finances" exact component={FinancePage} />

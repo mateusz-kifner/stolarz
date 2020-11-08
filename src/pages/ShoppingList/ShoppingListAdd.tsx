@@ -16,7 +16,7 @@ import {
 import React, { useContext, useState } from "react"
 import CloseIcon from "@material-ui/icons/Close"
 import { Controller, useForm } from "react-hook-form"
-import ReceiptItemList from "../../components/ReceiptList"
+import ReceiptList from "../../components/ReceiptList"
 import { ReceiptProps } from "../../context/ReceiptReducer"
 import { ReceiptContext } from "../../context/ReceiptContext"
 import moneyNoDivider from "../../helpers/moneyNoDivider"
@@ -118,7 +118,7 @@ function ReceiptAdd({
             name="items"
             control={control}
             render={({ onChange }) => (
-              <ReceiptItemList receipt={receipt} onChange={onChange} />
+              <ReceiptList receipt={receipt} onChange={onChange} />
             )}
           />
 

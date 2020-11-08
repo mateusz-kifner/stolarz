@@ -39,21 +39,34 @@ const useStyle = makeStyles((theme) => ({
   },
 }))
 
-function ReceiptCardContent(receipt: ReceiptProps) {
+type ReceiptCardContentProps = {
+  receipt: ReceiptProps
+  checked?: boolean
+  onCheck?: (id: number) => void
+  onItemCheck?: (receiptId: number, itemid: number) => void
+  checkbox?: boolean
+}
+
+function ReceiptCardContent({
+  receipt,
+  onCheck,
+  checked,
+  onItemCheck,
+  checkbox,
+}: ReceiptCardContentProps) {
   const classes = useStyle()
-  const [showList, setShowList] = useState<boolean>(false)
-  const [checked, setChecked] = useState<boolean>(false)
+  const [showList, setShowList] = useState<boolean>(onItemCheck != undefined)
   const toggleList = () => {
     setShowList((value) => !value)
   }
 
-  const toggleChecked = () => {
-    setChecked((value) => !value)
-  }
-
   return (
     <>
-      <CardActionArea onClick={toggleChecked}>
+      <CardActionArea
+        onClick={() =>
+          onCheck && receipt.id != undefined && onCheck(receipt.id)
+        }
+      >
         <CardContent>
           <div className={classes.timeContianer}>
             <ReceiptIcon color="primary" />
@@ -69,37 +82,54 @@ function ReceiptCardContent(receipt: ReceiptProps) {
               {receipt.budget && (receipt.budget / 100.0).toFixed(2) + "zł"}
             </Typography>
             <div className={classes.cardActionQuickButton}></div>
-            {checked ? (
-              <CheckBoxIcon htmlColor="#388E3C" fontSize="large" />
-            ) : (
-              <CheckBoxOutlineBlankIcon htmlColor="#757575" fontSize="large" />
+            {onCheck && (
+              <>
+                {checked ? (
+                  <CheckBoxIcon htmlColor="#388E3C" fontSize="large" />
+                ) : (
+                  <CheckBoxOutlineBlankIcon
+                    htmlColor="#757575"
+                    fontSize="large"
+                  />
+                )}
+              </>
             )}
           </div>
         </CardContent>
       </CardActionArea>
       <Divider />
-      <CardActions className={classes.cardActionsContainer}>
-        <Button size="small" color="primary" onClick={toggleList}>
-          {showList ? (
-            <>
-              Hide List
-              <ExpandLessIcon />
-            </>
-          ) : (
-            <>
-              Show List
-              <ExpandMoreIcon />
-            </>
-          )}
-        </Button>
-        <div className={classes.cardActionQuickButton}></div>
-        <Button size="small" color="primary">
-          Edytuj
-        </Button>
-      </CardActions>
+      {onItemCheck === undefined && (
+        <CardActions className={classes.cardActionsContainer}>
+          <Button size="small" color="primary" onClick={toggleList}>
+            {showList ? (
+              <>
+                Hide List
+                <ExpandLessIcon />
+              </>
+            ) : (
+              <>
+                Show List
+                <ExpandMoreIcon />
+              </>
+            )}
+          </Button>
+          <div className={classes.cardActionQuickButton}></div>
+          <Button size="small" color="primary">
+            Edytuj
+          </Button>
+        </CardActions>
+      )}
       <Collapse in={showList}>
         <CardContent>
-          <Receipt {...receipt} />
+          <Receipt
+            {...receipt}
+            onSelect={(item) => {
+              onItemCheck &&
+                receipt.id !== undefined &&
+                onItemCheck(receipt.id, item.id)
+            }}
+            checkbox={checkbox}
+          />
         </CardContent>
       </Collapse>
     </>

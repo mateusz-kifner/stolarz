@@ -1,9 +1,10 @@
-import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
-import React, { useContext } from "react"
+import { Fab, List, ListItem, makeStyles, Typography } from "@material-ui/core"
+import React, { useContext, useEffect, useState } from "react"
 import AddIcon from "@material-ui/icons/Add"
 import { ReceiptContext } from "../../context/ReceiptContext"
 import ReceiptCard from "../../components/ReceiptCard"
 import { v4 as uuidv4 } from "uuid"
+import ShoppingList from "./ShoppingList"
 
 const useStyles = makeStyles({
   receiptContainer: {
@@ -14,10 +15,14 @@ const useStyles = makeStyles({
     height: "100%",
     overflowY: "scroll",
   },
-  flotingAdd: {
+  flotingButtons: {
     position: "absolute",
     bottom: "5vmin",
     right: "5vmin",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    gap: "1rem",
   },
 })
 
@@ -28,30 +33,72 @@ function ReceiptPage({
     ReceiptContext,
   )
   const classes = useStyles()
+  const [checked, setChecked] = useState<boolean[]>([])
+  const [shoppingListOpen, setShoppingListOpen] = useState<boolean>(false)
 
   const goToAddPage = () => {
     history.push("/Receipt/Add")
   }
 
+  const goToShoppingList = () => {
+    setShoppingListOpen(true)
+  }
+
+  const onCheck = (id: number) => {
+    setChecked((prevState: boolean[]) => {
+      console.log(prevState, id)
+      let new_state = [...prevState]
+      new_state[id] = !new_state[id]
+      return new_state
+    })
+  }
+
+  useEffect(() => {
+    if (receipts.length != checked.length) {
+      setChecked(Array(receipts.length).fill(false))
+    }
+  })
+
   return (
     <div className={classes.receiptContainer}>
       <List className={classes.listContainer}>
-        {receipts.map((value) => {
+        {receipts.map((receipt) => {
           return (
             <ListItem key={uuidv4()}>
-              <ReceiptCard {...value} />
+              <ReceiptCard
+                receipt={receipt}
+                onCheck={onCheck}
+                checked={receipt.id != undefined && checked[receipt.id]}
+              />
             </ListItem>
           )
         })}
       </List>
-      <Fab
-        color="secondary"
-        aria-label="add"
-        className={classes.flotingAdd}
-        onClick={goToAddPage}
-      >
-        <AddIcon />
-      </Fab>
+      <div className={classes.flotingButtons}>
+        <Fab color="secondary" aria-label="add" onClick={goToAddPage}>
+          <AddIcon />
+        </Fab>
+        {/* show Start shopping if any checkbox is check */}
+        {checked.reduce((prevVal: any, val: any) => {
+          return (prevVal ? 1 : 0) + (val ? 1 : 0)
+        }, 0) > 0 && (
+          <Fab
+            color="secondary"
+            aria-label="start shopping"
+            onClick={goToShoppingList}
+            variant="extended"
+          >
+            Start shopping
+          </Fab>
+        )}
+      </div>
+      <ShoppingList
+        ids={checked
+          .map((value, index) => (value ? index : -1))
+          .filter((value) => value != -1)}
+        open={shoppingListOpen}
+        onCloseClick={() => setShoppingListOpen(false)}
+      />
     </div>
   )
 }

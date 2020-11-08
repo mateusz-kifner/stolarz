@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Button,
   Grid,
   IconButton,
   Toolbar,
@@ -13,7 +14,8 @@ import ContactsIcon from "@material-ui/icons/Contacts"
 function TopBar({
   location,
   history,
-}: import("react-router-dom").RouteChildrenProps) {
+  Action,
+}: import("react-router-dom").RouteChildrenProps & { Action?: React.FC }) {
   const goToSettings = () => {
     history.push("/Settings")
   }
@@ -25,7 +27,12 @@ function TopBar({
       <Toolbar>
         <Grid container alignItems="center" spacing={2}>
           <Grid item>
-            <IconButton edge="start" color="inherit" aria-label="open drawer">
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={goToSettings}
+            >
               <MenuIcon />
             </IconButton>
           </Grid>
@@ -34,24 +41,10 @@ function TopBar({
               {location.pathname.split("/")[1]}
             </Typography>
           </Grid>
+          <Grid item>{Action && <Action />}</Grid>
           <Grid item>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={goToContacts}
-            >
+            <IconButton color="inherit" onClick={goToContacts}>
               <ContactsIcon />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={goToSettings}
-            >
-              <MoreIcon />
             </IconButton>
           </Grid>
         </Grid>

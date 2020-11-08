@@ -16,12 +16,16 @@ import {
   FormControlLabel,
   Divider,
 } from "@material-ui/core"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import CloseIcon from "@material-ui/icons/Close"
 import { Controller, useForm } from "react-hook-form"
 import ContactChoose from "../../components/ContactChoose"
-import ReceiptItemList from "../../components/ReceiptList"
+import ReceiptList from "../../components/ReceiptList"
 import { ReceiptProps } from "../../context/ReceiptReducer"
+import moneyNoDivider from "../../helpers/moneyNoDivider"
+import { ReceiptContext } from "../../context/ReceiptContext"
+import { OrdersContext } from "../../context/OrdersContext"
+import { OrderProps } from "../../context/OrdersReducer"
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
@@ -86,6 +90,9 @@ const useStyles = makeStyles((theme) => {
 function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
   const { register, handleSubmit, errors, control } = useForm()
+  const { receipts, addReceipt } = useContext(ReceiptContext)
+  const { orders, addOrder } = useContext(OrdersContext)
+
   const today_date = new Date()
     .toLocaleDateString("en-US", {
       year: "numeric",
@@ -97,6 +104,54 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
   const today_time = new Date()
     .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
     .substring(0, 5)
+
+  const handleAddOrder = (data: any) => {
+    console.log(data)
+    let order_id = orders.length
+    let shopping_list_id = receipts.length
+    console.log(order_id, shopping_list_id)
+    let date_of_completion = new Date()
+    let est_date_of_completion = new Date()
+    let date_of_issue = new Date()
+
+    if (data.items.lenght > 0) {
+      addReceipt({
+        id: shopping_list_id,
+        name: data.name,
+        completed: false,
+        order_id: order_id,
+        items: [...data.items],
+        budget: moneyNoDivider(data.budget),
+      })
+    }
+
+    let new_order: OrderProps = {
+      id: order_id,
+      name: data.name,
+      desc: data.desc,
+      notes: data.notes,
+
+      price_value: moneyNoDivider(data.price_value),
+      is_price_paid: data.is_price_paid,
+
+      advance_value: moneyNoDivider(data.advance_value),
+      is_advance_paid: data.is_advance_paid,
+
+      date_of_completion: date_of_completion,
+      est_date_of_completion: est_date_of_completion,
+      date_of_issue: date_of_issue,
+
+      client_id: data.contact.id,
+      shopping_list_id: data.items.lenght > 0 ? shopping_list_id : null,
+
+      is_anbandoned: false,
+      is_completed: false,
+    }
+    console.log(new_order)
+    addOrder(new_order)
+
+    // history.goBack()
+  }
 
   return (
     <Dialog fullScreen open>
@@ -113,12 +168,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
           <Typography variant="h6">Add order</Typography>
         </Toolbar>
       </AppBar>
-      <form
-        onSubmit={handleSubmit((values) => {
-          console.log(values)
-        })}
-        className={classes.form}
-      >
+      <form onSubmit={handleSubmit(handleAddOrder)} className={classes.form}>
         <Container maxWidth="sm" className={classes.fieldsContainer}>
           <ContactChoose
             control={control}
@@ -138,10 +188,10 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
             required
           />
           <TextField
-            name="description"
+            name="desc"
             inputRef={register({ required: true })}
             label="Description"
-            error={"description" in errors}
+            error={"desc" in errors}
             variant="outlined"
             fullWidth
             multiline
@@ -167,7 +217,8 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
               name="price_value"
               id="price_value"
               type="text"
-              inputRef={register}
+              error={"price_value" in errors}
+              inputRef={register({ pattern: /^[0-9]+(\.[0-9]{1,2})?$/ })}
               endAdornment={<InputAdornment position="end">PLN</InputAdornment>}
               labelWidth={40}
             />
@@ -190,7 +241,8 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
               name="advance_value"
               id="advance_value"
               type="text"
-              inputRef={register}
+              error={"advance_value" in errors}
+              inputRef={register({ pattern: /^[0-9]+(\.[0-9]{1,2})?$/ })}
               endAdornment={<InputAdornment position="end">PLN</InputAdornment>}
               labelWidth={66}
             />
@@ -314,7 +366,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
           <div className={classes.divider}></div>
           <TextField
             name="budget"
-            inputRef={register}
+            inputRef={register({ pattern: /^[0-9]+(\.[0-9]{1,2})?$/ })}
             label="Shopping budget"
             error={"budget" in errors}
             variant="outlined"
@@ -333,7 +385,7 @@ function OrdersAdd({ history }: import("react-router-dom").RouteChildrenProps) {
                 >
                   Shopping List
                 </InputLabel>
-                <ReceiptItemList
+                <ReceiptList
                   receipt={{
                     name: "",
                     budget: null,

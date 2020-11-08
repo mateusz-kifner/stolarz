@@ -59,7 +59,7 @@ function SettingsPage() {
       completed: false,
       items: [
         { id: 0, amount: 10, name: "Wood 2x4", is_bought: false },
-        { id: 0, amount: 1, name: "Glue", is_bought: false },
+        { id: 1, amount: 1, name: "Glue", is_bought: false },
       ],
     })
     addReceipt({
@@ -70,8 +70,8 @@ function SettingsPage() {
       completed: false,
       items: [
         { id: 0, amount: 10, name: "Wood Plank 2x2m", is_bought: false },
-        { id: 0, amount: 30, name: "Screws 5cm", is_bought: false },
-        { id: 0, amount: 100, name: "Screws 3cm", is_bought: true },
+        { id: 1, amount: 30, name: "Screws 5cm", is_bought: false },
+        { id: 2, amount: 100, name: "Screws 3cm", is_bought: true },
       ],
     })
     addReceipt({
@@ -82,7 +82,7 @@ function SettingsPage() {
       completed: false,
       items: [
         { id: 0, amount: 10, name: "Wood Plank 1x4m", is_bought: false },
-        { id: 0, amount: 50, name: "Screws 7cm", is_bought: false },
+        { id: 1, amount: 50, name: "Screws 7cm", is_bought: false },
       ],
     })
     addOrder({
@@ -90,7 +90,7 @@ function SettingsPage() {
       name: "Krzesłox2",
       desc: "Krzesłox2",
       advance_value: 10000,
-      priceing_value: 40000,
+      price_value: 40000,
       is_price_paid: false,
       is_advance_paid: false,
       client_id: 0,
@@ -107,7 +107,7 @@ function SettingsPage() {
       name: "Stół",
       desc: "Stół",
       advance_value: 30000,
-      priceing_value: 60000,
+      price_value: 60000,
       is_price_paid: false,
       is_advance_paid: true,
       client_id: 1,
@@ -124,7 +124,7 @@ function SettingsPage() {
       name: "Ławka",
       desc: "Ławka",
       advance_value: 40000,
-      priceing_value: 80000,
+      price_value: 80000,
       is_price_paid: true,
       is_advance_paid: true,
       client_id: 2,
