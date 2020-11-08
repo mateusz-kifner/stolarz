@@ -62,7 +62,11 @@ function OrderCard({
   is_price_paid,
   shopping_list_id,
   onClick,
-}: OrderProps & { onClick: (id: number) => void }) {
+  onEditClick,
+}: OrderProps & {
+  onClick: (id: number) => void
+  onEditClick: (id: number) => void
+}) {
   const { receipts } = useContext(ReceiptContext)
   const { expand_shopping_list_in_orders } = useContext(UserSettingsContext)
   const classes = useStyle()
@@ -118,19 +122,19 @@ function OrderCard({
       </CardActionArea>
       <Divider />
       <CardActions className={classes.cardActionsContainer}>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={() => onEditClick(id)}>
           Edytuj
         </Button>
-        <Button size="small" color="primary">
+        {/* <Button size="small" color="primary">
           Zmień status
-        </Button>
+        </Button> */}
         <div className={classes.cardActionQuickButton}></div>
         {notes.length > 0 && (
           <IconButton aria-label="notes" onClick={toggleNotes}>
             <NoteIcon htmlColor={showNotes ? "#3f51b5" : "#757575"} />
           </IconButton>
         )}
-        {shopping_list_id != null && (
+        {shopping_list_id !== null && (
           <IconButton aria-label="notes" onClick={toggleReceipt}>
             <ShoppingCartIcon htmlColor={showReceipt ? "#3f51b5" : "#757575"} />
           </IconButton>
@@ -144,7 +148,7 @@ function OrderCard({
           </Typography>
         </CardContent>
       </Collapse>
-      {shopping_list_id != null && (
+      {shopping_list_id !== null && (
         <Collapse in={showReceipt}>
           <Divider />
           <CardContent>

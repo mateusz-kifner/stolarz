@@ -1,25 +1,11 @@
 import {
-  Checkbox,
-  Divider,
   IconButton,
-  InputBaseProps,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
   makeStyles,
   TextField,
-  TextFieldProps,
   Typography,
 } from "@material-ui/core"
-import React, {
-  Reducer,
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from "react"
+import React, { Reducer, useEffect, useReducer, useState } from "react"
 import { ReceiptItemProps, ReceiptProps } from "../context/ReceiptReducer"
 import AddIcon from "@material-ui/icons/Add"
 import RemoveIcon from "@material-ui/icons/Remove"

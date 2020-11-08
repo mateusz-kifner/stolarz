@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 })
 
-function ReceiptPage({
+function ShoppingListPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
   const { receipts, addReceipt, removeReceipt, changeReceipt } = useContext(
@@ -37,7 +37,7 @@ function ReceiptPage({
   const [shoppingListOpen, setShoppingListOpen] = useState<boolean>(false)
 
   const goToAddPage = () => {
-    history.push("/Receipt/Add")
+    history.push("/ShoppingList/Add")
   }
 
   const goToShoppingList = () => {
@@ -46,7 +46,6 @@ function ReceiptPage({
 
   const onCheck = (id: number) => {
     setChecked((prevState: boolean[]) => {
-      console.log(prevState, id)
       let new_state = [...prevState]
       new_state[id] = !new_state[id]
       return new_state
@@ -54,7 +53,7 @@ function ReceiptPage({
   }
 
   useEffect(() => {
-    if (receipts.length != checked.length) {
+    if (receipts.length !== checked.length) {
       setChecked(Array(receipts.length).fill(false))
     }
   })
@@ -62,13 +61,16 @@ function ReceiptPage({
   return (
     <div className={classes.receiptContainer}>
       <List className={classes.listContainer}>
-        {receipts.map((receipt) => {
+        {receipts.map((receipt, index) => {
           return (
-            <ListItem key={uuidv4()}>
+            <ListItem key={"shoppingPageRecipt" + index}>
               <ReceiptCard
                 receipt={receipt}
                 onCheck={onCheck}
-                checked={receipt.id != undefined && checked[receipt.id]}
+                checked={receipt.id !== undefined && checked[receipt.id]}
+                onEditClick={(id) => {
+                  history.push("/ShoppingList/Edit/" + id)
+                }}
               />
             </ListItem>
           )
@@ -95,7 +97,7 @@ function ReceiptPage({
       <ShoppingList
         ids={checked
           .map((value, index) => (value ? index : -1))
-          .filter((value) => value != -1)}
+          .filter((value) => value !== -1)}
         open={shoppingListOpen}
         onCloseClick={() => setShoppingListOpen(false)}
       />
@@ -103,4 +105,4 @@ function ReceiptPage({
   )
 }
 
-export default ReceiptPage
+export default ShoppingListPage

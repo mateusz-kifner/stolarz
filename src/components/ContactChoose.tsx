@@ -1,6 +1,6 @@
 import { Button, makeStyles, Typography } from "@material-ui/core"
 import clsx from "clsx"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Controller } from "react-hook-form"
 import PersonIcon from "@material-ui/icons/Person"
 import { ContactsProps } from "../context/ContactsReducer"
@@ -38,11 +38,21 @@ const useStyles = makeStyles((theme) => {
   }
 })
 
-function ContactChoose({ control, name, defaultValue, rules, error }: any) {
+function ContactChoose({
+  control,
+  name,
+  defaultValue,
+  rules,
+  error,
+  value,
+}: any) {
   const classes = useStyles()
   const [contact, setContact] = useState<ContactsProps | undefined>()
   const [showContacts, setShowContacts] = useState<boolean>(false)
 
+  useEffect(() => {
+    setContact(value)
+  }, [value])
   return (
     <Controller
       control={control}

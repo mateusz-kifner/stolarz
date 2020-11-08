@@ -47,6 +47,9 @@ function OrdersPage({
                 onClick={(id) => {
                   history.push("/Orders/Id/" + id)
                 }}
+                onEditClick={(id) => {
+                  history.push("/Orders/Edit/" + id)
+                }}
               />
             </ListItem>
           )

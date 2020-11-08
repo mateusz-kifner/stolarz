@@ -18,9 +18,15 @@ type ShoppingListProps = {
   ids: number[]
   open?: boolean
   onCloseClick?: () => void
+  onEditClick?: (id: number) => void
 }
 
-function ShoppingList({ ids, open, onCloseClick }: ShoppingListProps) {
+function ShoppingList({
+  ids,
+  open,
+  onCloseClick,
+  onEditClick,
+}: ShoppingListProps) {
   const { receipts, changeItem } = useContext(ReceiptContext)
   const [recipt, setRecipt] = useState<ReceiptProps>({
     id: -1,
@@ -32,15 +38,6 @@ function ShoppingList({ ids, open, onCloseClick }: ShoppingListProps) {
   })
 
   const onItemCheck = (receiptId: number, itemId: number) => {
-    // let new_recipt = {
-    //   ...receipts[receiptId],
-    //   items: [...receipts[receiptId].items],
-    // }
-    // new_recipt.items[itemId] = {
-    //   ...new_recipt.items[itemId],
-    //   is_bought: !new_recipt.items[itemId].is_bought,
-    // }
-    // changeReceipt(new_recipt)
     changeItem(receiptId, {
       ...receipts[receiptId].items[itemId],
       is_bought: !receipts[receiptId].items[itemId].is_bought,
@@ -70,6 +67,7 @@ function ShoppingList({ ids, open, onCloseClick }: ShoppingListProps) {
               <ReceiptCard
                 receipt={receipt}
                 onItemCheck={onItemCheck}
+                onEditClick={onEditClick}
                 checkbox={true}
               />
             </ListItem>

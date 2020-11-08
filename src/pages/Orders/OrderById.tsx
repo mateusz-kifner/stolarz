@@ -71,7 +71,7 @@ function OrderById({ match }: import("react-router-dom").RouteChildrenProps) {
     shopping_list_id: null,
   })
   useEffect(() => {
-    if ((match?.params as { id: string }).id != undefined) {
+    if ((match?.params as { id: string }).id !== undefined) {
       const id: number = parseInt((match?.params as { id: string }).id)
       console.log(id, orders)
       if (orders[id]) setOrder(orders[id])
@@ -137,14 +137,17 @@ function OrderById({ match }: import("react-router-dom").RouteChildrenProps) {
             </CardContent>
           </>
         )}
-        {order.shopping_list_id != undefined && order.shopping_list_id != null && (
-          <>
-            <Divider />
-            <CardContent>
-              <ReceiptCardContent receipt={receipts[order.shopping_list_id]} />
-            </CardContent>
-          </>
-        )}
+        {order.shopping_list_id !== undefined &&
+          order.shopping_list_id !== null && (
+            <>
+              <Divider />
+              <CardContent>
+                <ReceiptCardContent
+                  receipt={receipts[order.shopping_list_id]}
+                />
+              </CardContent>
+            </>
+          )}
       </Card>
     )
   else return <div>404</div>

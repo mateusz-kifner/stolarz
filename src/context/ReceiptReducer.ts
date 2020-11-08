@@ -36,12 +36,26 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
         case "setReceipts":
             return [...action.data]
         case "addReceipt":
-            if (action.data.id === undefined) action.data.id = prevState.length
-            action.data.items.map((value,index)=>{
-                if (value.id === undefined) value.id = index
-                return value
+            let new_receipt = {...action.data}
+            if (new_receipt.id === undefined) new_receipt.id = prevState.length
+            new_receipt.items = new_receipt.items.map((value,index)=>{
+                let new_item = value
+                new_item.id = index
+                return new_item
             })
-            return [...prevState, action.data]
+            // checks if completed is true
+            let sum_of_bougth_items = new_receipt.items
+            .map((val)=>val.is_bought?1:0)
+            .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
+            if (sum_of_bougth_items == new_receipt.items.length)
+                new_receipt.completed = true
+            else
+                new_receipt.completed = false
+            if (prevState[new_receipt.id] !== undefined) return prevState.map((receipt)=>{
+                if (receipt.id === new_receipt.id) return new_receipt
+                return receipt
+            });
+            return [...prevState, new_receipt]
         case "removeReceipt":
             return prevState.filter((data)=>{
                 if (data.id === action.list_id) return false
@@ -61,6 +75,13 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                     if (action.item_data.id === undefined) action.item_data.id = receipt.items.length
                     if (action.item_data.is_bought === undefined) action.item_data.is_bought = false
                     new_receipt.items.push(action.item_data)
+                    let sum_of_bougth_items = new_receipt.items
+                    .map((val)=>val.is_bought?1:0)
+                    .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
+                    if (sum_of_bougth_items == new_receipt.items.length)
+                        new_receipt.completed = true
+                    else
+                        new_receipt.completed = false
                     return new_receipt
                 }
                 return receipt
@@ -72,6 +93,13 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                     new_receipt.items = [...receipt.items]
                     let id:number = (action.item_data as { id: number }& ReceiptItemProps).id
                     new_receipt.items[id] = action.item_data
+                    let sum_of_bougth_items = new_receipt.items
+                    .map((val)=>val.is_bought?1:0)
+                    .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
+                    if (sum_of_bougth_items == new_receipt.items.length)
+                        new_receipt.completed = true
+                    else
+                        new_receipt.completed = false
                     return new_receipt
                 }
                 return receipt

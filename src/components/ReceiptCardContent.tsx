@@ -37,12 +37,16 @@ const useStyle = makeStyles((theme) => ({
   cardNotes: {
     backgroundColor: theme.palette.grey[50],
   },
+  completed: {
+    backgroundColor: "#AED581",
+  },
 }))
 
 type ReceiptCardContentProps = {
   receipt: ReceiptProps
   checked?: boolean
   onCheck?: (id: number) => void
+  onEditClick?: (id: number) => void
   onItemCheck?: (receiptId: number, itemid: number) => void
   checkbox?: boolean
 }
@@ -52,10 +56,11 @@ function ReceiptCardContent({
   onCheck,
   checked,
   onItemCheck,
+  onEditClick,
   checkbox,
 }: ReceiptCardContentProps) {
   const classes = useStyle()
-  const [showList, setShowList] = useState<boolean>(onItemCheck != undefined)
+  const [showList, setShowList] = useState<boolean>(onItemCheck !== undefined)
   const toggleList = () => {
     setShowList((value) => !value)
   }
@@ -64,10 +69,10 @@ function ReceiptCardContent({
     <>
       <CardActionArea
         onClick={() =>
-          onCheck && receipt.id != undefined && onCheck(receipt.id)
+          onCheck && receipt.id !== undefined && onCheck(receipt.id)
         }
       >
-        <CardContent>
+        <CardContent className={receipt.completed ? classes.completed : ""}>
           <div className={classes.timeContianer}>
             <ReceiptIcon color="primary" />
             <Typography variant="subtitle1" component="h2" display="inline">
@@ -113,8 +118,16 @@ function ReceiptCardContent({
               </>
             )}
           </Button>
-          <div className={classes.cardActionQuickButton}></div>
-          <Button size="small" color="primary">
+          {/* <div className={classes.cardActionQuickButton}></div> */}
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              console.log("test", receipt.id)
+              console.log(onEditClick)
+              onEditClick && receipt.id !== undefined && onEditClick(receipt.id)
+            }}
+          >
             Edytuj
           </Button>
         </CardActions>

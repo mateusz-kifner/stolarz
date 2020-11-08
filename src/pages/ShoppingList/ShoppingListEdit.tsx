@@ -13,7 +13,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from "@material-ui/core"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import CloseIcon from "@material-ui/icons/Close"
 import { Controller, useForm } from "react-hook-form"
 import ReceiptList from "../../components/ReceiptList"
@@ -43,24 +43,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ReceiptAdd({
+function ShoppingListEdit({
   history,
+  match,
 }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
-  const { register, handleSubmit, errors, control } = useForm()
+  const { register, handleSubmit, errors, control, setValue } = useForm()
   const today_date = new Date().toISOString().split("T")
-  const { addReceipt } = useContext(ReceiptContext)
-  const receipt: ReceiptProps = {
+  const { receipts, addReceipt } = useContext(ReceiptContext)
+  const defaultReceipt: ReceiptProps = {
     name: "",
     budget: 0,
     completed: false,
     order_id: null,
     items: [],
   }
+  const [receipt, setReceipt] = useState(defaultReceipt)
 
-  const handleReceiptAdd = (receipt_form_form: any) => {
+  useEffect(() => {
+    if ((match?.params as { id: string }).id !== undefined) {
+      const id: number = parseInt((match?.params as { id: string }).id)
+
+      if (receipts[id]) setReceipt(receipts[id])
+    }
+  })
+
+  useEffect(() => {
+    setValue("name", receipt.name)
+    setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "")
+    console.log(receipt)
+  }, [receipt])
+
+  const handleReceiptEdit = (receipt_form_form: any) => {
     addReceipt({
       ...receipt_form_form,
+      id: receipt.id !== undefined ? receipt.id : undefined,
       order_id: null,
       items: [...receipt_form_form.items],
       budget: moneyNoDivider(receipt_form_form.budget),
@@ -83,7 +100,7 @@ function ReceiptAdd({
           <Typography variant="h6">Add receipt</Typography>
         </Toolbar>
       </AppBar>
-      <form onSubmit={handleSubmit(handleReceiptAdd)} className={classes.form}>
+      <form onSubmit={handleSubmit(handleReceiptEdit)} className={classes.form}>
         <Container maxWidth="sm" className={classes.fieldsContainer}>
           <TextField
             name="name"
@@ -131,4 +148,4 @@ function ReceiptAdd({
   )
 }
 
-export default ReceiptAdd
+export default ShoppingListEdit

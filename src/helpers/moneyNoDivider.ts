@@ -1,5 +1,5 @@
 export default function moneyNoDivider(moneyString:string){
-  if (moneyString.indexOf(".") != -1){
+  if (moneyString.indexOf(".") !== -1){
     let parts = moneyString.split(".")
     let fraction_part_len = 0 
     if (parts.length > 1) fraction_part_len = parts[1].length
@@ -12,7 +12,7 @@ export default function moneyNoDivider(moneyString:string){
         return parseInt(parts[0]+parts[1])
     }
   }
-  else if (moneyString.indexOf(",") != -1){
+  else if (moneyString.indexOf(",") !== -1){
     let parts = moneyString.split(",")
     let fraction_part_len = 0 
     if (parts.length > 1) fraction_part_len = parts[1].length
