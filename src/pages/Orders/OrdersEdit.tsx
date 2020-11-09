@@ -169,7 +169,16 @@ function OrdersEdit({
     order.date_of_issue !== null &&
       setValue(
         "date_of_issue",
-        new Date(order.date_of_issue).toISOString().split("T")[0],
+        new Date(order.date_of_issue)
+          .toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .split("/")
+          .reverse()
+          .map((val, index) => (index < 2 ? val + "-" : val))
+          .join(""),
       )
     order.date_of_completion !== null &&
       setValue(
@@ -183,7 +192,16 @@ function OrdersEdit({
     order.date_of_completion !== null &&
       setValue(
         "date_of_completion",
-        new Date(order.date_of_completion).toISOString().split("T")[0],
+        new Date(order.date_of_completion)
+          .toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .split("/")
+          .reverse()
+          .map((val, index) => (index < 2 ? val + "-" : val))
+          .join(""),
       )
     order.est_date_of_completion !== null &&
       setValue(
@@ -197,7 +215,16 @@ function OrdersEdit({
     order.est_date_of_completion !== null &&
       setValue(
         "est_date_of_completion",
-        new Date(order.est_date_of_completion).toISOString().split("T")[0],
+        new Date(order.est_date_of_completion)
+          .toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })
+          .split("/")
+          .reverse()
+          .map((val, index) => (index < 2 ? val + "-" : val))
+          .join(""),
       )
 
     setContact(contacts[order.client_id])
@@ -221,7 +248,6 @@ function OrdersEdit({
   const today_time = new Date()
     .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
     .substring(0, 5)
-
   const handleAddOrder = (data: any) => {
     console.log(data)
     let order_id = order.id !== -1 ? order.id : orders.length
