@@ -169,16 +169,7 @@ function OrdersEdit({
     order.date_of_issue !== null &&
       setValue(
         "date_of_issue",
-        new Date(order.date_of_issue)
-          .toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-          .split("/")
-          .reverse()
-          .map((val, index) => (index < 2 ? val + "-" : val))
-          .join(""),
+        new Date(order.date_of_issue).toISOString().split("T")[0],
       )
     order.date_of_completion !== null &&
       setValue(
@@ -192,16 +183,7 @@ function OrdersEdit({
     order.date_of_completion !== null &&
       setValue(
         "date_of_completion",
-        new Date(order.date_of_completion)
-          .toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-          .split("/")
-          .reverse()
-          .map((val, index) => (index < 2 ? val + "-" : val))
-          .join(""),
+        new Date(order.date_of_completion).toISOString().split("T")[0],
       )
     order.est_date_of_completion !== null &&
       setValue(
@@ -215,16 +197,7 @@ function OrdersEdit({
     order.est_date_of_completion !== null &&
       setValue(
         "est_date_of_completion",
-        new Date(order.est_date_of_completion)
-          .toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })
-          .split("/")
-          .reverse()
-          .map((val, index) => (index < 2 ? val + "-" : val))
-          .join(""),
+        new Date(order.est_date_of_completion).toISOString().split("T")[0],
       )
 
     setContact(contacts[order.client_id])
@@ -237,14 +210,7 @@ function OrdersEdit({
     setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "")
   }, [receipt])
 
-  const today_date = new Date()
-    .toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-    .split("/")
-  const today_date_iso = `${today_date[2]}-${today_date[1]}-${today_date[0]}`
+  const today_date_iso = new Date().toISOString().split("T")[0]
   const today_time = new Date()
     .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
     .substring(0, 5)
