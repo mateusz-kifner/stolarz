@@ -7,9 +7,10 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core"
-import React from "react"
+import React, { memo } from "react"
 import { ContactsProps } from "../context/ContactsReducer"
 import EditIcon from "@material-ui/icons/Edit"
+import objectsHaveSameData from "../helpers/objectsHaveSameData"
 
 const useStyles = makeStyles((theme) => ({
   avatarCircle: {
@@ -68,4 +69,9 @@ function ContactListItem({
   )
 }
 
-export default ContactListItem
+export default memo(
+  ContactListItem,
+  (prevProps: ContactListItemProps, nextProps: ContactListItemProps) => {
+    return objectsHaveSameData(prevProps.contact, nextProps.contact)
+  },
+)

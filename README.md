@@ -1,8 +1,10 @@
 # Stolarz
 
-## Projekt Aplikacji dla stolarza do zleceń, listy zakupów i podlicznia finansów.
+Improvements## MVP aplikacji mobilnej dla stolarza do zleceń, listy zakupów i podlicznia finansów.
 
-[https://kifner-mateusz.github.io/stolarz](https://kifner-mateusz.github.io/stolarz)
+Live na GitHub:[https://kifner-mateusz.github.io/stolarz](https://kifner-mateusz.github.io/stolarz)
+
+Dane testowe mozna dodać w Settings-ach
 
 # Getting Started with Create React App
 

@@ -2,6 +2,7 @@ import {
   AppBar,
   Card,
   CardContent,
+  Container,
   Dialog,
   Divider,
   IconButton,
@@ -31,20 +32,14 @@ import CloseIcon from "@material-ui/icons/Close"
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    maxWidth: theme.breakpoints.values.md,
-    minWidth: "50%",
-    // width: theme.breakpoints.values.md,
-    // maxHeight: "100%",
-    marginLeft: "auto",
-    marginRight: "auto",
     display: "flex",
     flexDirection: "column",
-    overflowY: "scroll",
+    marginTop: "3rem",
+    marginBottom: "3rem",
   },
   Contianer: {
     display: "flex",
     gap: "1em",
-    // flexDirection: "column",
   },
   cardMoneyIcon: {
     marginLeft: "auto",
@@ -64,6 +59,15 @@ const useStyles = makeStyles((theme) => ({
   },
   halfOfWidth: {
     width: "50%",
+  },
+  MainContainer: {
+    overflowY: "scroll",
+  },
+  success: {
+    backgroundColor: "#C8E6C9",
+  },
+  error: {
+    backgroundColor: "#FFCDD2",
   },
 }))
 
@@ -127,6 +131,11 @@ function OrderById({
       if (orders[id]) setOrder(orders[id])
     }
   })
+  let classForHeader = classes.Contianer
+  if (order.is_completed)
+    classForHeader = clsx(classes.Contianer, classes.success)
+  if (order.is_anbandoned)
+    classForHeader = clsx(classes.Contianer, classes.error)
 
   if (order.id >= 0)
     return (
@@ -144,145 +153,153 @@ function OrderById({
             <Typography variant="h6"></Typography>
           </Toolbar>
         </AppBar>
-        <Card className={classes.card}>
-          <CardContent>
-            <ContactListItem contact={contacts[order.client_id]} />
-          </CardContent>
-          <Divider />
+        <Container className={classes.MainContainer} maxWidth="md">
+          <Card className={classes.card}>
+            <CardContent>
+              <ContactListItem contact={contacts[order.client_id]} />
+            </CardContent>
+            <Divider />
 
-          <CardContent className={classes.Contianer}>
-            <Typography variant="h6" color="textPrimary" component="h1">
-              {order.name}
-            </Typography>
-            <div className={classes.cardMoneyIcon}>
-              {order.is_price_paid && order.is_advance_paid && (
-                <MonetizationOnIcon htmlColor="#388E3C" />
-              )}
-              {!order.is_advance_paid && !order.is_price_paid && (
-                <MoneyOffIcon htmlColor="#D32F2F" />
-              )}
-              {!order.is_price_paid && order.is_advance_paid && (
-                <AttachMoneyIcon htmlColor="#F57C00" />
-              )}
-            </div>
-          </CardContent>
-          <Divider />
+            <CardContent className={classForHeader}>
+              <Typography variant="h6" color="textPrimary" component="h1">
+                {order.name}
+              </Typography>
+              <div className={classes.cardMoneyIcon}>
+                {order.is_price_paid && order.is_advance_paid && (
+                  <MonetizationOnIcon htmlColor="#388E3C" />
+                )}
+                {!order.is_advance_paid && !order.is_price_paid && (
+                  <MoneyOffIcon htmlColor="#D32F2F" />
+                )}
+                {!order.is_price_paid && order.is_advance_paid && (
+                  <AttachMoneyIcon htmlColor="#F57C00" />
+                )}
+              </div>
+            </CardContent>
+            <Divider />
 
-          <CardContent>
-            <Typography variant="body1" color="textPrimary" component="div">
-              {order.desc}
-            </Typography>
-          </CardContent>
-          <Divider />
+            <CardContent>
+              <Typography variant="body1" color="textPrimary" component="div">
+                {order.desc}
+              </Typography>
+            </CardContent>
+            <Divider />
 
-          {order.notes.length > 0 && (
-            <>
-              <Divider />
-              <CardContent className={classes.cardNotes}>
-                <Typography
-                  variant="body1"
-                  color="textPrimary"
-                  component="div"
-                  gutterBottom
-                >
-                  Notes: {order.notes}
-                </Typography>
-              </CardContent>
-            </>
-          )}
-          {order.shopping_list_id !== undefined &&
-            order.shopping_list_id !== null && (
+            {order.notes.length > 0 && (
               <>
                 <Divider />
-                <CardContent>
-                  <Receipt {...receipts[order.shopping_list_id]} />
+                <CardContent className={classes.cardNotes}>
+                  <Typography
+                    variant="body1"
+                    color="textPrimary"
+                    component="div"
+                    gutterBottom
+                  >
+                    Notes: {order.notes}
+                  </Typography>
                 </CardContent>
               </>
             )}
-          <Divider />
-          <CardContent className={clsx(classes.Contianer, classes.flexColumn)}>
-            <CenterLineText
-              label="Date of completion:"
-              value={
-                order.date_of_completion !== null
-                  ? dateToString(order.date_of_completion)
-                  : "Not set"
-              }
-            />
-
-            <CenterLineText
-              label="Estimated date of completion:"
-              value={
-                order.est_date_of_completion
-                  ? dateToString(order.est_date_of_completion)
-                  : "Not set"
-              }
-            />
-
-            <CenterLineText
-              label="Date_of_issue:"
-              value={dateToString(order.date_of_issue)}
-            />
-
+            {order.shopping_list_id !== undefined &&
+              order.shopping_list_id !== null && (
+                <>
+                  <Divider />
+                  <CardContent>
+                    <Receipt {...receipts[order.shopping_list_id]} />
+                  </CardContent>
+                </>
+              )}
             <Divider />
-          </CardContent>
-          <CardContent className={clsx(classes.Contianer, classes.flexColumn)}>
-            <Typography
-              variant="body1"
-              color="textPrimary"
-              component="div"
-              gutterBottom
+            <CardContent
+              className={clsx(classes.Contianer, classes.flexColumn)}
             >
-              Price value:
-              {order.price_value !== null &&
-                (order.price_value / 100.0).toFixed(2)}
-            </Typography>
+              <CenterLineText
+                label="Date of completion:"
+                value={
+                  order.date_of_completion !== null
+                    ? dateToString(order.date_of_completion)
+                    : "Not set"
+                }
+              />
 
-            <SimpleCheckBox
-              value={order.is_advance_paid}
-              onChange={(value) =>
-                changeOrder({ ...order, is_advance_paid: value })
-              }
-              text=" Is advance paid"
-            />
-            <Divider />
+              <CenterLineText
+                label="Estimated date of completion:"
+                value={
+                  order.est_date_of_completion
+                    ? dateToString(order.est_date_of_completion)
+                    : "Not set"
+                }
+              />
 
-            <Typography
-              variant="body1"
-              color="textPrimary"
-              component="div"
-              gutterBottom
+              <CenterLineText
+                label="Date_of_issue:"
+                value={dateToString(order.date_of_issue)}
+              />
+
+              <Divider />
+            </CardContent>
+            <CardContent
+              className={clsx(classes.Contianer, classes.flexColumn)}
             >
-              Advance value:
-              {order.advance_value !== null &&
-                (order.advance_value / 100.0).toFixed(2)}
-            </Typography>
-            <SimpleCheckBox
-              value={order.is_price_paid}
-              onChange={(value) =>
-                changeOrder({ ...order, is_price_paid: value })
-              }
-              text=" Is price paid"
-            />
-            <Divider />
+              <Typography
+                variant="body1"
+                color="textPrimary"
+                component="div"
+                gutterBottom
+              >
+                {"Price: "}
+                {order.price_value !== null &&
+                  (order.price_value / 100.0).toFixed(2)}
+                PLN
+              </Typography>
 
-            <SimpleCheckBox
-              value={order.is_completed}
-              onChange={(value) =>
-                changeOrder({ ...order, is_completed: value })
-              }
-              text=" Is completed"
-            />
-            <SimpleCheckBox
-              value={order.is_anbandoned}
-              onChange={(value) =>
-                changeOrder({ ...order, is_anbandoned: value })
-              }
-              text=" Is anbandoned"
-            />
-            <Divider />
-          </CardContent>
-        </Card>
+              <SimpleCheckBox
+                value={order.is_advance_paid}
+                onChange={(value) =>
+                  changeOrder({ ...order, is_advance_paid: value })
+                }
+                text=" Is advance paid"
+              />
+              <Divider />
+
+              <Typography
+                variant="body1"
+                color="textPrimary"
+                component="div"
+                gutterBottom
+              >
+                {"Advance: "}
+                {order.advance_value !== null &&
+                  (order.advance_value / 100.0).toFixed(2)}
+                PLN
+              </Typography>
+              <SimpleCheckBox
+                value={order.is_price_paid}
+                onChange={(value) =>
+                  changeOrder({ ...order, is_price_paid: value })
+                }
+                text=" Is price paid"
+              />
+              <Divider />
+
+              <SimpleCheckBox
+                value={order.is_completed}
+                onChange={(value) =>
+                  changeOrder({ ...order, is_completed: value })
+                }
+                text=" Is completed"
+              />
+              <SimpleCheckBox
+                value={order.is_anbandoned}
+                onChange={(value) =>
+                  changeOrder({ ...order, is_anbandoned: value })
+                }
+                text=" Is anbandoned"
+              />
+              <Divider />
+            </CardContent>
+          </Card>
+        </Container>
       </Dialog>
     )
   else return <div>404</div>
