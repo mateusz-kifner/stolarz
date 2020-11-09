@@ -1,4 +1,6 @@
-# Live version old
+# Stolarz
+
+## Projekt Aplikacji dla stolarza do zleceń, listy zakupów i podlicznia finansów.
 
 [https://kifner-mateusz.github.io/stolarz](https://kifner-mateusz.github.io/stolarz)
 
