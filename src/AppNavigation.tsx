@@ -7,7 +7,7 @@ import TopBar from "./components/TopBar"
 import OrdersEdit from "./pages/Orders/OrdersEdit"
 import DataView from "./components/DataView"
 import { makeStyles } from "@material-ui/core"
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom"
+import { HashRouter as Router, Redirect, Route, Switch } from "react-router-dom"
 import SettingsPage from "./pages/Settings/SettingsPage"
 import ContactsPage from "./pages/Contacts/ContactsPage"
 import OrderById from "./pages/Orders/OrderById"
@@ -35,7 +35,7 @@ function AppNavigation() {
   const classes = useStyles()
 
   return (
-    <BrowserRouter>
+    <Router>
       <div className={classes.app}>
         <Route component={TopBar} />
         <div className={classes.content}>
@@ -68,7 +68,7 @@ function AppNavigation() {
           <Route component={BottomTabs} />
         </div>
       </div>
-    </BrowserRouter>
+    </Router>
   )
 }
 
