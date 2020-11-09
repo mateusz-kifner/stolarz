@@ -41,6 +41,7 @@ function AppNavigation() {
         <div className={classes.content}>
           <Switch>
             <Redirect path="/" to="/Orders" exact />
+            <Redirect path="/stolarz" to="/Orders" exact />
             <Route path="/Orders" exact component={OrdersPage} />
             <Route path="/Orders/Add" exact component={OrdersEdit} />
             <Route path="/Orders/Edit/:id" component={OrdersEdit} />
