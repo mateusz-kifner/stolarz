@@ -35,9 +35,7 @@ const useStyles = makeStyles((theme) => ({
 function ShoppingListPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { receipts, addReceipt, removeReceipt, changeReceipt } = useContext(
-    ReceiptContext,
-  )
+  const { receipts } = useContext(ReceiptContext)
   const classes = useStyles()
   const [checked, setChecked] = useState<boolean[]>([])
   const [shoppingListOpen, setShoppingListOpen] = useState<boolean>(false)
@@ -67,20 +65,36 @@ function ShoppingListPage({
   return (
     <div className={classes.receiptContainer}>
       <List className={classes.listContainer}>
-        {receipts.map((receipt, index) => {
-          return (
-            <ListItem key={"shoppingPageRecipt" + index}>
-              <ReceiptCard
-                receipt={receipt}
-                onCheck={onCheck}
-                checked={receipt.id !== undefined && checked[receipt.id]}
-                onEditClick={(id) => {
-                  history.push("/ShoppingList/Edit/" + id)
-                }}
-              />
-            </ListItem>
+        {receipts
+          .filter((value) => !value.completed)
+          .sort((prevReceipt, receipt) =>
+            prevReceipt.id !== undefined && receipt.id !== undefined
+              ? receipt.id - prevReceipt.id
+              : 0,
           )
-        })}
+          .concat(
+            receipts
+              .filter((value) => value.completed)
+              .sort((prevReceipt, receipt) =>
+                prevReceipt.id !== undefined && receipt.id !== undefined
+                  ? receipt.id - prevReceipt.id
+                  : 0,
+              ),
+          )
+          .map((receipt, index) => {
+            return (
+              <ListItem key={"shoppingPageRecipt" + index}>
+                <ReceiptCard
+                  receipt={receipt}
+                  onCheck={onCheck}
+                  checked={receipt.id !== undefined && checked[receipt.id]}
+                  onEditClick={(id) => {
+                    history.push("/ShoppingList/Edit/" + id)
+                  }}
+                />
+              </ListItem>
+            )
+          })}
         <ListItem
           key={"ShoppingListPageMarginBottom"}
           className={classes.bottomMargin}

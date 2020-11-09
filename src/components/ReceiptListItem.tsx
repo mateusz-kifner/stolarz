@@ -1,6 +1,5 @@
 import {
   Checkbox,
-  Divider,
   IconButton,
   ListItem,
   ListItemIcon,

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 type ContactsDialogProps = {
   onCloseClick: () => void
   onItemClick?: (contact: ContactsProps) => void
-
+  allowEditing?: boolean
   open?: boolean
 }
 
@@ -34,6 +34,7 @@ function ContactsDialog({
   onCloseClick,
   onItemClick,
   open,
+  allowEditing,
 }: ContactsDialogProps) {
   const classes = useStyles()
   const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
@@ -67,7 +68,10 @@ function ContactsDialog({
             <Typography variant="h6">Contacts</Typography>
           </Toolbar>
         </AppBar>
-        <ContactsList onEditClick={onEditClick} onItemClick={onItemClick} />
+        <ContactsList
+          onEditClick={allowEditing !== undefined ? onEditClick : undefined}
+          onItemClick={onItemClick}
+        />
         <Fab
           color="secondary"
           aria-label="add"
@@ -80,7 +84,7 @@ function ContactsDialog({
         </Fab>
       </Dialog>
       <ContactsAddDialog
-        open={showAddDialog}
+        open={allowEditing !== undefined && showAddDialog}
         onCloseClick={() => setShowAddDialog(false)}
         onAddClick={onAddClick}
         contact={contact}

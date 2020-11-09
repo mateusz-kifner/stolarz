@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import useLocalStorage from "../hooks/useLocalStorage"
 
 type UserSettingsContextProps = {
   login: string | null
@@ -29,7 +28,7 @@ export function UserSettingsContextProvider(
     expand_shopping_list_in_orders,
     set_expand_shopping_list_in_orders,
   ] = useState<boolean>(true)
-  const [storage, setStorage] = useLocalStorage<any>("usersettings", [])
+  // const [storage, setStorage] = useLocalStorage<any>("usersettings", [])
 
   return (
     <UserSettingsContext.Provider

@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@material-ui/core"
 import React, { useContext, useState } from "react"
-import { ReceiptProps } from "../../context/ReceiptReducer"
 
 import CloseIcon from "@material-ui/icons/Close"
 import { ReceiptContext } from "../../context/ReceiptContext"
@@ -46,14 +45,14 @@ function ShoppingList({
   const { receipts, changeItem, changeReceipt } = useContext(ReceiptContext)
   const { register, handleSubmit, errors } = useForm()
 
-  const [recipt, setRecipt] = useState<ReceiptProps>({
-    id: -1,
-    name: "",
-    items: [],
-    budget: 0,
-    completed: false,
-    order_id: null,
-  })
+  // const [recipt, setRecipt] = useState<ReceiptProps>({
+  //   id: -1,
+  //   name: "",
+  //   items: [],
+  //   budget: 0,
+  //   completed: false,
+  //   order_id: null,
+  // })
   const [stopShopping, setStopShopping] = useState<boolean>(false)
 
   const onItemCheck = (receiptId: number, itemId: number) => {

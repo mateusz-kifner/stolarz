@@ -1,9 +1,8 @@
-import { Container, Fab, List, ListItem, makeStyles } from "@material-ui/core"
-import React, { useContext, useEffect } from "react"
+import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
+import React, { useContext } from "react"
 import OrderCard from "../../components/OrderCard"
 import AddIcon from "@material-ui/icons/Add"
 import { OrdersContext } from "../../context/OrdersContext"
-import { v4 as uuidv4 } from "uuid"
 
 const useStyles = makeStyles((theme) => ({
   ordersContainer: {
@@ -31,9 +30,7 @@ const useStyles = makeStyles((theme) => ({
 function OrdersPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { orders, addOrder, removeOrder, changeOrder } = useContext(
-    OrdersContext,
-  )
+  const { orders } = useContext(OrdersContext)
   const classes = useStyles()
   const goToAddPage = () => {
     history.push("/Orders/Add")
@@ -42,22 +39,38 @@ function OrdersPage({
   return (
     <div className={classes.ordersContainer}>
       <List className={classes.listContainer}>
-        {orders.map((value) => {
-          return (
-            <ListItem key={uuidv4()}>
-              <OrderCard
-                {...value}
-                onClick={(id) => {
-                  history.push("/Orders/Id/" + id)
-                }}
-                onEditClick={(id) => {
-                  history.push("/Orders/Edit/" + id)
-                }}
-              />
-            </ListItem>
+        {orders
+          .filter((value) => !value.is_completed)
+          .sort((prevVal, val) => {
+            return val.id - prevVal.id
+          })
+          .concat(
+            orders
+              .filter((value) => value.is_completed)
+              .sort((prevVal, val) => {
+                return val.id - prevVal.id
+              }),
           )
-        })}
-        <ListItem key={uuidv4()} className={classes.bottomMargin}></ListItem>
+          .map((value) => {
+            return (
+              <ListItem key={"OrderPage" + value.id}>
+                <OrderCard
+                  {...value}
+                  onClick={(id) => {
+                    history.push("/Orders/Id/" + id)
+                  }}
+                  onEditClick={(id) => {
+                    console.log(id)
+                    history.push("/Orders/Edit/" + id)
+                  }}
+                />
+              </ListItem>
+            )
+          })}
+        <ListItem
+          key={"OrdersPageBottomMargin"}
+          className={classes.bottomMargin}
+        ></ListItem>
       </List>
       <Fab
         color="secondary"

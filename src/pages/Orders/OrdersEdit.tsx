@@ -12,9 +12,6 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-  Checkbox,
-  FormControlLabel,
-  Divider,
 } from "@material-ui/core"
 import React, { useContext, useEffect, useState } from "react"
 import CloseIcon from "@material-ui/icons/Close"
@@ -138,10 +135,9 @@ function OrdersEdit({
 
       if (orders[id]) {
         setOrder(orders[id])
-        console.log(orders[id])
       }
     }
-  })
+  }, [match])
 
   useEffect(() => {
     setValue("name", order.name)
@@ -156,9 +152,56 @@ function OrdersEdit({
       setValue("advance_value", order.advance_value / 100.0)
     setValue("is_advance_paid", order.is_advance_paid)
 
+    setValue("is_completed", order.is_completed)
+    setValue("is_anbandoned", order.is_anbandoned)
+
+    //Dates
+    order.date_of_issue !== null &&
+      setValue(
+        "time_of_issue",
+        new Date(order.date_of_issue).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      )
+
+    order.date_of_issue !== null &&
+      setValue(
+        "date_of_issue",
+        new Date(order.date_of_issue).toISOString().split("T")[0],
+      )
+    order.date_of_completion !== null &&
+      setValue(
+        "time_of_completion",
+        new Date(order.date_of_completion).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      )
+    order.date_of_completion !== null &&
+      setValue(
+        "date_of_completion",
+        new Date(order.date_of_completion).toISOString().split("T")[0],
+      )
+    order.est_date_of_completion !== null &&
+      setValue(
+        "est_time_of_completion",
+        new Date(order.est_date_of_completion).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+      )
+    order.est_date_of_completion !== null &&
+      setValue(
+        "est_date_of_completion",
+        new Date(order.est_date_of_completion).toISOString().split("T")[0],
+      )
+
     setContact(contacts[order.client_id])
     setValue("contact", contacts[order.client_id])
-    console.log("shoppinglist ", order.shopping_list_id)
     if (order.shopping_list_id !== null)
       setReceipt(receipts[order.shopping_list_id])
   }, [order])
@@ -180,14 +223,12 @@ function OrdersEdit({
     .substring(0, 5)
 
   const handleAddOrder = (data: any) => {
-    let order_id = order.id != -1 ? order.id : orders.length
+    console.log(data)
+    let order_id = order.id !== -1 ? order.id : orders.length
     let shopping_list_id: number | undefined =
-      order.shopping_list_id !== null && order.shopping_list_id != -1
+      order.shopping_list_id !== null && order.shopping_list_id !== -1
         ? order.shopping_list_id
         : receipts.length
-
-    console.log("form data: ", data)
-    console.log("order_id: ", order.id)
 
     if (data.items.length > 0) {
       addReceipt({
@@ -238,12 +279,14 @@ function OrdersEdit({
       date_of_issue: date_of_issue,
 
       client_id: data.contact.id,
-      shopping_list_id: shopping_list_id,
+      shopping_list_id: data.items.length > 0 ? shopping_list_id : null,
 
       is_anbandoned: data.is_anbandoned,
       is_completed: data.is_completed,
     }
-    order.id != -1 ? changeOrder(new_order) : addOrder(new_order)
+    console.log(new_order)
+
+    order.id !== -1 ? changeOrder(new_order) : addOrder(new_order)
     history.goBack()
   }
 
@@ -260,7 +303,7 @@ function OrdersEdit({
             <CloseIcon />
           </IconButton>
           <Typography variant="h6">
-            {order.id != -1 ? `Edit order` : `Add order`}
+            {order.id !== -1 ? `Edit order` : `Add order`}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -497,7 +540,7 @@ function OrdersEdit({
                 text="Is anbandoned"
               />
             )}
-          />{" "}
+          />
           <Controller
             control={control}
             name="is_completed"
@@ -511,7 +554,7 @@ function OrdersEdit({
           />
           <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            {order.id != -1 ? `Edit order` : `Add order`}
+            {order.id !== -1 ? `Edit order` : `Add order`}
           </Button>
         </Container>
       </form>

@@ -1,5 +1,6 @@
 success: #388E3C
-lightSuccess: #AED581
+lightSuccess: #C8E6C9
+lightRed: #FFCDD2
 error: #D32F2F
 alert: #F57C00
 disable: #757575

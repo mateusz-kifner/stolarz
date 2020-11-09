@@ -4,7 +4,6 @@ import {
   CardActionArea,
   CardActions,
   CardContent,
-  CardMedia,
   Collapse,
   Divider,
   IconButton,
@@ -26,12 +25,13 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
 import MoneyOffIcon from "@material-ui/icons/MoneyOff"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
+import clsx from "clsx"
 
 const useStyle = makeStyles((theme) => ({
   card: {
     width: "100%",
   },
-  timeContianer: {
+  title: {
     display: "flex",
     gap: "0.5em",
   },
@@ -48,6 +48,12 @@ const useStyle = makeStyles((theme) => ({
   cardNotes: {
     backgroundColor: theme.palette.grey[50],
   },
+  success: {
+    backgroundColor: "#C8E6C9",
+  },
+  error: {
+    backgroundColor: "#FFCDD2",
+  },
 }))
 
 function OrderCard({
@@ -61,6 +67,8 @@ function OrderCard({
   is_advance_paid,
   is_price_paid,
   shopping_list_id,
+  is_anbandoned,
+  is_completed,
   onClick,
   onEditClick,
 }: OrderProps & {
@@ -81,10 +89,16 @@ function OrderCard({
     setShowReceipt((prevState) => !prevState)
   }
 
+  let classForHeader = classes.title
+  if (is_completed) classForHeader = clsx(classes.title, classes.success)
+  if (is_anbandoned) classForHeader = clsx(classes.title, classes.error)
+
+  console.log(classForHeader)
+
   return (
     <Card className={classes.card}>
       <CardActionArea onClick={() => onClick(id)}>
-        <CardContent className={classes.timeContianer}>
+        <CardContent className={classForHeader}>
           <Typography variant="h6" color="textPrimary" component="h1">
             {name}
           </Typography>
@@ -101,7 +115,7 @@ function OrderCard({
           </div>
         </CardContent>
         <Divider />
-        <CardContent className={classes.timeContianer}>
+        <CardContent className={classes.title}>
           <AccessAlarmIcon />
           <Typography variant="subtitle1" component="h2">
             {est_date_of_completion?.toLocaleString(undefined, {

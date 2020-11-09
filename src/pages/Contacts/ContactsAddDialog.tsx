@@ -43,12 +43,16 @@ function ContactsAddDialog({
   const { register, handleSubmit, errors, setValue } = useForm()
 
   useEffect(() => {
-    // console.log(contact)
-    if (contact !== undefined) {
-      setValue("name", contact.name)
-      setValue("surname", contact.surname)
-      setValue("tel", contact.tel)
-      setValue("email", contact.email)
+    let timeout = setTimeout(() => {
+      if (contact !== undefined) {
+        setValue("name", contact.name)
+        setValue("surname", contact.surname)
+        setValue("tel", contact.tel)
+        setValue("email", contact.email)
+      }
+    }, 4)
+    return () => {
+      clearTimeout(timeout)
     }
   })
 

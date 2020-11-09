@@ -1,0 +1,13 @@
+Shopping List add sorting :
+ date 
+ is_completed(OK)
+
+Orders add sorting : 
+date 
+is_completed(OK) 
+
+Improve OrderId page(OK)
+
+Add missing to Order Edit(OK)
+
+make id mandatory?

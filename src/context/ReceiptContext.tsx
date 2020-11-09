@@ -1,4 +1,3 @@
-import { listenerCount } from "process"
 import React, { useReducer, Reducer, useEffect } from "react"
 import useLocalStorage from "../hooks/useLocalStorage"
 import {
@@ -49,6 +48,7 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
 
   useEffect(() => {
     setReceipts(storage)
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

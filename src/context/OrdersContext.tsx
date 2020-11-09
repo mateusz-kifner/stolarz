@@ -53,6 +53,7 @@ export function OrdersContextProvider(props: OrdersContextProviderProps) {
         }
       }),
     )
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

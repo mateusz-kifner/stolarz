@@ -87,7 +87,6 @@ function ShoppingListEdit({
 }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
   const { register, handleSubmit, errors, control, setValue } = useForm()
-  const today_date = new Date().toISOString().split("T")
   const { receipts, addReceipt } = useContext(ReceiptContext)
   const defaultReceipt: ReceiptProps = {
     id: -1,

@@ -6,7 +6,9 @@ import ContactsDialog from "./ContactsDialog"
 function ContactsPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  return <ContactsDialog onCloseClick={history.goBack} open />
+  return (
+    <ContactsDialog onCloseClick={history.goBack} open allowEditing={true} />
+  )
 }
 
 export default withRouter(ContactsPage)

@@ -1,5 +1,5 @@
 import { Button, makeStyles, Typography } from "@material-ui/core"
-import React, { useState } from "react"
+import React from "react"
 import CheckBoxIcon from "@material-ui/icons/CheckBox"
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
 
@@ -25,6 +25,7 @@ function SimpleCheckBox({ value, onChange, text }: SimpleCheckBoxProps) {
     <Button
       onClick={() => onChange && onChange(value ? false : true)}
       className={classes.alignLeft}
+      fullWidth
     >
       {value ? (
         <CheckBoxIcon htmlColor="#757575" className={classes.margin} />

@@ -1,15 +1,5 @@
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemSecondaryAction,
-  ListItemText,
-  makeStyles,
-  Typography,
-} from "@material-ui/core"
+import { List } from "@material-ui/core"
 import React, { useContext } from "react"
-import EditIcon from "@material-ui/icons/Edit"
 import { ContactsContext } from "../context/ContactsContext"
 import { ContactsProps } from "../context/ContactsReducer"
 import { v4 as uuidv4 } from "uuid"
@@ -24,15 +14,23 @@ function ContactsList({ onItemClick, onEditClick }: ContactsListProps) {
   const { contacts } = useContext(ContactsContext)
   return (
     <List dense>
-      {contacts.map((contact) => {
-        return (
-          <ContactListItem
-            contact={contact}
-            key={uuidv4()}
-            onItemClick={onItemClick}
-          />
-        )
-      })}
+      {contacts
+        .sort((a: any, b: any) => {
+          let a_fullname = a.name + a.surname + a.id
+          let b_fullname = b.name + b.surname + b.id
+
+          return a_fullname.localeCompare(b_fullname)
+        })
+        .map((contact) => {
+          return (
+            <ContactListItem
+              contact={contact}
+              key={uuidv4()}
+              onItemClick={onItemClick}
+              onEditClick={onEditClick}
+            />
+          )
+        })}
     </List>
   )
 }

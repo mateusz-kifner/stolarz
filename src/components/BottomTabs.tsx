@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect } from "react"
+import React from "react"
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
 import WorkIcon from "@material-ui/icons/Work"

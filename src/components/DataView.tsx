@@ -1,13 +1,7 @@
-import React, { useContext, useEffect } from "react"
-import {
-  ContactsContext,
-  ContactsContextProvider,
-} from "../context/ContactsContext"
-import { OrdersContext, OrdersContextProvider } from "../context/OrdersContext"
-import {
-  ReceiptContext,
-  ReceiptContextProvider,
-} from "../context/ReceiptContext"
+import React, { useContext } from "react"
+import { ContactsContext } from "../context/ContactsContext"
+import { OrdersContext } from "../context/OrdersContext"
+import { ReceiptContext } from "../context/ReceiptContext"
 
 function DataView() {
   const { receipts } = useContext(ReceiptContext)

@@ -1,10 +1,6 @@
 import {
-  Button,
   Card,
-  CardActionArea,
-  CardActions,
   CardContent,
-  Collapse,
   Container,
   Divider,
   makeStyles,
@@ -32,7 +28,6 @@ const useStyles = makeStyles((theme) => {
     theme.palette.type === "light"
       ? "rgba(0, 0, 0, 0.23)"
       : "rgba(255, 255, 255, 0.23)"
-
   return {
     outline: {
       position: "relative",
@@ -81,7 +76,10 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: theme.palette.grey[50],
     },
     container: {
-      margin: "3rem",
+      marginTop: "3rem",
+      marginBottom: "3rem",
+      maxHeight: "100%",
+      overflowY: "scroll",
     },
   }
 })
@@ -117,6 +115,21 @@ function FinancePage() {
     },
   ]
 
+  const vw = Math.min(
+    Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0,
+    ) * 0.9,
+    500,
+  )
+  const vh = Math.min(
+    Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0,
+    ) * 0.9,
+    300,
+  )
+
   return (
     <Container maxWidth="md">
       <Card className={classes.container}>
@@ -146,8 +159,8 @@ function FinancePage() {
         <Divider />
         <CardContent>
           <BarChart
-            width={500}
-            height={300}
+            width={vw}
+            height={vh}
             data={data}
             margin={{
               top: 5,

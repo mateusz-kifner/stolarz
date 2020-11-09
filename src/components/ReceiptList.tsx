@@ -8,8 +8,6 @@ import {
 import React, { Reducer, useEffect, useReducer, useState } from "react"
 import { ReceiptItemProps, ReceiptProps } from "../context/ReceiptReducer"
 import AddIcon from "@material-ui/icons/Add"
-import RemoveIcon from "@material-ui/icons/Remove"
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever"
 import ReceiptListItem from "./ReceiptListItem"
 import { v4 as uuidv4 } from "uuid"
 
@@ -113,8 +111,6 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
       dispatchItems({ type: "add", item })
     })
   }, [receipt])
-
-  const items_len_minus_1: number = items.length - 1
 
   const incrementAmount = (item: ReceiptItemProps) => {
     dispatchItems({
