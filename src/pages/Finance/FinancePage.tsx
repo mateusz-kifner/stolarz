@@ -25,6 +25,8 @@ import {
   ReferenceLine,
 } from "recharts"
 
+import DateFnsAdapter from "@date-io/date-fns"
+
 const useStyles = makeStyles((theme) => {
   const borderColor =
     theme.palette.type === "light"
@@ -164,6 +166,7 @@ function FinancePage() {
             <Bar dataKey="spent" fill="#82ca9d" />
           </BarChart>
         </CardContent>
+        <CardContent></CardContent>
       </Card>
     </Container>
   )
