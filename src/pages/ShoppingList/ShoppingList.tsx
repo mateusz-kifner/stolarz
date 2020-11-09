@@ -20,11 +20,19 @@ import { useForm } from "react-hook-form"
 import moneyNoDivider from "../../helpers/moneyNoDivider"
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: "3rem",
+    marginBottom: "3rem",
+  },
   stopShoppingDialog: {
     display: "flex",
     flexDirection: "column",
     gap: "0.5rem",
     padding: "3rem",
+  },
+  divider: {
+    height: "1rem",
+    display: "block",
   },
 }))
 
@@ -91,7 +99,7 @@ function ShoppingList({
           <Typography variant="h6">Shopping</Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="md">
+      <Container maxWidth="md" className={classes.container}>
         {ids
           .map((id) => receipts[id])
           .map((receipt) => {
@@ -106,7 +114,7 @@ function ShoppingList({
               </ListItem>
             )
           })}
-
+        <div className={classes.divider}></div>
         <Button
           variant="contained"
           color="primary"
@@ -124,6 +132,8 @@ function ShoppingList({
           <Typography variant="body1" gutterBottom>
             Receipts
           </Typography>
+          <div className={classes.divider}></div>
+
           {ids
             .map((id) => receipts[id])
             .map((value) => {
@@ -142,6 +152,8 @@ function ShoppingList({
                 />
               )
             })}
+          <div className={classes.divider}></div>
+
           <Button type="submit" color="primary" variant="contained" fullWidth>
             Stop shopping
           </Button>
