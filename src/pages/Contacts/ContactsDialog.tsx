@@ -84,7 +84,7 @@ function ContactsDialog({
         </Fab>
       </Dialog>
       <ContactsAddDialog
-        open={allowEditing !== undefined && showAddDialog}
+        open={showAddDialog}
         onCloseClick={() => setShowAddDialog(false)}
         onAddClick={onAddClick}
         contact={contact}
