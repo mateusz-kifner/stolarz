@@ -46,6 +46,6 @@ function ReceiptCard({
 export default memo(ReceiptCard, (prevState, state) => {
   return (
     objectsHaveSameData(prevState.receipt, state.receipt) &&
-    prevState.checked == state.checked
+    prevState.checked === state.checked
   )
 })

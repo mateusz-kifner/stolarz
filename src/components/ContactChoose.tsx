@@ -47,11 +47,18 @@ function ContactChoose({
   value,
 }: any) {
   const classes = useStyles()
-  const [contact, setContact] = useState<ContactsProps | undefined>()
+  const [contact, setContact] = useState<ContactsProps>({
+    id: -1,
+    name: "",
+    surname: "",
+    tel: "",
+    email: "",
+    is_good: true,
+  })
   const [showContacts, setShowContacts] = useState<boolean>(false)
 
   useEffect(() => {
-    setContact(value)
+    if (value !== undefined) setContact(value)
   }, [value])
   return (
     <Controller
@@ -68,7 +75,7 @@ function ContactChoose({
             startIcon={<PersonIcon />}
             onClick={() => setShowContacts(true)}
           >
-            {contact == null ? (
+            {contact.id === -1 ? (
               <Typography>Choose contact *</Typography>
             ) : (
               <Typography>{`${contact.name} ${

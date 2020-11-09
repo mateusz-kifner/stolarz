@@ -21,27 +21,65 @@ import { ReceiptProps } from "../../context/ReceiptReducer"
 import { ReceiptContext } from "../../context/ReceiptContext"
 import moneyNoDivider from "../../helpers/moneyNoDivider"
 
-const useStyles = makeStyles((theme) => ({
-  grid: {
-    width: "100%",
-    position: "relative",
-    marginLeft: "auto",
-    marginRight: "auto",
-  },
-  form: {
-    marginTop: "1.5rem",
-    marginBottom: "3rem",
-  },
-  fieldsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  },
-  dateFlex: {
-    display: "flex",
-    gap: "1rem",
-  },
-}))
+const useStyles = makeStyles((theme) => {
+  const borderColor =
+    theme.palette.type === "light"
+      ? "rgba(0, 0, 0, 0.23)"
+      : "rgba(255, 255, 255, 0.23)"
+
+  return {
+    grid: {
+      width: "100%",
+      position: "relative",
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+    form: {
+      marginTop: "3rem",
+      marginBottom: "3rem",
+    },
+    fieldsContainer: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "1rem",
+    },
+    dateFlex: {
+      display: "flex",
+      gap: "1rem",
+    },
+    outline: {
+      position: "relative",
+      borderRadius: theme.shape.borderRadius,
+      borderWidth: 1,
+      borderColor: borderColor,
+      borderStyle: "solid",
+      padding: "18.5px 14px",
+      display: "flex",
+      gap: "0.5rem",
+      justifyContent: "start",
+      "@media (hover: none)": {
+        "&:hover": {
+          borderColor,
+        },
+      },
+      "&:hover": {
+        borderColor: theme.palette.text.primary,
+      },
+      "&:focused": {
+        borderColor: theme.palette.primary.main,
+        borderWidth: 2,
+      },
+    },
+    outlineLabel: {
+      backgroundColor: theme.palette.common.white,
+      paddingLeft: "0.5rem",
+      paddingRight: "0.5rem",
+    },
+    divider: {
+      height: "1rem",
+    },
+  }
+})
 
 function ShoppingListEdit({
   history,
@@ -52,8 +90,9 @@ function ShoppingListEdit({
   const today_date = new Date().toISOString().split("T")
   const { receipts, addReceipt } = useContext(ReceiptContext)
   const defaultReceipt: ReceiptProps = {
+    id: -1,
     name: "",
-    budget: 0,
+    budget: null,
     completed: false,
     order_id: null,
     items: [],
@@ -77,7 +116,7 @@ function ShoppingListEdit({
   const handleReceiptEdit = (receipt_form_form: any) => {
     addReceipt({
       ...receipt_form_form,
-      id: receipt.id !== undefined ? receipt.id : undefined,
+      id: receipt.id !== -1 ? receipt.id : undefined,
       order_id: null,
       items: [...receipt_form_form.items],
       budget: moneyNoDivider(receipt_form_form.budget),
@@ -97,7 +136,9 @@ function ShoppingListEdit({
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add receipt</Typography>
+          <Typography variant="h6">
+            {receipt.id !== -1 ? `Edit receipt` : `Add receipt`}
+          </Typography>
         </Toolbar>
       </AppBar>
       <form onSubmit={handleSubmit(handleReceiptEdit)} className={classes.form}>
@@ -138,9 +179,9 @@ function ShoppingListEdit({
               <ReceiptList receipt={receipt} onChange={onChange} />
             )}
           />
-
+          <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            Add receipt
+            {receipt.id !== -1 ? `Edit receipt` : `Add receipt`}
           </Button>
         </Container>
       </form>

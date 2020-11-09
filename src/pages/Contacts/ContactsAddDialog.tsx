@@ -9,7 +9,7 @@ import {
   makeStyles,
   Container,
 } from "@material-ui/core"
-import React from "react"
+import React, { useEffect } from "react"
 import CloseIcon from "@material-ui/icons/Close"
 import { useForm } from "react-hook-form"
 import { ContactsProps } from "../../context/ContactsReducer"
@@ -30,15 +30,28 @@ type ContactsAddDialogProps = {
   onCloseClick: () => void
   onAddClick: (contact: ContactsProps) => void
   open: boolean
+  contact?: ContactsProps
 }
 
 function ContactsAddDialog({
   onCloseClick,
   onAddClick,
   open,
+  contact,
 }: ContactsAddDialogProps) {
   const classes = useStyles()
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors, setValue } = useForm()
+
+  useEffect(() => {
+    // console.log(contact)
+    if (contact !== undefined) {
+      setValue("name", contact.name)
+      setValue("surname", contact.surname)
+      setValue("tel", contact.tel)
+      setValue("email", contact.email)
+    }
+  })
+
   return (
     <Dialog fullScreen open={open ? true : false}>
       <AppBar position="static">
@@ -89,7 +102,7 @@ function ContactsAddDialog({
             name="tel"
             type="tel"
             inputRef={register({
-              pattern: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/,
+              pattern: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/,
             })}
             label="Phone number"
             error={"tel" in errors}

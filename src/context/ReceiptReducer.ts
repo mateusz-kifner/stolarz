@@ -12,6 +12,7 @@ export type ReceiptProps = {
     name:string,
     items:ReceiptItemProps[],
     budget:number | null,
+    money_spent?:number,
     order_id: number | null,
     completed: boolean
 }
@@ -47,7 +48,7 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
             let sum_of_bougth_items = new_receipt.items
             .map((val)=>val.is_bought?1:0)
             .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
-            if (sum_of_bougth_items == new_receipt.items.length)
+            if (sum_of_bougth_items === new_receipt.items.length)
                 new_receipt.completed = true
             else
                 new_receipt.completed = false
@@ -78,7 +79,7 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                     let sum_of_bougth_items = new_receipt.items
                     .map((val)=>val.is_bought?1:0)
                     .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
-                    if (sum_of_bougth_items == new_receipt.items.length)
+                    if (sum_of_bougth_items === new_receipt.items.length)
                         new_receipt.completed = true
                     else
                         new_receipt.completed = false
@@ -96,7 +97,7 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                     let sum_of_bougth_items = new_receipt.items
                     .map((val)=>val.is_bought?1:0)
                     .reduce((prevVal:number,val:number)=>(prevVal + val) ,0)
-                    if (sum_of_bougth_items == new_receipt.items.length)
+                    if (sum_of_bougth_items === new_receipt.items.length)
                         new_receipt.completed = true
                     else
                         new_receipt.completed = false

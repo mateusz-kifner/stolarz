@@ -49,9 +49,12 @@ type Action =
   | { type: "add"; item: ReceiptItemProps }
   | { type: "remove"; id: number }
   | { type: "change"; item: ReceiptItemProps }
+  | { type: "reset" }
 
 function reducer(prevState: ReceiptItemProps[], action: Action) {
   switch (action.type) {
+    case "reset":
+      return []
     case "add":
       if (action.item.name.length < 1) return prevState
       if (!action.item.id) action.item.id = prevState.length
@@ -103,6 +106,13 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
   useEffect(() => {
     onChange(items)
   })
+
+  useEffect(() => {
+    dispatchItems({ type: "reset" })
+    receipt.items.forEach((item) => {
+      dispatchItems({ type: "add", item })
+    })
+  }, [receipt])
 
   const items_len_minus_1: number = items.length - 1
 

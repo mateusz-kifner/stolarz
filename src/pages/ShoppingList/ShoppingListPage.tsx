@@ -1,12 +1,11 @@
-import { Fab, List, ListItem, makeStyles, Typography } from "@material-ui/core"
+import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
 import React, { useContext, useEffect, useState } from "react"
 import AddIcon from "@material-ui/icons/Add"
 import { ReceiptContext } from "../../context/ReceiptContext"
 import ReceiptCard from "../../components/ReceiptCard"
-import { v4 as uuidv4 } from "uuid"
 import ShoppingList from "./ShoppingList"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   receiptContainer: {
     height: "100%",
     position: "relative",
@@ -14,6 +13,9 @@ const useStyles = makeStyles({
   listContainer: {
     height: "100%",
     overflowY: "scroll",
+    maxWidth: theme.breakpoints.values.md,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   flotingButtons: {
     position: "absolute",
@@ -24,7 +26,11 @@ const useStyles = makeStyles({
     alignItems: "flex-end",
     gap: "1rem",
   },
-})
+  bottomMargin: {
+    marginBottom: "10vmin",
+    display: "block",
+  },
+}))
 
 function ShoppingListPage({
   history,
@@ -75,6 +81,10 @@ function ShoppingListPage({
             </ListItem>
           )
         })}
+        <ListItem
+          key={"ShoppingListPageMarginBottom"}
+          className={classes.bottomMargin}
+        ></ListItem>
       </List>
       <div className={classes.flotingButtons}>
         <Fab color="secondary" aria-label="add" onClick={goToAddPage}>

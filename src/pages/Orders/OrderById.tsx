@@ -7,6 +7,8 @@ import {
   Collapse,
   Divider,
   IconButton,
+  List,
+  ListItemText,
   makeStyles,
   Typography,
 } from "@material-ui/core"
@@ -23,6 +25,10 @@ import MonetizationOnIcon from "@material-ui/icons/MonetizationOn"
 import MoneyOffIcon from "@material-ui/icons/MoneyOff"
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney"
 import { OrderProps } from "../../context/OrdersReducer"
+import dateToString from "../../helpers/dateToString"
+import Receipt from "../../components/Receipt"
+import { ContactsContext } from "../../context/ContactsContext"
+import ContactListItem from "../../components/ContactListItem"
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,6 +57,8 @@ function OrderById({ match }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles()
   const { receipts } = useContext(ReceiptContext)
   const { orders } = useContext(OrdersContext)
+  const { contacts } = useContext(ContactsContext)
+
   const [showNotes, setShowNotes] = useState<boolean>(false)
   const [showReceipt, setShowReceipt] = useState<boolean>(false)
   const [order, setOrder] = useState<OrderProps>({
@@ -132,7 +140,7 @@ function OrderById({ match }: import("react-router-dom").RouteChildrenProps) {
             <Divider />
             <CardContent className={classes.cardNotes}>
               <Typography variant="body2" color="textPrimary" component="p">
-                {order.notes}
+                Notes: {order.notes}
               </Typography>
             </CardContent>
           </>
@@ -142,12 +150,73 @@ function OrderById({ match }: import("react-router-dom").RouteChildrenProps) {
             <>
               <Divider />
               <CardContent>
-                <ReceiptCardContent
-                  receipt={receipts[order.shopping_list_id]}
-                />
+                <Receipt {...receipts[order.shopping_list_id]} />
               </CardContent>
             </>
           )}
+        <Divider />
+        <CardContent>
+          <List>
+            <Divider />
+
+            <ListItemText
+              primary={`Date of completion: ${
+                order.date_of_completion !== null
+                  ? dateToString(order.date_of_completion)
+                  : "Not set"
+              }`}
+            />
+
+            <Divider />
+
+            <ListItemText
+              primary={`Estimated date of completion: ${
+                order.est_date_of_completion
+                  ? dateToString(order.est_date_of_completion)
+                  : "Not set"
+              }`}
+            />
+            <Divider />
+
+            <ListItemText
+              primary={`Date_of_issue: ${dateToString(order.date_of_issue)}`}
+            />
+            <Divider />
+
+            <ListItemText
+              primary={`Is completed: ${order.is_completed ? "Yes" : "No"} `}
+            />
+            <ListItemText
+              primary={`Is anbandoned: ${order.is_anbandoned ? "Yes" : "No"}`}
+            />
+            <Divider />
+
+            <ListItemText
+              primary={`Price value: ${
+                order.price_value !== null &&
+                (order.price_value / 100.0).toFixed(2)
+              }`}
+            />
+            <ListItemText
+              primary={`Is advance paid: ${
+                order.is_advance_paid ? "Yes" : "No"
+              }`}
+            />
+            <Divider />
+
+            <ListItemText
+              primary={`Advance value: ${
+                order.advance_value !== null &&
+                (order.advance_value / 100.0).toFixed(2)
+              }`}
+            />
+            <ListItemText
+              primary={`Is price paid: ${order.is_price_paid ? "Yes" : "No"}`}
+            />
+            <Divider />
+            <ContactListItem contact={contacts[order.client_id]} />
+          </List>
+        </CardContent>
       </Card>
     )
   else return <div>404</div>

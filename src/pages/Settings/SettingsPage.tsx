@@ -67,7 +67,7 @@ function SettingsPage() {
       name: "test1",
       order_id: 1,
       budget: 50000,
-      completed: false,
+      completed: true,
       items: [
         { id: 0, amount: 10, name: "Wood Plank 2x2m", is_bought: false },
         { id: 1, amount: 30, name: "Screws 5cm", is_bought: false },
@@ -116,7 +116,7 @@ function SettingsPage() {
       date_of_issue: faker.date.recent(),
       date_of_completion: null,
       is_anbandoned: false,
-      is_completed: false,
+      is_completed: true,
       shopping_list_id: 1,
     })
     addOrder({

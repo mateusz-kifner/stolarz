@@ -5,7 +5,7 @@ import AddIcon from "@material-ui/icons/Add"
 import { OrdersContext } from "../../context/OrdersContext"
 import { v4 as uuidv4 } from "uuid"
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   ordersContainer: {
     height: "100%",
     position: "relative",
@@ -13,6 +13,9 @@ const useStyles = makeStyles({
   listContainer: {
     height: "100%",
     overflowY: "scroll",
+    maxWidth: theme.breakpoints.values.md,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   flotingAdd: {
     position: "absolute",
@@ -20,10 +23,10 @@ const useStyles = makeStyles({
     right: "5vmin",
   },
   bottomMargin: {
-    marginBottom: "30rem",
+    marginBottom: "10vmin",
     display: "block",
   },
-})
+}))
 
 function OrdersPage({
   history,

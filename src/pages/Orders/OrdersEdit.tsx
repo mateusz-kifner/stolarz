@@ -28,6 +28,8 @@ import { OrdersContext } from "../../context/OrdersContext"
 import { OrderProps } from "../../context/OrdersReducer"
 import { ContactsContext } from "../../context/ContactsContext"
 import { ContactsProps } from "../../context/ContactsReducer"
+import stringToDate from "../../helpers/stringToDate"
+import SimpleCheckBox from "../../components/SimpleCheckBox"
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
@@ -93,10 +95,10 @@ function OrdersEdit({
   history,
   match,
 }: import("react-router-dom").RouteChildrenProps) {
+  const { register, handleSubmit, errors, control, setValue } = useForm()
   const { receipts, addReceipt } = useContext(ReceiptContext)
   const { contacts } = useContext(ContactsContext)
-  const { orders, addOrder } = useContext(OrdersContext)
-  const { register, handleSubmit, errors, control, setValue } = useForm()
+  const { orders, addOrder, changeOrder } = useContext(OrdersContext)
   const classes = useStyles()
   const [order, setOrder] = useState<OrderProps>({
     id: -1,
@@ -134,7 +136,10 @@ function OrdersEdit({
     if ((match?.params as { id: string }).id !== undefined) {
       const id: number = parseInt((match?.params as { id: string }).id)
 
-      if (orders[id]) setOrder(orders[id])
+      if (orders[id]) {
+        setOrder(orders[id])
+        console.log(orders[id])
+      }
     }
   })
 
@@ -143,13 +148,17 @@ function OrdersEdit({
     setValue("desc", order.desc)
     setValue("notes", order.notes)
 
-    setValue("price_value", order.price_value)
+    order.price_value !== null &&
+      setValue("price_value", order.price_value / 100.0)
     setValue("is_price_paid", order.is_price_paid)
 
-    setValue("advance_value", order.advance_value)
+    order.advance_value !== null &&
+      setValue("advance_value", order.advance_value / 100.0)
     setValue("is_advance_paid", order.is_advance_paid)
-    setContact(contacts[order.client_id])
 
+    setContact(contacts[order.client_id])
+    setValue("contact", contacts[order.client_id])
+    console.log("shoppinglist ", order.shopping_list_id)
     if (order.shopping_list_id !== null)
       setReceipt(receipts[order.shopping_list_id])
   }, [order])
@@ -171,11 +180,14 @@ function OrdersEdit({
     .substring(0, 5)
 
   const handleAddOrder = (data: any) => {
-    let order_id = orders.length
-    let shopping_list_id = receipts.length
-    let date_of_completion = new Date()
-    let est_date_of_completion = new Date()
-    let date_of_issue = new Date()
+    let order_id = order.id != -1 ? order.id : orders.length
+    let shopping_list_id: number | undefined =
+      order.shopping_list_id !== null && order.shopping_list_id != -1
+        ? order.shopping_list_id
+        : receipts.length
+
+    console.log("form data: ", data)
+    console.log("order_id: ", order.id)
 
     if (data.items.length > 0) {
       addReceipt({
@@ -189,6 +201,25 @@ function OrdersEdit({
     }
     let price_value = moneyNoDivider(data.price_value)
     let advance_value = moneyNoDivider(data.advance_value)
+
+    let est_date_of_completion = stringToDate(
+      data.est_date_of_completion,
+      data.est_time_of_completion,
+    )
+
+    let date_of_completion
+    let date_of_issue
+
+    if (data.date_of_completion && data.time_of_completion)
+      date_of_completion = stringToDate(
+        data.date_of_completion,
+        data.time_of_completion,
+      )
+    else date_of_completion = est_date_of_completion
+
+    if (data.date_of_issue && data.time_of_issue)
+      date_of_issue = stringToDate(data.date_of_issue, data.time_of_issue)
+    else date_of_issue = new Date()
 
     let new_order: OrderProps = {
       id: order_id,
@@ -207,12 +238,12 @@ function OrdersEdit({
       date_of_issue: date_of_issue,
 
       client_id: data.contact.id,
-      shopping_list_id: data.items.lenght > 0 ? shopping_list_id : null,
+      shopping_list_id: shopping_list_id,
 
       is_anbandoned: data.is_anbandoned,
       is_completed: data.is_completed,
     }
-    addOrder(new_order)
+    order.id != -1 ? changeOrder(new_order) : addOrder(new_order)
     history.goBack()
   }
 
@@ -228,7 +259,9 @@ function OrdersEdit({
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add order</Typography>
+          <Typography variant="h6">
+            {order.id != -1 ? `Edit order` : `Add order`}
+          </Typography>
         </Toolbar>
       </AppBar>
       <form onSubmit={handleSubmit(handleAddOrder)} className={classes.form}>
@@ -287,16 +320,16 @@ function OrdersEdit({
               labelWidth={40}
             />
           </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="is_price_paid"
-                color="primary"
-                defaultValue="false"
-                inputRef={register}
+          <Controller
+            control={control}
+            name="is_price_paid"
+            render={({ onChange, value }) => (
+              <SimpleCheckBox
+                value={value}
+                onChange={onChange}
+                text="Price paid"
               />
-            }
-            label="Price paid"
+            )}
           />
           <div className={classes.divider}></div>
           <FormControl variant="outlined" fullWidth>
@@ -311,16 +344,16 @@ function OrdersEdit({
               labelWidth={66}
             />
           </FormControl>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="is_advance_paid"
-                color="primary"
-                defaultValue="false"
-                inputRef={register}
+          <Controller
+            control={control}
+            name="is_advance_paid"
+            render={({ onChange, value }) => (
+              <SimpleCheckBox
+                value={value}
+                onChange={onChange}
+                text="Advance paid"
               />
-            }
-            label="Advance paid"
+            )}
           />
           <div className={classes.divider}></div>
           <FormControl fullWidth variant="outlined">
@@ -454,31 +487,31 @@ function OrdersEdit({
             )}
           />
           <div className={classes.divider}></div>
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="is_completed"
-                color="primary"
-                defaultValue="false"
-                inputRef={register}
+          <Controller
+            control={control}
+            name="is_anbandoned"
+            render={({ onChange, value }) => (
+              <SimpleCheckBox
+                value={value}
+                onChange={onChange}
+                text="Is anbandoned"
               />
-            }
-            label="Is completed"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="is_anbandoned"
-                color="primary"
-                defaultValue="false"
-                inputRef={register}
+            )}
+          />{" "}
+          <Controller
+            control={control}
+            name="is_completed"
+            render={({ onChange, value }) => (
+              <SimpleCheckBox
+                value={value}
+                onChange={onChange}
+                text="Is completed"
               />
-            }
-            label="Is anbandoned"
+            )}
           />
           <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
-            Add order
+            {order.id != -1 ? `Edit order` : `Add order`}
           </Button>
         </Container>
       </form>

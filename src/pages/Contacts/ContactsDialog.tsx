@@ -37,13 +37,20 @@ function ContactsDialog({
 }: ContactsDialogProps) {
   const classes = useStyles()
   const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
-  const { addContact } = useContext(ContactsContext)
+  const { contacts, addContact, changeContact } = useContext(ContactsContext)
+  const [contact, setContact] = useState<ContactsProps>()
 
-  const onAddClick = (contact: ContactsProps) => {
-    addContact(contact)
+  const onAddClick = (contact_from_add: ContactsProps) => {
+    if (contact !== undefined && contact.id !== undefined && contact.id >= 0)
+      changeContact({ ...contact_from_add, id: contact.id })
+    else addContact(contact_from_add)
     setShowAddDialog(false)
   }
-  const onEditClick = () => {}
+  const onEditClick = (id: number) => {
+    console.log(id)
+    setShowAddDialog(true)
+    setContact(contacts[id])
+  }
   return (
     <>
       <Dialog fullScreen open={open ? true : false}>
@@ -76,6 +83,7 @@ function ContactsDialog({
         open={showAddDialog}
         onCloseClick={() => setShowAddDialog(false)}
         onAddClick={onAddClick}
+        contact={contact}
       />
     </>
   )

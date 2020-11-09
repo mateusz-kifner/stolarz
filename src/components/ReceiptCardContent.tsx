@@ -40,6 +40,12 @@ const useStyle = makeStyles((theme) => ({
   completed: {
     backgroundColor: "#AED581",
   },
+  money: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
+    width: "100%",
+  },
 }))
 
 type ReceiptCardContentProps = {
@@ -78,14 +84,47 @@ function ReceiptCardContent({
             <Typography variant="subtitle1" component="h2" display="inline">
               {receipt.name}
             </Typography>
-            <Typography
-              variant="subtitle1"
-              component="h2"
-              display="inline"
-              color="textSecondary"
-            >
-              {receipt.budget && (receipt.budget / 100.0).toFixed(2) + "zł"}
-            </Typography>
+            <div className={classes.cardActionQuickButton}></div>
+
+            <div className={classes.money}>
+              <Typography
+                variant="subtitle1"
+                component="h2"
+                display="inline"
+                color="textSecondary"
+              >
+                {receipt.budget && (receipt.budget / 100.0).toFixed(2) + "zł"}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="h2"
+                display="inline"
+                color="secondary"
+              >
+                {receipt.money_spent &&
+                  " -" + (receipt.money_spent / 100.0).toFixed(2) + "zł"}
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                component="h2"
+                display="inline"
+                color={
+                  receipt.budget && receipt.money_spent
+                    ? receipt.budget - receipt.money_spent > 0
+                      ? "primary"
+                      : "secondary"
+                    : "textSecondary"
+                }
+              >
+                {receipt.money_spent &&
+                  receipt.budget &&
+                  " = " +
+                    ((receipt.budget - receipt.money_spent) / 100.0).toFixed(
+                      2,
+                    ) +
+                    "zł"}
+              </Typography>
+            </div>
             <div className={classes.cardActionQuickButton}></div>
             {onCheck && (
               <>
