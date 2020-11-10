@@ -1,6 +1,6 @@
 # Stolarz
 
-Improvements## MVP aplikacji mobilnej dla stolarza do zleceń, listy zakupów i podlicznia finansów.
+## MVP aplikacji mobilnej dla stolarza do zleceń, listy zakupów i podlicznia finansów.
 
 Live na GitHub:[https://kifner-mateusz.github.io/stolarz](https://kifner-mateusz.github.io/stolarz)
 
