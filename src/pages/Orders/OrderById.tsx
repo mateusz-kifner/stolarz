@@ -210,6 +210,7 @@ function OrderById({
                 </>
               )}
             <Divider />
+
             <CardContent
               className={clsx(classes.Contianer, classes.flexColumn)}
             >
@@ -296,7 +297,6 @@ function OrderById({
                 }
                 text=" Is abandoned"
               />
-              <Divider />
             </CardContent>
           </Card>
         </Container>

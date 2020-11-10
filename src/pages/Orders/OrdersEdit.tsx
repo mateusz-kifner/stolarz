@@ -212,7 +212,11 @@ function OrdersEdit({
 
   const today_date_iso = new Date().toISOString().split("T")[0]
   const today_time = new Date()
-    .toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+    .toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
     .substring(0, 5)
   const handleAddOrder = (data: any) => {
     console.log(data)

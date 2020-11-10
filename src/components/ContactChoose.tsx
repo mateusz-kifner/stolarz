@@ -66,7 +66,7 @@ function ContactChoose({
       name={name}
       rules={rules}
       defaultValue={defaultValue}
-      render={({ onChange, onBlur, value, name, ref }) => (
+      render={({ onChange }) => (
         <>
           <Button
             className={

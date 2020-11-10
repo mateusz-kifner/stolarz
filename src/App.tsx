@@ -2,9 +2,10 @@ import React from "react"
 import { ContactsContextProvider } from "./context/ContactsContext"
 import { OrdersContextProvider } from "./context/OrdersContext"
 import { ReceiptContextProvider } from "./context/ReceiptContext"
-import { CssBaseline } from "@material-ui/core"
+import { CssBaseline, ThemeProvider } from "@material-ui/core"
 import AppNavigation from "./AppNavigation"
 import { UserSettingsContextProvider } from "./context/UserSettingsContext"
+import lightTheme from "./themes/light"
 
 function App() {
   return (
@@ -14,7 +15,9 @@ function App() {
         <ReceiptContextProvider>
           <OrdersContextProvider>
             <UserSettingsContextProvider>
-              <AppNavigation />
+              <ThemeProvider theme={lightTheme}>
+                <AppNavigation />
+              </ThemeProvider>
             </UserSettingsContextProvider>
           </OrdersContextProvider>
         </ReceiptContextProvider>
