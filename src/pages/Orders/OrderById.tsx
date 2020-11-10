@@ -116,7 +116,7 @@ function OrderById({
     is_price_paid: false,
     advance_value: 0,
     is_advance_paid: false,
-    is_anbandoned: false,
+    is_abandoned: false,
     is_completed: false,
     date_of_completion: null,
     est_date_of_completion: new Date(),
@@ -134,7 +134,7 @@ function OrderById({
   let classForHeader = classes.Contianer
   if (order.is_completed)
     classForHeader = clsx(classes.Contianer, classes.success)
-  if (order.is_anbandoned)
+  if (order.is_abandoned)
     classForHeader = clsx(classes.Contianer, classes.error)
 
   if (order.id >= 0)
@@ -290,11 +290,11 @@ function OrderById({
                 text=" Is completed"
               />
               <SimpleCheckBox
-                value={order.is_anbandoned}
+                value={order.is_abandoned}
                 onChange={(value) =>
-                  changeOrder({ ...order, is_anbandoned: value })
+                  changeOrder({ ...order, is_abandoned: value })
                 }
-                text=" Is anbandoned"
+                text=" Is abandoned"
               />
               <Divider />
             </CardContent>

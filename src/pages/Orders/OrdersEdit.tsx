@@ -116,7 +116,7 @@ function OrdersEdit({
     client_id: -1,
     shopping_list_id: null,
 
-    is_anbandoned: false,
+    is_abandoned: false,
     is_completed: false,
   })
   const [receipt, setReceipt] = useState<ReceiptProps>({
@@ -153,7 +153,7 @@ function OrdersEdit({
     setValue("is_advance_paid", order.is_advance_paid)
 
     setValue("is_completed", order.is_completed)
-    setValue("is_anbandoned", order.is_anbandoned)
+    setValue("is_abandoned", order.is_abandoned)
 
     //Dates
     order.date_of_issue !== null &&
@@ -163,13 +163,13 @@ function OrdersEdit({
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        }),
+        })
       )
 
     order.date_of_issue !== null &&
       setValue(
         "date_of_issue",
-        new Date(order.date_of_issue).toISOString().split("T")[0],
+        new Date(order.date_of_issue).toISOString().split("T")[0]
       )
     order.date_of_completion !== null &&
       setValue(
@@ -178,12 +178,12 @@ function OrdersEdit({
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        }),
+        })
       )
     order.date_of_completion !== null &&
       setValue(
         "date_of_completion",
-        new Date(order.date_of_completion).toISOString().split("T")[0],
+        new Date(order.date_of_completion).toISOString().split("T")[0]
       )
     order.est_date_of_completion !== null &&
       setValue(
@@ -192,12 +192,12 @@ function OrdersEdit({
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        }),
+        })
       )
     order.est_date_of_completion !== null &&
       setValue(
         "est_date_of_completion",
-        new Date(order.est_date_of_completion).toISOString().split("T")[0],
+        new Date(order.est_date_of_completion).toISOString().split("T")[0]
       )
 
     setContact(contacts[order.client_id])
@@ -237,7 +237,7 @@ function OrdersEdit({
 
     let est_date_of_completion = stringToDate(
       data.est_date_of_completion,
-      data.est_time_of_completion,
+      data.est_time_of_completion
     )
 
     let date_of_completion
@@ -246,7 +246,7 @@ function OrdersEdit({
     if (data.date_of_completion && data.time_of_completion)
       date_of_completion = stringToDate(
         data.date_of_completion,
-        data.time_of_completion,
+        data.time_of_completion
       )
     else date_of_completion = est_date_of_completion
 
@@ -273,7 +273,7 @@ function OrdersEdit({
       client_id: data.contact.id,
       shopping_list_id: data.items.length > 0 ? shopping_list_id : null,
 
-      is_anbandoned: data.is_anbandoned,
+      is_abandoned: data.is_abandoned,
       is_completed: data.is_completed,
     }
     console.log(new_order)
@@ -524,12 +524,12 @@ function OrdersEdit({
           <div className={classes.divider}></div>
           <Controller
             control={control}
-            name="is_anbandoned"
+            name="is_abandoned"
             render={({ onChange, value }) => (
               <SimpleCheckBox
                 value={value}
                 onChange={onChange}
-                text="Is anbandoned"
+                text="Is abandoned"
               />
             )}
           />

@@ -49,7 +49,7 @@ function SettingsPage({
         date_of_issue: new Date("2020-11-09T01:36:30.373Z"),
         client_id: 0,
         shopping_list_id: 0,
-        is_anbandoned: false,
+        is_abandoned: false,
         is_completed: false,
       },
       {
@@ -66,7 +66,7 @@ function SettingsPage({
         date_of_issue: new Date("2020-11-09T00:36:10.316Z"),
         client_id: 1,
         shopping_list_id: 1,
-        is_anbandoned: false,
+        is_abandoned: false,
         is_completed: false,
       },
       {
@@ -83,7 +83,7 @@ function SettingsPage({
         date_of_issue: new Date("2020-11-09T00:37:17.341Z"),
         client_id: 2,
         shopping_list_id: 2,
-        is_anbandoned: false,
+        is_abandoned: false,
         is_completed: false,
       },
     ])
@@ -240,7 +240,7 @@ function SettingsPage({
     //     est_date_of_completion: faker.date.future(),
     //     date_of_issue: faker.date.recent(),
     //     date_of_completion: null,
-    //     is_anbandoned: false,
+    //     is_abandoned: false,
     //     is_completed: false,
     //     shopping_list_id: 0,
     //   })
@@ -257,7 +257,7 @@ function SettingsPage({
     //     est_date_of_completion: faker.date.future(),
     //     date_of_issue: faker.date.recent(),
     //     date_of_completion: null,
-    //     is_anbandoned: false,
+    //     is_abandoned: false,
     //     is_completed: true,
     //     shopping_list_id: 1,
     //   })
@@ -274,7 +274,7 @@ function SettingsPage({
     //     est_date_of_completion: faker.date.future(),
     //     date_of_issue: faker.date.recent(),
     //     date_of_completion: null,
-    //     is_anbandoned: false,
+    //     is_abandoned: false,
     //     is_completed: false,
     //     shopping_list_id: 2,
     //   })

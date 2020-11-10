@@ -11,3 +11,7 @@ Improve OrderId page(OK)
 Add missing to Order Edit(OK)
 
 make id mandatory?
+
+use date-fsh to manage dates
+
+add locale support

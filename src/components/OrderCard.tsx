@@ -46,7 +46,10 @@ const useStyle = makeStyles((theme) => ({
     marginLeft: "auto !important",
   },
   cardNotes: {
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: "#FFF9C4",
+  },
+  cardShoppingList: {
+    backgroundColor: theme.palette.grey[100],
   },
   success: {
     backgroundColor: "#C8E6C9",
@@ -67,7 +70,7 @@ function OrderCard({
   is_advance_paid,
   is_price_paid,
   shopping_list_id,
-  is_anbandoned,
+  is_abandoned,
   is_completed,
   onClick,
   onEditClick,
@@ -91,7 +94,7 @@ function OrderCard({
 
   let classForHeader = classes.title
   if (is_completed) classForHeader = clsx(classes.title, classes.success)
-  if (is_anbandoned) classForHeader = clsx(classes.title, classes.error)
+  if (is_abandoned) classForHeader = clsx(classes.title, classes.error)
 
   console.log(classForHeader)
 
@@ -136,13 +139,6 @@ function OrderCard({
       </CardActionArea>
       <Divider />
       <CardActions className={classes.cardActionsContainer}>
-        <Button size="small" color="primary" onClick={() => onEditClick(id)}>
-          Edytuj
-        </Button>
-        {/* <Button size="small" color="primary">
-          Zmień status
-        </Button> */}
-        <div className={classes.cardActionQuickButton}></div>
         {notes.length > 0 && (
           <IconButton aria-label="notes" onClick={toggleNotes}>
             <NoteIcon htmlColor={showNotes ? "#3f51b5" : "#757575"} />
@@ -153,6 +149,9 @@ function OrderCard({
             <ShoppingCartIcon htmlColor={showReceipt ? "#3f51b5" : "#757575"} />
           </IconButton>
         )}
+        <Button size="small" color="primary" onClick={() => onEditClick(id)}>
+          Edytuj
+        </Button>
       </CardActions>
       <Collapse in={showNotes && notes.length > 0}>
         <Divider />
@@ -163,7 +162,7 @@ function OrderCard({
         </CardContent>
       </Collapse>
       {shopping_list_id !== null && (
-        <Collapse in={showReceipt}>
+        <Collapse in={showReceipt} className={classes.cardShoppingList}>
           <Divider />
           <CardContent>
             {expand_shopping_list_in_orders ? (

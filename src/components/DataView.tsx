@@ -19,7 +19,7 @@ function DataView() {
               <td>{value.budget}</td>
               <td>
                 {value.items.map(
-                  (value2) => `${value2.name} : ${value2.amount}, `,
+                  (value2) => `${value2.name} : ${value2.amount}, `
                 )}
               </td>
               <td>{value.completed ? "true" : "false"}</td>
@@ -71,7 +71,7 @@ function DataView() {
               </td>
 
               <td>{value.is_completed ? "true" : "false"}</td>
-              <td>{value.is_anbandoned ? "true" : "false"}</td>
+              <td>{value.is_abandoned ? "true" : "false"}</td>
             </tr>
           )
         })}

@@ -15,7 +15,7 @@ export type OrderProps  = {
     is_advance_paid:boolean,
     
     is_completed:boolean,
-    is_anbandoned:boolean,
+    is_abandoned:boolean,
 
     date_of_issue:Date,
     est_date_of_completion:Date | null,
@@ -62,7 +62,7 @@ export function OrdersReducer(prevState:OrderProps[],action:Action){
                     advance_value:faker.random.number()%500,
                     is_advance_paid:(faker.random.number()%10 > 2) ? true : false,
                     shopping_list_id:null,
-                    is_anbandoned:false,
+                    is_abandoned:false,
                     is_completed:false,
                     date_of_issue:faker.date.recent(),
                     est_date_of_completion:faker.date.soon(),
