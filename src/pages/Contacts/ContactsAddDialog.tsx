@@ -45,10 +45,10 @@ function ContactsAddDialog({
   useEffect(() => {
     let timeout = setTimeout(() => {
       if (contact !== undefined) {
-        setValue("name", contact.name)
-        setValue("surname", contact.surname)
-        setValue("tel", contact.tel)
-        setValue("email", contact.email)
+        setValue("name", contact.name, { shouldDirty: true })
+        setValue("surname", contact.surname, { shouldDirty: true })
+        setValue("tel", contact.tel, { shouldDirty: true })
+        setValue("email", contact.email, { shouldDirty: true })
       }
     }, 4)
     return () => {
@@ -80,7 +80,7 @@ function ContactsAddDialog({
             email: string
           }) => {
             onAddClick({ ...values, is_good: true })
-          },
+          }
         )}
         className={classes.form}
       >

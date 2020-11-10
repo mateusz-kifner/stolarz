@@ -78,6 +78,13 @@ function ContactsDialog({
           className={classes.flotingAdd}
           onClick={() => {
             setShowAddDialog(true)
+            setContact({
+              name: "",
+              surname: "",
+              tel: "",
+              email: "",
+              is_good: true,
+            })
           }}
         >
           <AddIcon />

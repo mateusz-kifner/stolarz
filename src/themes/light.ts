@@ -1,5 +1,4 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
 import brown from '@material-ui/core/colors/brown';
 
@@ -12,6 +11,7 @@ const lightTheme = createMuiTheme({
       main: brown[500],
     },
   },
+ 
 });
 
 export default lightTheme
