@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/stolarz/static/css/main.37e15657.chunk.css",
-    "main.js": "/stolarz/static/js/main.e4104a8d.chunk.js",
-    "main.js.map": "/stolarz/static/js/main.e4104a8d.chunk.js.map",
+    "main.js": "/stolarz/static/js/main.3267c4d2.chunk.js",
+    "main.js.map": "/stolarz/static/js/main.3267c4d2.chunk.js.map",
     "runtime-main.js": "/stolarz/static/js/runtime-main.a381a0e6.js",
     "runtime-main.js.map": "/stolarz/static/js/runtime-main.a381a0e6.js.map",
     "static/css/2.e53c5f52.chunk.css": "/stolarz/static/css/2.e53c5f52.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.e53c5f52.chunk.css",
     "static/js/2.6c1d5972.chunk.js",
     "static/css/main.37e15657.chunk.css",
-    "static/js/main.e4104a8d.chunk.js"
+    "static/js/main.3267c4d2.chunk.js"
   ]
 }
