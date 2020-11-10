@@ -15,12 +15,12 @@ function ContactsList({ onItemClick, onEditClick }: ContactsListProps) {
   return (
     <List dense>
       {contacts
-        .sort((a: any, b: any) => {
-          let a_fullname = a.name + a.surname + a.id
-          let b_fullname = b.name + b.surname + b.id
+        // .sort((a: any, b: any) => {
+        //   let a_fullname = a.name + a.surname + a.id
+        //   let b_fullname = b.name + b.surname + b.id
 
-          return a_fullname.localeCompare(b_fullname)
-        })
+        //   return a_fullname.localeCompare(b_fullname)
+        // })
         .map((contact) => {
           return (
             <ContactListItem
