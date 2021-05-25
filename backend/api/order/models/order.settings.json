@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order",
+  "info": {
+    "name": "order"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "desc": {
+      "type": "string",
+      "required": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "price_value": {
+      "type": "decimal"
+    },
+    "advance_value": {
+      "type": "decimal"
+    },
+    "is_price_paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_advance_paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_abandoned": {
+      "type": "boolean",
+      "default": false
+    },
+    "date_of_issue": {
+      "type": "datetime",
+      "required": true
+    },
+    "est_date_of_completion": {
+      "type": "datetime"
+    },
+    "date_of_completion": {
+      "type": "datetime"
+    }
+  }
+}

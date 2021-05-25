@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "start",
+			"script": "develop",
 			"problemMatcher": [],
-			"label": "npm: start",
-			"detail": "react-scripts start"
+			"label": "yarn develop",
+			"detail": "yarn develop"
 		}
 	]
 }

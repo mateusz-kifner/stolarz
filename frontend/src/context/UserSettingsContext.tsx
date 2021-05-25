@@ -2,12 +2,14 @@ import React, { useState } from "react"
 
 type UserSettingsContextProps = {
   login: string | null
+  authToken: string | null
   expand_shopping_list_in_orders: boolean
   set_expand_shopping_list_in_orders: (value: boolean) => void
 }
 
 const initialContext = {
   login: null,
+  authToken:null,
   expand_shopping_list_in_orders: true,
   set_expand_shopping_list_in_orders: (value: boolean) => {},
 }
@@ -24,6 +26,8 @@ export function UserSettingsContextProvider(
   props: UserSettingsContextProviderProps,
 ) {
   const [login, setLogin] = useState<string | null>(null)
+  const [authToken, setAuthToken] = useState<string | null>(null)
+
   const [
     expand_shopping_list_in_orders,
     set_expand_shopping_list_in_orders,
@@ -34,6 +38,7 @@ export function UserSettingsContextProvider(
     <UserSettingsContext.Provider
       value={{
         login,
+        authToken,
         expand_shopping_list_in_orders,
         set_expand_shopping_list_in_orders,
       }}
