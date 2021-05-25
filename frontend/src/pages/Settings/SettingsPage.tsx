@@ -26,16 +26,15 @@ const useStyles = makeStyles({
 function SettingsPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { orders, setOrders } = useContext(OrdersContext);
+  const { orders, addOrder } = useContext(OrdersContext);
   const classes = useStyles();
-  const { contacts, setContacts } = useContext(ContactsContext);
-  const { receipts, setReceipts } = useContext(ReceiptContext);
+  const { contacts, addContact } = useContext(ContactsContext);
+  const { receipts, addReceipt } = useContext(ReceiptContext);
   const usersettingscontext = useContext(UserSettingsContext);
 
   // Fake Data
   const setFakeData = () => {
-    resetAll();
-    setOrders([
+    let new_orders = [
       {
         id: 0,
         name: "Krzesło z bzu x2",
@@ -87,9 +86,9 @@ function SettingsPage({
         is_abandoned: false,
         is_completed: false,
       },
-    ]);
+    ];
 
-    setContacts([
+    let new_contacts = [
       {
         id: 0,
         firstname: "Jan",
@@ -138,9 +137,9 @@ function SettingsPage({
         is_good: true,
         id: 5,
       },
-    ]);
+    ];
 
-    setReceipts([
+    let new_receipts = [
       {
         name: "Order: Krzesło z bzu x2",
         budget: 30000,
@@ -176,123 +175,39 @@ function SettingsPage({
         budget: 70000,
         money_spent: 10000,
       },
-    ]);
-    //   addContact({
-    //     id: 0,
-    //     name: "Jan",
-    //     lastname: "Kowalski",
-    //     tel: "730 495 950",
-    //     email: "test@gmail.com",
-    //     is_good: true,
-    //   })
-    //   addContact({
-    //     id: 1,
-    //     name: "Adam",
-    //     lastname: "Nowak",
-    //     tel: "730 123 950",
-    //     email: "test1@gmail.com",
-    //     is_good: true,
-    //   })
-    //   addContact({
-    //     id: 2,
-    //     name: "Kuba",
-    //     lastname: "Kowalski",
-    //     tel: "730 434 950",
-    //     email: "test2@gmail.com",
-    //     is_good: false,
-    //   })
-    //   addReceipt({
-    //     id: 0,
-    //     name: "test0",
-    //     order_id: 0,
-    //     budget: 30000,
-    //     completed: false,
-    //     items: [
-    //       { id: 0, amount: 10, name: "Wood 2x4", is_bought: false },
-    //       { id: 1, amount: 1, name: "Glue", is_bought: false },
-    //     ],
-    //   })
-    //   addReceipt({
-    //     id: 1,
-    //     name: "test1",
-    //     order_id: 1,
-    //     budget: 50000,
-    //     completed: true,
-    //     items: [
-    //       { id: 0, amount: 10, name: "Wood Plank 2x2m", is_bought: false },
-    //       { id: 1, amount: 30, name: "Screws 5cm", is_bought: false },
-    //       { id: 2, amount: 100, name: "Screws 3cm", is_bought: true },
-    //     ],
-    //   })
-    //   addReceipt({
-    //     id: 2,
-    //     name: "test2",
-    //     order_id: 2,
-    //     budget: 70000,
-    //     completed: false,
-    //     items: [
-    //       { id: 0, amount: 10, name: "Wood Plank 1x4m", is_bought: false },
-    //       { id: 1, amount: 50, name: "Screws 7cm", is_bought: false },
-    //     ],
-    //   })
-    //   addOrder({
-    //     id: 0,
-    //     name: "Krzesłox2",
-    //     desc: "Krzesłox2",
-    //     advance_value: 10000,
-    //     price_value: 40000,
-    //     is_price_paid: false,
-    //     is_advance_paid: false,
-    //     client_id: 0,
-    //     notes: "",
-    //     est_date_of_completion: faker.date.future(),
-    //     date_of_issue: faker.date.recent(),
-    //     date_of_completion: null,
-    //     is_abandoned: false,
-    //     is_completed: false,
-    //     shopping_list_id: 0,
-    //   })
-    //   addOrder({
-    //     id: 1,
-    //     name: "Stół",
-    //     desc: "Stół",
-    //     advance_value: 30000,
-    //     price_value: 60000,
-    //     is_price_paid: false,
-    //     is_advance_paid: true,
-    //     client_id: 1,
-    //     notes: "Drewno z Lipy",
-    //     est_date_of_completion: faker.date.future(),
-    //     date_of_issue: faker.date.recent(),
-    //     date_of_completion: null,
-    //     is_abandoned: false,
-    //     is_completed: true,
-    //     shopping_list_id: 1,
-    //   })
-    //   addOrder({
-    //     id: 2,
-    //     name: "Ławka",
-    //     desc: "Ławka",
-    //     advance_value: 40000,
-    //     price_value: 80000,
-    //     is_price_paid: true,
-    //     is_advance_paid: true,
-    //     client_id: 2,
-    //     notes: "Zaokrąglone nogi",
-    //     est_date_of_completion: faker.date.future(),
-    //     date_of_issue: faker.date.recent(),
-    //     date_of_completion: null,
-    //     is_abandoned: false,
-    //     is_completed: false,
-    //     shopping_list_id: 2,
-    //   })
+    ];
+
+    for (let contact of new_contacts) {
+      addContact(contact);
+    }
+
+    for (let receipt of new_receipts) {
+      addReceipt(receipt);
+    }
+    let contact_ids = [];
+    for (let contact of contacts) {
+      if (contact !== undefined && contact.id != undefined) {
+        contact_ids.push(contact.id);
+      }
+    }
+
+    let receipt_ids = [];
+    for (let receipt of receipts) {
+      if (receipt !== undefined && receipt.id != undefined) {
+        receipt_ids.push(receipt.id);
+      }
+    }
+
+    for (let order of new_orders) {
+      let new_order = { ...order };
+      let client_id = contact_ids.pop();
+      if (client_id !== undefined) new_order.client_id = client_id;
+      let receipt_id = receipt_ids.pop();
+      if (receipt_id !== undefined) new_order.shopping_list_id = receipt_id;
+      addOrder(new_order);
+    }
   };
 
-  const resetAll = () => {
-    setOrders([]);
-    setReceipts([]);
-    setContacts([]);
-  };
   return (
     <Dialog open fullScreen>
       <AppBar position="static">
@@ -313,10 +228,10 @@ function SettingsPage({
       <div className={classes.Container}>
         {/* <Button onClick={resetAll} variant="contained">
           Remove all data
-        </Button>
+        </Button> */}
         <Button onClick={setFakeData} variant="contained">
           Set fake data
-        </Button> */}
+        </Button>
         <Button onClick={usersettingscontext.singout} variant="contained">
           Sing OUT
         </Button>

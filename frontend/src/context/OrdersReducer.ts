@@ -48,7 +48,7 @@ export function OrdersReducer(prevState:OrderProps[],action:Action){
                 return true
             })
         case "change":
-            return prevState.map((value)=>{
+            return prevState.filter((data)=>data!==undefined).map((value)=>{
                 if (value.id === action.data.id) return action.data
                 return value
             });

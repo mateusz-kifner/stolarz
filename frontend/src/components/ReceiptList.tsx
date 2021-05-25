@@ -102,9 +102,11 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
   const [addfield, setAddfield] = useState<string>("");
 
   useEffect(() => {
-    receipt.items.forEach((item) => {
-      dispatchItems({ type: "add", item });
-    });
+    if (receipt !== undefined) {
+      receipt.items.forEach((item) => {
+        dispatchItems({ type: "add", item });
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -112,10 +114,12 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
   });
 
   useEffect(() => {
-    dispatchItems({ type: "reset" });
-    receipt.items.forEach((item) => {
-      dispatchItems({ type: "add", item });
-    });
+    if (receipt !== undefined) {
+      dispatchItems({ type: "reset" });
+      receipt.items.forEach((item) => {
+        dispatchItems({ type: "add", item });
+      });
+    }
   }, [receipt]);
 
   const incrementAmount = (item: ReceiptItemProps) => {

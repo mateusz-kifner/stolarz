@@ -87,7 +87,8 @@ function ShoppingListEdit({
 }: import("react-router-dom").RouteChildrenProps) {
   const classes = useStyles();
   const { register, handleSubmit, errors, control, setValue } = useForm();
-  const { receipts, addReceipt, changeReceipt } = useContext(ReceiptContext);
+  const { receipts, addReceipt, changeReceipt, removeReceipt } =
+    useContext(ReceiptContext);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const defaultReceipt: ReceiptProps = {
     id: -1,
@@ -189,6 +190,27 @@ function ShoppingListEdit({
               <ReceiptList receipt={receipt} onChange={onChange} />
             )}
           />
+
+          {receipt.id !== -1 && (
+            <>
+              <div className={classes.divider}></div>
+              <div className={classes.divider}></div>
+
+              <Button
+                color="secondary"
+                variant="contained"
+                fullWidth
+                onClick={() => {
+                  if (receipt !== undefined && receipt.id !== undefined) {
+                    removeReceipt(receipt.id);
+                    history.push("/ShoppingList");
+                  }
+                }}
+              >
+                Delete Receipt
+              </Button>
+            </>
+          )}
           <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
             {receipt.id !== -1 ? `Edit receipt` : `Add receipt`}

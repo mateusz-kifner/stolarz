@@ -9,7 +9,7 @@ import {
   makeStyles,
   TextField,
 } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserSettingsContext } from "../../context/UserSettingsContext";
 
@@ -30,6 +30,13 @@ function SingIn() {
   const classes = useStyles();
   const userContext = useContext(UserSettingsContext);
   const [error, setError] = useState<boolean>(false);
+  const [time, setTime] = useState<any>(null);
+  useEffect(() => {
+    return () => {
+      if (time !== null) clearTimeout(time);
+    };
+  }, []);
+
   return (
     <Dialog fullScreen open={true}>
       <DialogTitle id="form-dialog-title">Stolarz</DialogTitle>
@@ -46,7 +53,15 @@ function SingIn() {
         <form
           onSubmit={handleSubmit(
             (values: { login: string; password: string }) => {
-              setError(!userContext.singin(values.login, values.password));
+              let data_error = userContext.singin(
+                values.login,
+                values.password
+              );
+              setTime(
+                setTimeout(() => {
+                  setError(!data_error);
+                }, 2500)
+              );
             }
           )}
           className={classes.form}

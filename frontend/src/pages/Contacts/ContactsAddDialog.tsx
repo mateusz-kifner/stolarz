@@ -9,10 +9,12 @@ import {
   makeStyles,
   Container,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import { useForm } from "react-hook-form";
 import { ContactsProps } from "../../context/ContactsReducer";
+import { ContactsContext } from "../../context/ContactsContext";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -23,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     gap: "1rem",
+  },
+  divider: {
+    height: "1rem",
   },
 }));
 
@@ -42,7 +47,8 @@ function ContactsAddDialog({
   const classes = useStyles();
   const { register, handleSubmit, errors, setValue } = useForm();
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
+  const { removeContact } = useContext(ContactsContext);
+  const history = useHistory();
   useEffect(() => {
     let timeout = setTimeout(() => {
       console.log(contact);
@@ -129,6 +135,28 @@ function ContactsAddDialog({
             variant="outlined"
             fullWidth
           />
+          {contact && isEdit && (
+            <>
+              <div className={classes.divider}></div>
+              <div className={classes.divider}></div>
+
+              <Button
+                color="secondary"
+                variant="contained"
+                fullWidth
+                onClick={() => {
+                  if (contact !== undefined && contact.id !== undefined) {
+                    removeContact(contact.id);
+                    history.push("/Orders");
+                  }
+                }}
+              >
+                Delete Contact
+              </Button>
+            </>
+          )}
+          <div className={classes.divider}></div>
+          <div className={classes.divider}></div>
           {isEdit ? (
             <Button type="submit" color="primary" variant="contained" fullWidth>
               Update

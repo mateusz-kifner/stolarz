@@ -12,27 +12,27 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-} from "@material-ui/core"
-import React, { useContext, useEffect, useState } from "react"
-import CloseIcon from "@material-ui/icons/Close"
-import { Controller, useForm } from "react-hook-form"
-import ContactChoose from "../../components/ContactChoose"
-import ReceiptList from "../../components/ReceiptList"
-import { ReceiptProps } from "../../context/ReceiptReducer"
-import moneyNoDivider from "../../helpers/moneyNoDivider"
-import { ReceiptContext } from "../../context/ReceiptContext"
-import { OrdersContext } from "../../context/OrdersContext"
-import { OrderProps } from "../../context/OrdersReducer"
-import { ContactsContext } from "../../context/ContactsContext"
-import { ContactsProps } from "../../context/ContactsReducer"
-import stringToDate from "../../helpers/stringToDate"
-import SimpleCheckBox from "../../components/SimpleCheckBox"
+} from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import CloseIcon from "@material-ui/icons/Close";
+import { Controller, useForm } from "react-hook-form";
+import ContactChoose from "../../components/ContactChoose";
+import ReceiptList from "../../components/ReceiptList";
+import { ReceiptProps } from "../../context/ReceiptReducer";
+import moneyNoDivider from "../../helpers/moneyNoDivider";
+import { ReceiptContext } from "../../context/ReceiptContext";
+import { OrdersContext } from "../../context/OrdersContext";
+import { OrderProps } from "../../context/OrdersReducer";
+import { ContactsContext } from "../../context/ContactsContext";
+import { ContactsProps } from "../../context/ContactsReducer";
+import stringToDate from "../../helpers/stringToDate";
+import SimpleCheckBox from "../../components/SimpleCheckBox";
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
     theme.palette.type === "light"
       ? "rgba(0, 0, 0, 0.23)"
-      : "rgba(255, 255, 255, 0.23)"
+      : "rgba(255, 255, 255, 0.23)";
 
   return {
     grid: {
@@ -85,18 +85,19 @@ const useStyles = makeStyles((theme) => {
     divider: {
       height: "1rem",
     },
-  }
-})
+  };
+});
 
 function OrdersEdit({
   history,
   match,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { register, handleSubmit, errors, control, setValue } = useForm()
-  const { receipts, addReceipt } = useContext(ReceiptContext)
-  const { contacts } = useContext(ContactsContext)
-  const { orders, addOrder, changeOrder } = useContext(OrdersContext)
-  const classes = useStyles()
+  const { register, handleSubmit, errors, control, setValue } = useForm();
+  const { receipts, addReceipt } = useContext(ReceiptContext);
+  const { contacts } = useContext(ContactsContext);
+  const { orders, addOrder, changeOrder, removeOrder } =
+    useContext(OrdersContext);
+  const classes = useStyles();
   const [order, setOrder] = useState<OrderProps>({
     id: -1,
     name: "",
@@ -118,7 +119,7 @@ function OrdersEdit({
 
     is_abandoned: false,
     is_completed: false,
-  })
+  });
   const [receipt, setReceipt] = useState<ReceiptProps>({
     id: -1,
     name: "",
@@ -126,34 +127,34 @@ function OrdersEdit({
     items: [],
     completed: false,
     order_id: null,
-  })
-  const [contact, setContact] = useState<ContactsProps | undefined>()
+  });
+  const [contact, setContact] = useState<ContactsProps | undefined>();
 
   useEffect(() => {
     if ((match?.params as { id: string }).id !== undefined) {
-      const id: number = parseInt((match?.params as { id: string }).id)
+      const id: number = parseInt((match?.params as { id: string }).id);
 
       if (orders[id]) {
-        setOrder(orders[id])
+        setOrder(orders[id]);
       }
     }
-  }, [match])
+  }, [match, orders]);
 
   useEffect(() => {
-    setValue("name", order.name)
-    setValue("desc", order.desc)
-    setValue("notes", order.notes)
+    setValue("name", order.name);
+    setValue("desc", order.desc);
+    setValue("notes", order.notes);
 
     order.price_value !== null &&
-      setValue("price_value", order.price_value / 100.0)
-    setValue("is_price_paid", order.is_price_paid)
+      setValue("price_value", order.price_value / 100.0);
+    setValue("is_price_paid", order.is_price_paid);
 
     order.advance_value !== null &&
-      setValue("advance_value", order.advance_value / 100.0)
-    setValue("is_advance_paid", order.is_advance_paid)
+      setValue("advance_value", order.advance_value / 100.0);
+    setValue("is_advance_paid", order.is_advance_paid);
 
-    setValue("is_completed", order.is_completed)
-    setValue("is_abandoned", order.is_abandoned)
+    setValue("is_completed", order.is_completed);
+    setValue("is_abandoned", order.is_abandoned);
 
     //Dates
     order.date_of_issue !== null &&
@@ -164,13 +165,13 @@ function OrdersEdit({
           minute: "2-digit",
           hour12: false,
         })
-      )
+      );
 
     order.date_of_issue !== null &&
       setValue(
         "date_of_issue",
         new Date(order.date_of_issue).toISOString().split("T")[0]
-      )
+      );
     order.date_of_completion !== null &&
       setValue(
         "time_of_completion",
@@ -179,12 +180,12 @@ function OrdersEdit({
           minute: "2-digit",
           hour12: false,
         })
-      )
+      );
     order.date_of_completion !== null &&
       setValue(
         "date_of_completion",
         new Date(order.date_of_completion).toISOString().split("T")[0]
-      )
+      );
     order.est_date_of_completion !== null &&
       setValue(
         "est_time_of_completion",
@@ -193,38 +194,40 @@ function OrdersEdit({
           minute: "2-digit",
           hour12: false,
         })
-      )
+      );
     order.est_date_of_completion !== null &&
       setValue(
         "est_date_of_completion",
         new Date(order.est_date_of_completion).toISOString().split("T")[0]
-      )
+      );
 
-    setContact(contacts[order.client_id])
-    setValue("contact", contacts[order.client_id])
+    setContact(contacts[order.client_id]);
+    setValue("contact", contacts[order.client_id]);
     if (order.shopping_list_id !== null)
-      setReceipt(receipts[order.shopping_list_id])
-  }, [order])
+      setReceipt(receipts[order.shopping_list_id]);
+  }, [order]);
 
   useEffect(() => {
-    setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "")
-  }, [receipt])
+    if (receipt !== undefined) {
+      setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "");
+    }
+  }, [receipt]);
 
-  const today_date_iso = new Date().toISOString().split("T")[0]
+  const today_date_iso = new Date().toISOString().split("T")[0];
   const today_time = new Date()
     .toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
     })
-    .substring(0, 5)
+    .substring(0, 5);
   const handleAddOrder = (data: any) => {
-    console.log(data)
-    let order_id = order.id !== -1 ? order.id : orders.length
+    console.log(data);
+    let order_id = order.id !== -1 ? order.id : orders.length;
     let shopping_list_id: number | undefined =
       order.shopping_list_id !== null && order.shopping_list_id !== -1
         ? order.shopping_list_id
-        : receipts.length
+        : receipts.length;
 
     if (data.items.length > 0) {
       addReceipt({
@@ -234,29 +237,29 @@ function OrdersEdit({
         order_id: order_id,
         items: [...data.items],
         budget: moneyNoDivider(data.budget),
-      })
+      });
     }
-    let price_value = moneyNoDivider(data.price_value)
-    let advance_value = moneyNoDivider(data.advance_value)
+    let price_value = moneyNoDivider(data.price_value);
+    let advance_value = moneyNoDivider(data.advance_value);
 
     let est_date_of_completion = stringToDate(
       data.est_date_of_completion,
       data.est_time_of_completion
-    )
+    );
 
-    let date_of_completion
-    let date_of_issue
+    let date_of_completion;
+    let date_of_issue;
 
     if (data.date_of_completion && data.time_of_completion)
       date_of_completion = stringToDate(
         data.date_of_completion,
         data.time_of_completion
-      )
-    else date_of_completion = est_date_of_completion
+      );
+    else date_of_completion = est_date_of_completion;
 
     if (data.date_of_issue && data.time_of_issue)
-      date_of_issue = stringToDate(data.date_of_issue, data.time_of_issue)
-    else date_of_issue = new Date()
+      date_of_issue = stringToDate(data.date_of_issue, data.time_of_issue);
+    else date_of_issue = new Date();
 
     let new_order: OrderProps = {
       id: order_id,
@@ -279,12 +282,12 @@ function OrdersEdit({
 
       is_abandoned: data.is_abandoned,
       is_completed: data.is_completed,
-    }
-    console.log(new_order)
+    };
+    console.log(new_order);
 
-    order.id !== -1 ? changeOrder(new_order) : addOrder(new_order)
-    history.goBack()
-  }
+    order.id !== -1 ? changeOrder(new_order) : addOrder(new_order);
+    history.goBack();
+  };
 
   return (
     <Dialog fullScreen open>
@@ -548,6 +551,24 @@ function OrdersEdit({
               />
             )}
           />
+          {order && order.id !== -1 && (
+            <>
+              <div className={classes.divider}></div>
+              <div className={classes.divider}></div>
+              <Button
+                color="secondary"
+                variant="contained"
+                fullWidth
+                onClick={() => {
+                  removeOrder(order.id);
+                  history.push("/Orders");
+                }}
+              >
+                Delete Order
+              </Button>
+              <div className={classes.divider}></div>
+            </>
+          )}
           <div className={classes.divider}></div>
           <Button type="submit" color="primary" variant="contained" fullWidth>
             {order.id !== -1 ? `Edit order` : `Add order`}
@@ -555,7 +576,7 @@ function OrdersEdit({
         </Container>
       </form>
     </Dialog>
-  )
+  );
 }
 
-export default OrdersEdit
+export default OrdersEdit;
