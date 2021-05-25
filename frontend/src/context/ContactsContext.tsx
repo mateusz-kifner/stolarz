@@ -55,7 +55,7 @@ export function ContactsContextProvider(props: ContactsContextProviderProps) {
   const addContact = (contact: ContactsProps) => {
     axios
       .post("/contacts", contact)
-      .then((_) => dispatchContacts({ type: "add", data: contact }))
+      .then((res) => dispatchContacts({ type: "add", data: res.data }))
       .catch((e) => console.log("contact add network error"));
   };
   const removeContact = (id: number) => {
@@ -67,7 +67,7 @@ export function ContactsContextProvider(props: ContactsContextProviderProps) {
   const changeContact = (contact: ContactsProps) => {
     axios
       .put(`/contacts/${contact.id}`, contact)
-      .then((res) => dispatchContacts({ type: "change", data: res.data }))
+      .then((res) => dispatchContacts({ type: "add", data: res.data }))
       .catch((e) => console.log("contact change network error"));
   };
 

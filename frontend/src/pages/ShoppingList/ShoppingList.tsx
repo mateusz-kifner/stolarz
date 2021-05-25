@@ -9,15 +9,15 @@ import {
   TextField,
   Toolbar,
   Typography,
-} from "@material-ui/core"
-import React, { useContext, useState } from "react"
+} from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
 
-import CloseIcon from "@material-ui/icons/Close"
-import { ReceiptContext } from "../../context/ReceiptContext"
-import ReceiptCard from "../../components/ReceiptCard"
-import { v4 as uuidv4 } from "uuid"
-import { useForm } from "react-hook-form"
-import moneyNoDivider from "../../helpers/moneyNoDivider"
+import CloseIcon from "@material-ui/icons/Close";
+import { ReceiptContext } from "../../context/ReceiptContext";
+import ReceiptCard from "../../components/ReceiptCard";
+import { v4 as uuidv4 } from "uuid";
+import { useForm } from "react-hook-form";
+import moneyNoDivider from "../../helpers/moneyNoDivider";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
     height: "1rem",
     display: "block",
   },
-}))
+}));
 
 type ShoppingListProps = {
-  ids: number[]
-  open?: boolean
-  onCloseClick?: () => void
-  onEditClick?: (id: number) => void
-}
+  ids: number[];
+  open?: boolean;
+  onCloseClick?: () => void;
+  onEditClick?: (id: number) => void;
+};
 
 function ShoppingList({
   ids,
@@ -49,9 +49,9 @@ function ShoppingList({
   onCloseClick,
   onEditClick,
 }: ShoppingListProps) {
-  const classes = useStyles()
-  const { receipts, changeItem, changeReceipt } = useContext(ReceiptContext)
-  const { register, handleSubmit, errors } = useForm()
+  const classes = useStyles();
+  const { receipts, changeItem, changeReceipt } = useContext(ReceiptContext);
+  const { register, handleSubmit, errors } = useForm();
 
   // const [recipt, setRecipt] = useState<ReceiptProps>({
   //   id: -1,
@@ -61,28 +61,30 @@ function ShoppingList({
   //   completed: false,
   //   order_id: null,
   // })
-  const [stopShopping, setStopShopping] = useState<boolean>(false)
+  const [stopShopping, setStopShopping] = useState<boolean>(false);
 
   const onItemCheck = (receiptId: number, itemId: number) => {
     changeItem(receiptId, {
       ...receipts[receiptId].items[itemId],
       is_bought: !receipts[receiptId].items[itemId].is_bought,
-    })
-  }
+    });
+  };
 
   const handleShoppingEnd = (value: any) => {
-    console.log(value)
+    console.log(value);
     for (let val in value) {
-      let id = parseInt(val)
-      if (value[val].length > 0)
-        changeReceipt({
-          ...receipts[id],
-          items: receipts[id].items,
-          money_spent: moneyNoDivider(value[val]),
-        })
+      if (val !== undefined) {
+        let id = parseInt(val);
+        if (value[val].length > 0)
+          changeReceipt({
+            ...receipts[id],
+            items: receipts[id].items,
+            money_spent: moneyNoDivider(value[val]),
+          });
+      }
     }
-    onCloseClick && onCloseClick()
-  }
+    onCloseClick && onCloseClick();
+  };
 
   return (
     <Dialog open={open ? true : false} fullScreen>
@@ -112,7 +114,7 @@ function ShoppingList({
                   checkbox={true}
                 />
               </ListItem>
-            )
+            );
           })}
         <div className={classes.divider}></div>
         <Button
@@ -137,6 +139,7 @@ function ShoppingList({
           {ids
             .map((id) => receipts[id])
             .map((value) => {
+              console.log(value);
               return (
                 <TextField
                   name={value.id?.toString()}
@@ -150,7 +153,7 @@ function ShoppingList({
                   variant="outlined"
                   fullWidth
                 />
-              )
+              );
             })}
           <div className={classes.divider}></div>
 
@@ -160,7 +163,7 @@ function ShoppingList({
         </form>
       </Dialog>
     </Dialog>
-  )
+  );
 }
 
-export default ShoppingList
+export default ShoppingList;

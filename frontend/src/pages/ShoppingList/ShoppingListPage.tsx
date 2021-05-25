@@ -1,9 +1,9 @@
-import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
-import React, { useContext, useEffect, useState } from "react"
-import AddIcon from "@material-ui/icons/Add"
-import { ReceiptContext } from "../../context/ReceiptContext"
-import ReceiptCard from "../../components/ReceiptCard"
-import ShoppingList from "./ShoppingList"
+import { Fab, List, ListItem, makeStyles } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import AddIcon from "@material-ui/icons/Add";
+import { ReceiptContext } from "../../context/ReceiptContext";
+import ReceiptCard from "../../components/ReceiptCard";
+import ShoppingList from "./ShoppingList";
 
 const useStyles = makeStyles((theme) => ({
   receiptContainer: {
@@ -30,56 +30,56 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10vmin",
     display: "block",
   },
-}))
+}));
 
 function ShoppingListPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { receipts } = useContext(ReceiptContext)
-  const classes = useStyles()
-  const [checked, setChecked] = useState<boolean[]>([])
-  const [shoppingListOpen, setShoppingListOpen] = useState<boolean>(false)
+  const { receipts } = useContext(ReceiptContext);
+  const classes = useStyles();
+  const [checked, setChecked] = useState<boolean[]>([]);
+  const [shoppingListOpen, setShoppingListOpen] = useState<boolean>(false);
 
   const goToAddPage = () => {
-    history.push("/ShoppingList/Add")
-  }
+    history.push("/ShoppingList/Add");
+  };
 
   const goToShoppingList = () => {
-    setShoppingListOpen(true)
-  }
+    setShoppingListOpen(true);
+  };
 
   const onCheck = (id: number) => {
     setChecked((prevState: boolean[]) => {
-      let new_state = [...prevState]
-      new_state[id] = !new_state[id]
-      return new_state
-    })
-  }
+      let new_state = [...prevState];
+      new_state[id] = !new_state[id];
+      return new_state;
+    });
+  };
 
   useEffect(() => {
     if (receipts.length !== checked.length) {
-      setChecked(Array(receipts.length).fill(false))
+      setChecked(Array(receipts.length).fill(false));
     }
-  })
+  });
 
   return (
     <div className={classes.receiptContainer}>
       <List className={classes.listContainer}>
         {receipts
-          .filter((value) => !value.completed)
+          .filter((value) => value !== undefined && !value.completed)
           .sort((prevReceipt, receipt) =>
             prevReceipt.id !== undefined && receipt.id !== undefined
               ? receipt.id - prevReceipt.id
-              : 0,
+              : 0
           )
           .concat(
             receipts
-              .filter((value) => value.completed)
+              .filter((value) => value !== undefined && value.completed)
               .sort((prevReceipt, receipt) =>
                 prevReceipt.id !== undefined && receipt.id !== undefined
                   ? receipt.id - prevReceipt.id
-                  : 0,
-              ),
+                  : 0
+              )
           )
           .map((receipt, index) => {
             return (
@@ -89,11 +89,11 @@ function ShoppingListPage({
                   onCheck={onCheck}
                   checked={receipt.id !== undefined && checked[receipt.id]}
                   onEditClick={(id) => {
-                    history.push("/ShoppingList/Edit/" + id)
+                    history.push("/ShoppingList/Edit/" + id);
                   }}
                 />
               </ListItem>
-            )
+            );
           })}
         <ListItem
           key={"ShoppingListPageMarginBottom"}
@@ -106,7 +106,7 @@ function ShoppingListPage({
         </Fab>
         {/* show Start shopping if any checkbox is check */}
         {checked.reduce((prevVal: any, val: any) => {
-          return (prevVal ? 1 : 0) + (val ? 1 : 0)
+          return (prevVal ? 1 : 0) + (val ? 1 : 0);
         }, 0) > 0 && (
           <Fab
             color="secondary"
@@ -126,7 +126,7 @@ function ShoppingListPage({
         onCloseClick={() => setShoppingListOpen(false)}
       />
     </div>
-  )
+  );
 }
 
-export default ShoppingListPage
+export default ShoppingListPage;

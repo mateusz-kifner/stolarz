@@ -21,17 +21,21 @@ export type Action =
 
 export function ContactsReducer(prevState:ContactsProps[],action:Action){
     switch(action.type){
-        case "set":
+        case "set":{
             let new_data:ContactsProps[] = []
-            action.data.map((data=>{
+            action.data.filter(data=>data!==undefined).map((data=>{
                 if (data.id !== undefined){
                     new_data[data.id] = data;
                 }
             }))
             return new_data;
-        case "add":
+        }
+        case "add":{
             if (action.data.id === undefined) action.data.id = prevState.length
-            return [...prevState, action.data]
+            let new_data = [...prevState]
+            new_data[action.data.id] = action.data
+            return new_data;
+        }
         case "remove":
             return prevState.filter((data)=>{
                 if (data.id === action.id) return false

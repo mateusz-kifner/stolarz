@@ -60,29 +60,90 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
   });
 
   const setReceipts = (receipts: ReceiptProps[]) => {
+    //todo set receipts
     dispatchReceipts({ type: "setReceipts", data: receipts });
   };
 
   const addReceipt = (receipt: ReceiptProps) => {
-    dispatchReceipts({ type: "addReceipt", data: receipt });
+    axios
+      .post("/receipts", receipt)
+      .then((res) => dispatchReceipts({ type: "addReceipt", data: res.data }))
+      .catch((e) => console.log("receipts add network error", e.message));
   };
   const removeReceipt = (id: number) => {
-    dispatchReceipts({ type: "removeReceipt", list_id: id });
+    axios
+      .delete(`/receipts/${id}`)
+      .then((_) => dispatchReceipts({ type: "removeReceipt", list_id: id }))
+      .catch((e) => console.log("receipts remove network error"));
   };
   const changeReceipt = (receipt: ReceiptProps) => {
-    dispatchReceipts({ type: "changeReceipt", list_data: receipt });
+    axios
+      .put(`/receipts/${receipt.id}`, receipt)
+      .then((res) => {
+        dispatchReceipts({ type: "changeReceipt", list_data: res.data });
+      })
+      .catch((e) => console.log("receipts change network error"));
   };
 
   const addItem = (list_id: number, item_data: ReceiptItemProps) => {
-    dispatchReceipts({ type: "addItem", list_id, item_data });
+    console.log("UNSUPORTED addItem");
+
+    //UNSUPORTED
+    // var receipts_to_update = receipts.map((receipt) => {
+    //   if (receipt.id === list_id) {
+    //     console.log(receipt);
+    //     let new_receipt = { ...receipt };
+    //     new_receipt.items = [...receipt.items];
+    //     if (item_data.id === undefined) item_data.id = receipt.items.length;
+    //     if (item_data.is_bought === undefined) item_data.is_bought = false;
+    //     new_receipt.items.push(item_data);
+    //     let sum_of_bougth_items = new_receipt.items
+    //       .map((val) => (val.is_bought ? 1 : 0))
+    //       .reduce((prevVal: number, val: number) => prevVal + val, 0);
+    //     if (sum_of_bougth_items === new_receipt.items.length)
+    //       new_receipt.completed = true;
+    //     else new_receipt.completed = false;
+    //     return new_receipt;
+    //   }
+    //   return receipt;
+    // });
+    // console.log(receipts_to_update);
+    // // axios
+    // //   .put(`/receipts/${receipt.id}`, receipt)
+    // //   .then((res) => {
+    // //     dispatchReceipts({ type: "changeReceipt", list_data: res.data });
+    // //   })
+    // //   .catch((e) => console.log("receipts change network error"));
+    // dispatchReceipts({ type: "addItem", list_id, item_data });
   };
 
   const changeItem = (list_id: number, item_data: ReceiptItemProps) => {
-    dispatchReceipts({ type: "changeItem", list_id, item_data });
+    let new_receipt: ReceiptProps;
+    let receipt = receipts[list_id];
+
+    new_receipt = { ...receipt };
+    new_receipt.items = [...receipt.items];
+    let id: number = (item_data as { id: number } & ReceiptItemProps).id;
+    new_receipt.items[id] = item_data;
+    let sum_of_bougth_items = new_receipt.items
+      .map((val) => (val.is_bought ? 1 : 0))
+      .reduce((prevVal: number, val: number) => prevVal + val, 0);
+    if (sum_of_bougth_items === new_receipt.items.length)
+      new_receipt.completed = true;
+    else new_receipt.completed = false;
+
+    axios
+      .put(`/receipts/${new_receipt.id}`, new_receipt)
+      .then((res) => {
+        dispatchReceipts({ type: "addReceipt", data: res.data });
+      })
+      .catch((e) => console.log("receipts change network error"));
   };
 
   const removeItem = (list_id: number, item_id: number) => {
-    dispatchReceipts({ type: "removeItem", list_id, item_id });
+    console.log("UNSUPORTED removeItem");
+    //UNSUPORTED
+    // dispatchReceipts({ type: "removeItem", list_id, item_id });
   };
 
   return (

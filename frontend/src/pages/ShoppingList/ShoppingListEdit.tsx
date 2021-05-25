@@ -12,20 +12,20 @@ import {
   FormControl,
   InputLabel,
   OutlinedInput,
-} from "@material-ui/core"
-import React, { useContext, useEffect, useState } from "react"
-import CloseIcon from "@material-ui/icons/Close"
-import { Controller, useForm } from "react-hook-form"
-import ReceiptList from "../../components/ReceiptList"
-import { ReceiptProps } from "../../context/ReceiptReducer"
-import { ReceiptContext } from "../../context/ReceiptContext"
-import moneyNoDivider from "../../helpers/moneyNoDivider"
+} from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import CloseIcon from "@material-ui/icons/Close";
+import { Controller, useForm } from "react-hook-form";
+import ReceiptList from "../../components/ReceiptList";
+import { ReceiptProps } from "../../context/ReceiptReducer";
+import { ReceiptContext } from "../../context/ReceiptContext";
+import moneyNoDivider from "../../helpers/moneyNoDivider";
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
     theme.palette.type === "light"
       ? "rgba(0, 0, 0, 0.23)"
-      : "rgba(255, 255, 255, 0.23)"
+      : "rgba(255, 255, 255, 0.23)";
 
   return {
     grid: {
@@ -78,16 +78,17 @@ const useStyles = makeStyles((theme) => {
     divider: {
       height: "1rem",
     },
-  }
-})
+  };
+});
 
 function ShoppingListEdit({
   history,
   match,
 }: import("react-router-dom").RouteChildrenProps) {
-  const classes = useStyles()
-  const { register, handleSubmit, errors, control, setValue } = useForm()
-  const { receipts, addReceipt } = useContext(ReceiptContext)
+  const classes = useStyles();
+  const { register, handleSubmit, errors, control, setValue } = useForm();
+  const { receipts, addReceipt, changeReceipt } = useContext(ReceiptContext);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const defaultReceipt: ReceiptProps = {
     id: -1,
     name: "",
@@ -95,33 +96,43 @@ function ShoppingListEdit({
     completed: false,
     order_id: null,
     items: [],
-  }
-  const [receipt, setReceipt] = useState(defaultReceipt)
+  };
+  const [receipt, setReceipt] = useState(defaultReceipt);
 
   useEffect(() => {
     if ((match?.params as { id: string }).id !== undefined) {
-      const id: number = parseInt((match?.params as { id: string }).id)
-
-      if (receipts[id]) setReceipt(receipts[id])
+      const id: number = parseInt((match?.params as { id: string }).id);
+      setIsEdit(true);
+      if (receipts[id]) setReceipt(receipts[id]);
     }
-  })
+  }, [receipts, match]);
 
   useEffect(() => {
-    setValue("name", receipt.name)
-    setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "")
-    console.log(receipt)
-  }, [receipt])
+    setValue("name", receipt.name);
+    setValue("budget", receipt.budget !== null ? receipt.budget / 100.0 : "");
+    console.log(receipt);
+  }, [receipt]);
 
   const handleReceiptEdit = (receipt_form_form: any) => {
-    addReceipt({
-      ...receipt_form_form,
-      id: receipt.id !== -1 ? receipt.id : undefined,
-      order_id: null,
-      items: [...receipt_form_form.items],
-      budget: moneyNoDivider(receipt_form_form.budget),
-    })
-    history.goBack()
-  }
+    if (isEdit) {
+      changeReceipt({
+        ...receipt_form_form,
+        id: receipt.id !== -1 ? receipt.id : undefined,
+        order_id: null,
+        items: [...receipt_form_form.items],
+        budget: moneyNoDivider(receipt_form_form.budget),
+      });
+    } else {
+      addReceipt({
+        ...receipt_form_form,
+        id: receipt.id !== -1 ? receipt.id : undefined,
+        order_id: null,
+        items: [...receipt_form_form.items],
+        budget: moneyNoDivider(receipt_form_form.budget),
+      });
+    }
+    history.goBack();
+  };
 
   return (
     <Dialog fullScreen open>
@@ -185,7 +196,7 @@ function ShoppingListEdit({
         </Container>
       </form>
     </Dialog>
-  )
+  );
 }
 
-export default ShoppingListEdit
+export default ShoppingListEdit;
