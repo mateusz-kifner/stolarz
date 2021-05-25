@@ -1,4 +1,4 @@
-import faker from 'faker'
+
 
 export type ReceiptItemProps = {
     id?:number,
@@ -27,8 +27,6 @@ export type Action =
 | {type:"addItem", list_id:number, item_data:ReceiptItemProps}
 | {type:"removeItem", list_id:number, item_id:number}
 | {type:"changeItem", list_id:number, item_data:ReceiptItemProps}
-// Placeholders
-| {type:"populateWithPlaceholders"}
 
 
 
@@ -116,26 +114,7 @@ export function ReceiptReducer(prevState:ReceiptProps[],action:Action){
                 }
                 return value
             })
-        case "populateWithPlaceholders":
-            var receipt:ReceiptProps[] = []
-            for (let i=0;i<20;i++){
-                let new_receipt:ReceiptProps={
-                    id:i,
-                    name:"test",
-                    budget: faker.random.number()%40000,
-                    order_id:null,
-                    items:[{
-                        id:0,
-                        name: faker.commerce.product(),
-                        amount: faker.random.number() % 20+1,
-                        is_bought:false
-                    }],
-                    completed: (faker.random.number()%10 > 2) ? true : false
-                }
-               
-                receipt.push(new_receipt)
-            }
-            return receipt
+        
         default:
             return prevState;
     }

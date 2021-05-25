@@ -6,11 +6,11 @@ import {
   ListItemText,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import React, { memo } from "react"
-import { ContactsProps } from "../context/ContactsReducer"
-import EditIcon from "@material-ui/icons/Edit"
-import objectsHaveSameData from "../helpers/objectsHaveSameData"
+} from "@material-ui/core";
+import React, { memo } from "react";
+import { ContactsProps } from "../context/ContactsReducer";
+import EditIcon from "@material-ui/icons/Edit";
+import objectsHaveSameData from "../helpers/objectsHaveSameData";
 
 const useStyles = makeStyles((theme) => ({
   avatarCircle: {
@@ -23,37 +23,37 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "100%",
     color: theme.palette.background.default,
   },
-}))
+}));
 
 type ContactListItemProps = {
-  contact: ContactsProps
-  onItemClick?: (contact: ContactsProps) => void
-  onEditClick?: (id: number) => void
-}
+  contact: ContactsProps;
+  onItemClick?: (contact: ContactsProps) => void;
+  onEditClick?: (id: number) => void;
+};
 function ContactListItem({
   onItemClick,
   contact,
   onEditClick,
 }: ContactListItemProps) {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <ListItem
       button
       onClick={() => {
-        onItemClick && onItemClick(contact)
+        onItemClick && onItemClick(contact);
       }}
     >
       <ListItemAvatar>
         <div className={classes.avatarCircle}>
           <Typography variant="h6">
-            {contact.name[0]}
-            {contact.surname && contact.surname[0]}
+            {contact.firstname[0]}
+            {contact.lastname && contact.lastname[0]}
           </Typography>
         </div>
       </ListItemAvatar>
       <ListItemText
-        primary={`${contact.name} ${contact.surname && contact.surname}`}
+        primary={`${contact.firstname} ${contact.lastname && contact.lastname}`}
         secondary={contact.tel && `tel. ${contact.tel}`}
       />
       {onEditClick && (
@@ -66,12 +66,12 @@ function ContactListItem({
         </ListItemSecondaryAction>
       )}
     </ListItem>
-  )
+  );
 }
 
 export default memo(
   ContactListItem,
   (prevProps: ContactListItemProps, nextProps: ContactListItemProps) => {
-    return objectsHaveSameData(prevProps.contact, nextProps.contact)
-  },
-)
+    return objectsHaveSameData(prevProps.contact, nextProps.contact);
+  }
+);

@@ -6,14 +6,14 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-} from "@material-ui/core"
-import React, { useContext, useState } from "react"
-import CloseIcon from "@material-ui/icons/Close"
-import AddIcon from "@material-ui/icons/Add"
-import ContactsList from "../../components/ContactsList"
-import { ContactsProps } from "../../context/ContactsReducer"
-import ContactsAddDialog from "./ContactsAddDialog"
-import { ContactsContext } from "../../context/ContactsContext"
+} from "@material-ui/core";
+import React, { useContext, useState } from "react";
+import CloseIcon from "@material-ui/icons/Close";
+import AddIcon from "@material-ui/icons/Add";
+import ContactsList from "../../components/ContactsList";
+import { ContactsProps } from "../../context/ContactsReducer";
+import ContactsAddDialog from "./ContactsAddDialog";
+import { ContactsContext } from "../../context/ContactsContext";
 
 const useStyles = makeStyles((theme) => ({
   flotingAdd: {
@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
     bottom: "5vmin",
     right: "5vmin",
   },
-}))
+}));
 
 type ContactsDialogProps = {
-  onCloseClick: () => void
-  onItemClick?: (contact: ContactsProps) => void
-  allowEditing?: boolean
-  open?: boolean
-}
+  onCloseClick: () => void;
+  onItemClick?: (contact: ContactsProps) => void;
+  allowEditing?: boolean;
+  open?: boolean;
+};
 
 function ContactsDialog({
   onCloseClick,
@@ -36,22 +36,22 @@ function ContactsDialog({
   open,
   allowEditing,
 }: ContactsDialogProps) {
-  const classes = useStyles()
-  const [showAddDialog, setShowAddDialog] = useState<boolean>(false)
-  const { contacts, addContact, changeContact } = useContext(ContactsContext)
-  const [contact, setContact] = useState<ContactsProps>()
+  const classes = useStyles();
+  const [showAddDialog, setShowAddDialog] = useState<boolean>(false);
+  const { contacts, addContact, changeContact } = useContext(ContactsContext);
+  const [contact, setContact] = useState<ContactsProps>();
 
   const onAddClick = (contact_from_add: ContactsProps) => {
     if (contact !== undefined && contact.id !== undefined && contact.id >= 0)
-      changeContact({ ...contact_from_add, id: contact.id })
-    else addContact(contact_from_add)
-    setShowAddDialog(false)
-  }
+      changeContact({ ...contact_from_add, id: contact.id });
+    else addContact(contact_from_add);
+    setShowAddDialog(false);
+  };
   const onEditClick = (id: number) => {
-    console.log(id)
-    setShowAddDialog(true)
-    setContact(contacts[id])
-  }
+    console.log(id);
+    setShowAddDialog(true);
+    setContact(contacts[id]);
+  };
   return (
     <>
       <Dialog fullScreen open={open ? true : false}>
@@ -77,14 +77,14 @@ function ContactsDialog({
           aria-label="add"
           className={classes.flotingAdd}
           onClick={() => {
-            setShowAddDialog(true)
+            setShowAddDialog(true);
             setContact({
-              name: "",
-              surname: "",
+              firstname: "",
+              lastname: "",
               tel: "",
               email: "",
               is_good: true,
-            })
+            });
           }}
         >
           <AddIcon />
@@ -97,7 +97,7 @@ function ContactsDialog({
         contact={contact}
       />
     </>
-  )
+  );
 }
 
-export default ContactsDialog
+export default ContactsDialog;

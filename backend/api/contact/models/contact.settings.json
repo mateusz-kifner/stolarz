@@ -23,7 +23,7 @@
     "email": {
       "type": "email"
     },
-    "phone_number": {
+    "tel": {
       "type": "string"
     },
     "users_permissions_user": {

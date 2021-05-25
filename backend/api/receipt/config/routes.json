@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/shopping-lists",
-      "handler": "shopping-list.find",
+      "path": "/receipts",
+      "handler": "receipt.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/shopping-lists/count",
-      "handler": "shopping-list.count",
+      "path": "/receipts/count",
+      "handler": "receipt.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/shopping-lists/:id",
-      "handler": "shopping-list.findOne",
+      "path": "/receipts/:id",
+      "handler": "receipt.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/shopping-lists",
-      "handler": "shopping-list.create",
+      "path": "/receipts",
+      "handler": "receipt.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/shopping-lists/:id",
-      "handler": "shopping-list.update",
+      "path": "/receipts/:id",
+      "handler": "receipt.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/shopping-lists/:id",
-      "handler": "shopping-list.delete",
+      "path": "/receipts/:id",
+      "handler": "receipt.delete",
       "config": {
         "policies": []
       }

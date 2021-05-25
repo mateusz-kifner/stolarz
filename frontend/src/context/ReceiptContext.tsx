@@ -1,24 +1,24 @@
-import React, { useReducer, Reducer, useEffect } from "react"
-import useLocalStorage from "../hooks/useLocalStorage"
+import axios from "axios";
+import React, { useReducer, Reducer, useEffect } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 import {
   Action,
   ReceiptItemProps,
   ReceiptProps,
   ReceiptReducer,
-} from "./ReceiptReducer"
+} from "./ReceiptReducer";
 
 type ReceiptContextProps = {
-  receipts: ReceiptProps[]
-  setReceipts: (receipts: ReceiptProps[]) => void
-  addReceipt: (receipt: ReceiptProps) => void
-  removeReceipt: (id: number) => void
-  changeReceipt: (receipt: ReceiptProps) => void
-  populateReceiptsWithPlaceholders: () => void
-  addItem: (list_id: number, item_data: ReceiptItemProps) => void
-  changeItem: (list_id: number, item_data: ReceiptItemProps) => void
+  receipts: ReceiptProps[];
+  setReceipts: (receipts: ReceiptProps[]) => void;
+  addReceipt: (receipt: ReceiptProps) => void;
+  removeReceipt: (id: number) => void;
+  changeReceipt: (receipt: ReceiptProps) => void;
+  addItem: (list_id: number, item_data: ReceiptItemProps) => void;
+  changeItem: (list_id: number, item_data: ReceiptItemProps) => void;
 
-  removeItem: (list_id: number, item_id: number) => void
-}
+  removeItem: (list_id: number, item_id: number) => void;
+};
 
 const initialContext = {
   receipts: [],
@@ -26,64 +26,65 @@ const initialContext = {
   addReceipt: (receipt: ReceiptProps) => {},
   removeReceipt: (id: number) => {},
   changeReceipt: (receipt: ReceiptProps) => {},
-  populateReceiptsWithPlaceholders: () => {},
   addItem: (list_id: number, item_data: ReceiptItemProps) => {},
   changeItem: (list_id: number, item_data: ReceiptItemProps) => {},
   removeItem: (list_id: number, item_id: number) => {},
-}
+};
 
-export const ReceiptContext = React.createContext<ReceiptContextProps>(
-  initialContext,
-)
+export const ReceiptContext =
+  React.createContext<ReceiptContextProps>(initialContext);
 
 type ReceiptContextProviderProps = {
-  children: import("react").ReactNode
-}
+  children: import("react").ReactNode;
+};
 
 export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
   const [receipts, dispatchReceipts] = useReducer<
     Reducer<ReceiptProps[], Action>
-  >(ReceiptReducer, [])
-  const [storage, setStorage] = useLocalStorage<any>("receipt", [])
+  >(ReceiptReducer, []);
+  const [storage, setStorage] = useLocalStorage<any>("receipt", []);
 
   useEffect(() => {
-    setReceipts(storage)
+    axios
+      .get("/receipts")
+      .then((res) => {
+        dispatchReceipts({ type: "setReceipts", data: res.data });
+      })
+      .catch((err) => {});
+    //setReceipts(storage);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setStorage(receipts)
-  })
+    //setStorage(receipts);
+  });
 
   const setReceipts = (receipts: ReceiptProps[]) => {
-    dispatchReceipts({ type: "setReceipts", data: receipts })
-  }
+    dispatchReceipts({ type: "setReceipts", data: receipts });
+  };
 
   const addReceipt = (receipt: ReceiptProps) => {
-    dispatchReceipts({ type: "addReceipt", data: receipt })
-  }
+    dispatchReceipts({ type: "addReceipt", data: receipt });
+  };
   const removeReceipt = (id: number) => {
-    dispatchReceipts({ type: "removeReceipt", list_id: id })
-  }
+    dispatchReceipts({ type: "removeReceipt", list_id: id });
+  };
   const changeReceipt = (receipt: ReceiptProps) => {
-    dispatchReceipts({ type: "changeReceipt", list_data: receipt })
-  }
+    dispatchReceipts({ type: "changeReceipt", list_data: receipt });
+  };
 
   const addItem = (list_id: number, item_data: ReceiptItemProps) => {
-    dispatchReceipts({ type: "addItem", list_id, item_data })
-  }
+    dispatchReceipts({ type: "addItem", list_id, item_data });
+  };
 
   const changeItem = (list_id: number, item_data: ReceiptItemProps) => {
-    dispatchReceipts({ type: "changeItem", list_id, item_data })
-  }
+    dispatchReceipts({ type: "changeItem", list_id, item_data });
+  };
 
   const removeItem = (list_id: number, item_id: number) => {
-    dispatchReceipts({ type: "removeItem", list_id, item_id })
-  }
+    dispatchReceipts({ type: "removeItem", list_id, item_id });
+  };
 
-  const populateReceiptsWithPlaceholders = () => {
-    dispatchReceipts({ type: "populateWithPlaceholders" })
-  }
   return (
     <ReceiptContext.Provider
       value={{
@@ -92,7 +93,6 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
         addReceipt,
         removeReceipt,
         changeReceipt,
-        populateReceiptsWithPlaceholders,
         addItem,
         changeItem,
         removeItem,
@@ -100,5 +100,5 @@ export function ReceiptContextProvider(props: ReceiptContextProviderProps) {
     >
       {props.children}
     </ReceiptContext.Provider>
-  )
+  );
 }

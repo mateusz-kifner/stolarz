@@ -6,12 +6,13 @@ import {
   makeStyles,
   Toolbar,
   Typography,
-} from "@material-ui/core"
-import React, { useContext } from "react"
-import { ContactsContext } from "../../context/ContactsContext"
-import { OrdersContext } from "../../context/OrdersContext"
-import { ReceiptContext } from "../../context/ReceiptContext"
-import CloseIcon from "@material-ui/icons/Close"
+} from "@material-ui/core";
+import React, { useContext } from "react";
+import { ContactsContext } from "../../context/ContactsContext";
+import { OrdersContext } from "../../context/OrdersContext";
+import { ReceiptContext } from "../../context/ReceiptContext";
+import CloseIcon from "@material-ui/icons/Close";
+import { UserSettingsContext } from "../../context/UserSettingsContext";
 
 const useStyles = makeStyles({
   Container: {
@@ -20,25 +21,25 @@ const useStyles = makeStyles({
     gap: "0.5rem",
     margin: "3rem",
   },
-})
+});
 
 function SettingsPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { setOrders } = useContext(OrdersContext)
-  const classes = useStyles()
-  const { setContacts } = useContext(ContactsContext)
-  const { setReceipts } = useContext(ReceiptContext)
+  const { setOrders } = useContext(OrdersContext);
+  const classes = useStyles();
+  const { setContacts } = useContext(ContactsContext);
+  const { setReceipts } = useContext(ReceiptContext);
+  const usersettingscontext = useContext(UserSettingsContext);
 
   // Fake Data
   const setFakeData = () => {
-    resetAll()
+    resetAll();
     setOrders([
       {
         id: 0,
         name: "Krzesło z bzu x2",
-        desc:
-          "proste krzesło z bzu, zaokrąglone oparcie, siedzisko z plecionki",
+        desc: "proste krzesło z bzu, zaokrąglone oparcie, siedzisko z plecionki",
         notes: "Kolor czarny",
         price_value: 40000,
         is_price_paid: false,
@@ -86,51 +87,58 @@ function SettingsPage({
         is_abandoned: false,
         is_completed: false,
       },
-    ])
+    ]);
 
     setContacts([
       {
         id: 0,
-        name: "Jan",
-        surname: "Kowalski",
+        firstname: "Jan",
+        lastname: "Kowalski",
         tel: "730 495 950",
         email: "test@gmail.com",
         is_good: true,
       },
       {
         id: 1,
-        name: "Adam",
-        surname: "Nowak",
+        firstname: "Adam",
+        lastname: "Nowak",
         tel: "730 123 950",
         email: "test1@gmail.com",
         is_good: true,
       },
       {
         id: 2,
-        name: "Kuba",
-        surname: "Kowalski",
+        firstname: "Kuba",
+        lastname: "Kowalski",
         tel: "730 434 950",
         email: "test2@gmail.com",
         is_good: false,
       },
       {
-        name: "Mateusz ",
-        surname: "Kowalski",
+        firstname: "Mateusz ",
+        lastname: "Kowalski",
         tel: "234 567 89",
         email: "test@gmail.com",
         is_good: true,
         id: 3,
       },
       {
-        name: "Łukasz",
-        surname: "Kowalski",
+        firstname: "Łukasz",
+        lastname: "Kowalski",
         tel: "456 784 798",
         email: "test@gmail.com",
         is_good: true,
         id: 4,
       },
-      { name: "Adrian", surname: "", tel: "", email: "", is_good: true, id: 5 },
-    ])
+      {
+        firstname: "Adrian",
+        lastname: "",
+        tel: "",
+        email: "",
+        is_good: true,
+        id: 5,
+      },
+    ]);
 
     setReceipts([
       {
@@ -168,11 +176,11 @@ function SettingsPage({
         budget: 70000,
         money_spent: 10000,
       },
-    ])
+    ]);
     //   addContact({
     //     id: 0,
     //     name: "Jan",
-    //     surname: "Kowalski",
+    //     lastname: "Kowalski",
     //     tel: "730 495 950",
     //     email: "test@gmail.com",
     //     is_good: true,
@@ -180,7 +188,7 @@ function SettingsPage({
     //   addContact({
     //     id: 1,
     //     name: "Adam",
-    //     surname: "Nowak",
+    //     lastname: "Nowak",
     //     tel: "730 123 950",
     //     email: "test1@gmail.com",
     //     is_good: true,
@@ -188,7 +196,7 @@ function SettingsPage({
     //   addContact({
     //     id: 2,
     //     name: "Kuba",
-    //     surname: "Kowalski",
+    //     lastname: "Kowalski",
     //     tel: "730 434 950",
     //     email: "test2@gmail.com",
     //     is_good: false,
@@ -278,13 +286,13 @@ function SettingsPage({
     //     is_completed: false,
     //     shopping_list_id: 2,
     //   })
-  }
+  };
 
   const resetAll = () => {
-    setOrders([])
-    setReceipts([])
-    setContacts([])
-  }
+    setOrders([]);
+    setReceipts([]);
+    setContacts([]);
+  };
   return (
     <Dialog open fullScreen>
       <AppBar position="static">
@@ -294,7 +302,7 @@ function SettingsPage({
             color="inherit"
             aria-label="close"
             onClick={() => {
-              history.goBack()
+              history.goBack();
             }}
           >
             <CloseIcon />
@@ -309,9 +317,18 @@ function SettingsPage({
         <Button onClick={setFakeData} variant="contained">
           Set fake data
         </Button>
+        <Button onClick={usersettingscontext.singout} variant="contained">
+          Sing OUT
+        </Button>
       </div>
+
+      {JSON.stringify(usersettingscontext.userdata)
+        .split(",")
+        .map((data, index) => (
+          <Typography key={`usersettings_userData${index}`}>{data}</Typography>
+        ))}
     </Dialog>
-  )
+  );
 }
 
-export default SettingsPage
+export default SettingsPage;

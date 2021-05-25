@@ -1,12 +1,12 @@
-import React, { useContext } from "react"
-import { ContactsContext } from "../context/ContactsContext"
-import { OrdersContext } from "../context/OrdersContext"
-import { ReceiptContext } from "../context/ReceiptContext"
+import React, { useContext } from "react";
+import { ContactsContext } from "../context/ContactsContext";
+import { OrdersContext } from "../context/OrdersContext";
+import { ReceiptContext } from "../context/ReceiptContext";
 
 function DataView() {
-  const { receipts } = useContext(ReceiptContext)
-  const { orders } = useContext(OrdersContext)
-  const { contacts } = useContext(ContactsContext)
+  const { receipts } = useContext(ReceiptContext);
+  const { orders } = useContext(OrdersContext);
+  const { contacts } = useContext(ContactsContext);
 
   return (
     <>
@@ -24,7 +24,7 @@ function DataView() {
               </td>
               <td>{value.completed ? "true" : "false"}</td>
             </tr>
-          )
+          );
         })}
       </table>
       <h1>contact</h1>
@@ -33,13 +33,13 @@ function DataView() {
           return (
             <tr>
               <td>{value.id}</td>
-              <td>{value.name}</td>
-              <td>{value.surname}</td>
+              <td>{value.firstname}</td>
+              <td>{value.lastname}</td>
               <td>{value.email}</td>
               <td>{value.tel}</td>
               <td>{value.is_good ? "true" : "false"}</td>
             </tr>
-          )
+          );
         })}
       </table>
       <h1>Order</h1>
@@ -73,11 +73,11 @@ function DataView() {
               <td>{value.is_completed ? "true" : "false"}</td>
               <td>{value.is_abandoned ? "true" : "false"}</td>
             </tr>
-          )
+          );
         })}
       </table>
     </>
-  )
+  );
 }
 
-export default DataView
+export default DataView;

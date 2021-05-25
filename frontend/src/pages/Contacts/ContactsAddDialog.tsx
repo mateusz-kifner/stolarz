@@ -8,11 +8,11 @@ import {
   Typography,
   makeStyles,
   Container,
-} from "@material-ui/core"
-import React, { useEffect } from "react"
-import CloseIcon from "@material-ui/icons/Close"
-import { useForm } from "react-hook-form"
-import { ContactsProps } from "../../context/ContactsReducer"
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import CloseIcon from "@material-ui/icons/Close";
+import { useForm } from "react-hook-form";
+import { ContactsProps } from "../../context/ContactsReducer";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     gap: "1rem",
   },
-}))
+}));
 
 type ContactsAddDialogProps = {
-  onCloseClick: () => void
-  onAddClick: (contact: ContactsProps) => void
-  open: boolean
-  contact?: ContactsProps
-}
+  onCloseClick: () => void;
+  onAddClick: (contact: ContactsProps) => void;
+  open: boolean;
+  contact?: ContactsProps;
+};
 
 function ContactsAddDialog({
   onCloseClick,
@@ -39,22 +39,25 @@ function ContactsAddDialog({
   open,
   contact,
 }: ContactsAddDialogProps) {
-  const classes = useStyles()
-  const { register, handleSubmit, errors, setValue } = useForm()
+  const classes = useStyles();
+  const { register, handleSubmit, errors, setValue } = useForm();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   useEffect(() => {
     let timeout = setTimeout(() => {
+      console.log(contact);
       if (contact !== undefined) {
-        setValue("name", contact.name, { shouldDirty: true })
-        setValue("surname", contact.surname, { shouldDirty: true })
-        setValue("tel", contact.tel, { shouldDirty: true })
-        setValue("email", contact.email, { shouldDirty: true })
+        setValue("firstname", contact.firstname, { shouldDirty: true });
+        setValue("lastname", contact.lastname, { shouldDirty: true });
+        setValue("tel", contact.tel, { shouldDirty: true });
+        setValue("email", contact.email, { shouldDirty: true });
+        setIsEdit(true);
       }
-    }, 4)
+    }, 4);
     return () => {
-      clearTimeout(timeout)
-    }
-  })
+      clearTimeout(timeout);
+    };
+  });
 
   return (
     <Dialog fullScreen open={open ? true : false}>
@@ -68,37 +71,41 @@ function ContactsAddDialog({
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6">Add contact</Typography>
+          {isEdit ? (
+            <Typography variant="h6">Update contact</Typography>
+          ) : (
+            <Typography variant="h6">Add contact</Typography>
+          )}
         </Toolbar>
       </AppBar>
       <form
         onSubmit={handleSubmit(
           (values: {
-            name: string
-            surname: string
-            tel: string
-            email: string
+            firstname: string;
+            lastname: string;
+            tel: string;
+            email: string;
           }) => {
-            onAddClick({ ...values, is_good: true })
+            onAddClick({ ...values, is_good: true });
           }
         )}
         className={classes.form}
       >
         <Container maxWidth="sm" className={classes.fieldsContainer}>
           <TextField
-            name="name"
+            name="firstname"
             inputRef={register({ required: true })}
-            label="Name"
-            error={"name" in errors}
+            label="Firstname"
+            error={"firstname" in errors}
             variant="outlined"
             fullWidth
             required
           />
           <TextField
-            name="surname"
+            name="lastname"
             inputRef={register}
-            label="Surname"
-            error={"surname" in errors}
+            label="Lastname"
+            error={"lastname" in errors}
             variant="outlined"
             fullWidth
           />
@@ -122,14 +129,19 @@ function ContactsAddDialog({
             variant="outlined"
             fullWidth
           />
-
-          <Button type="submit" color="primary" variant="contained" fullWidth>
-            Add
-          </Button>
+          {isEdit ? (
+            <Button type="submit" color="primary" variant="contained" fullWidth>
+              Update
+            </Button>
+          ) : (
+            <Button type="submit" color="primary" variant="contained" fullWidth>
+              Add
+            </Button>
+          )}
         </Container>
       </form>
     </Dialog>
-  )
+  );
 }
 
-export default ContactsAddDialog
+export default ContactsAddDialog;

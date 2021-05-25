@@ -21,14 +21,17 @@
     },
     "budget": {
       "type": "decimal",
-      "min": 0
+      "default": 0
     },
     "money_spent": {
-      "type": "decimal",
-      "min": 0
+      "type": "decimal"
+    },
+    "order_id": {
+      "type": "integer"
     },
     "completed": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "users_permissions_user": {
       "plugin": "users-permissions",
