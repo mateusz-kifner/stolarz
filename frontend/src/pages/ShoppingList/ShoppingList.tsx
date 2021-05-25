@@ -104,6 +104,7 @@ function ShoppingList({
       <Container maxWidth="md" className={classes.container}>
         {ids
           .map((id) => receipts[id])
+          .filter((data) => data !== undefined)
           .map((receipt) => {
             return (
               <ListItem key={uuidv4()}>
@@ -138,6 +139,7 @@ function ShoppingList({
 
           {ids
             .map((id) => receipts[id])
+            .filter((data) => data !== undefined)
             .map((value) => {
               console.log(value);
               return (

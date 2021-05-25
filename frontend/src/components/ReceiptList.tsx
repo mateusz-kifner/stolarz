@@ -4,18 +4,18 @@ import {
   makeStyles,
   TextField,
   Typography,
-} from "@material-ui/core"
-import React, { Reducer, useEffect, useReducer, useState } from "react"
-import { ReceiptItemProps, ReceiptProps } from "../context/ReceiptReducer"
-import AddIcon from "@material-ui/icons/Add"
-import ReceiptListItem from "./ReceiptListItem"
-import { v4 as uuidv4 } from "uuid"
+} from "@material-ui/core";
+import React, { Reducer, useEffect, useReducer, useState } from "react";
+import { ReceiptItemProps, ReceiptProps } from "../context/ReceiptReducer";
+import AddIcon from "@material-ui/icons/Add";
+import ReceiptListItem from "./ReceiptListItem";
+import { v4 as uuidv4 } from "uuid";
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
     theme.palette.type === "light"
       ? "rgba(0, 0, 0, 0.23)"
-      : "rgba(255, 255, 255, 0.23)"
+      : "rgba(255, 255, 255, 0.23)";
 
   return {
     outline: {
@@ -40,104 +40,110 @@ const useStyles = makeStyles((theme) => {
       alignItems: "center",
       gap: "0.5rem",
     },
-  }
-})
+  };
+});
 
 type Action =
   | { type: "add"; item: ReceiptItemProps }
   | { type: "remove"; id: number }
   | { type: "change"; item: ReceiptItemProps }
-  | { type: "reset" }
+  | { type: "reset" };
 
 function reducer(prevState: ReceiptItemProps[], action: Action) {
   switch (action.type) {
     case "reset":
-      return []
+      return [];
     case "add":
-      if (action.item.name.length < 1) return prevState
-      if (!action.item.id) action.item.id = prevState.length
-      if (prevState.length < action.item.id) return prevState
+      if (action.item.name.length < 1) return prevState;
+      if (!action.item.id) action.item.id = prevState.length;
+      if (prevState.length < action.item.id) return prevState;
       for (let item of prevState) {
         if (item.name === action.item.name) {
-          let changedItem = { ...item, amount: item.amount + 1, id: item.id }
+          let changedItem = { ...item, amount: item.amount + 1, id: item.id };
           return prevState.map((item) => {
-            if (item.id === changedItem.id) return changedItem
-            return item
-          })
+            if (item.id === changedItem.id) return changedItem;
+            return item;
+          });
         }
       }
-      return [...prevState, action.item]
+      return [...prevState, action.item];
 
     case "remove":
       return prevState.filter((item) => {
-        if (item.id === action.id) return false
-        return true
-      })
+        if (item.id === action.id) return false;
+        return true;
+      });
     case "change":
       if (action.item.amount < 1)
         return prevState.filter((item) => {
-          if (item.id === action.item.id) return false
-          return true
-        })
+          if (item.id === action.item.id) return false;
+          return true;
+        });
       return prevState.map((item) => {
-        if (item.id === action.item.id) return action.item
-        return item
-      })
+        if (item.id === action.item.id) return action.item;
+        return item;
+      });
     default:
-      return prevState
+      return prevState;
   }
 }
 
 type ReceiptListProps = {
-  receipt: ReceiptProps
-  onChange: (event: any) => void
-}
+  receipt: ReceiptProps;
+  onChange: (event: any) => void;
+};
 
 function ReceiptList({ receipt, onChange }: ReceiptListProps) {
-  const [uuid] = useState(uuidv4())
+  const [uuid] = useState(uuidv4());
   const [items, dispatchItems] = useReducer<
     Reducer<ReceiptItemProps[], Action>
-  >(reducer, receipt.items)
-  const classes = useStyles()
-  const [addfield, setAddfield] = useState<string>("")
+  >(reducer, []);
+  const classes = useStyles();
+  const [addfield, setAddfield] = useState<string>("");
 
   useEffect(() => {
-    onChange(items)
-  })
-
-  useEffect(() => {
-    dispatchItems({ type: "reset" })
     receipt.items.forEach((item) => {
-      dispatchItems({ type: "add", item })
-    })
-  }, [receipt])
+      dispatchItems({ type: "add", item });
+    });
+  }, []);
+
+  useEffect(() => {
+    onChange(items);
+  });
+
+  useEffect(() => {
+    dispatchItems({ type: "reset" });
+    receipt.items.forEach((item) => {
+      dispatchItems({ type: "add", item });
+    });
+  }, [receipt]);
 
   const incrementAmount = (item: ReceiptItemProps) => {
     dispatchItems({
       type: "change",
       item: { ...item, amount: item.amount + 1 },
-    })
-  }
+    });
+  };
 
   const decrementAmount = (item: ReceiptItemProps) => {
     if (item.amount > 0) {
       dispatchItems({
         type: "change",
         item: { ...item, amount: item.amount - 1 },
-      })
+      });
     }
-  }
+  };
 
   const toggleIsBought = (item: ReceiptItemProps) => {
     dispatchItems({
       type: "change",
       item: { ...item, is_bought: !item.is_bought },
-    })
-  }
+    });
+  };
 
   const addItem = (item: ReceiptItemProps) => {
-    dispatchItems({ type: "add", item })
-  }
+    dispatchItems({ type: "add", item });
+  };
 
   return (
     <div className={classes.outline}>
@@ -147,19 +153,19 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
           name="additem"
           value={addfield}
           onChange={(e) => {
-            setAddfield(e.target.value)
+            setAddfield(e.target.value);
           }}
           onKeyPress={(e) => {
             if (e.key === "Enter") {
-              e.preventDefault()
-              addItem({ name: addfield, amount: 1, is_bought: false })
+              e.preventDefault();
+              addItem({ name: addfield, amount: 1, is_bought: false });
             }
           }}
         />
         <IconButton
           aria-label="Add"
           onClick={() => {
-            addItem({ name: addfield, amount: 1, is_bought: false })
+            addItem({ name: addfield, amount: 1, is_bought: false });
           }}
         >
           <AddIcon />
@@ -175,7 +181,7 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
               decrementAmount={decrementAmount}
               key={uuid + index}
             />
-          )
+          );
         })}
         {items.length < 1 && (
           <Typography variant="subtitle2" align="center">
@@ -184,7 +190,7 @@ function ReceiptList({ receipt, onChange }: ReceiptListProps) {
         )}
       </List>
     </div>
-  )
+  );
 }
 
-export default ReceiptList
+export default ReceiptList;

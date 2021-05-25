@@ -33,7 +33,13 @@ export type Action =
 export function OrdersReducer(prevState:OrderProps[],action:Action){
     switch(action.type){
         case "set":
-            return [...action.data]
+            let new_data: OrderProps[] = []
+            action.data.filter(data=>data!==undefined).map((data=>{
+                if (data.id !== undefined){
+                    new_data[data.id] = data;
+                }
+            }))
+            return new_data;
         case "add":
             return [...prevState, action.data]
         case "remove":

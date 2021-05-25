@@ -58,6 +58,13 @@
     "users_permissions_user": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "client_id": {
+      "type": "integer",
+      "required": true
+    },
+    "shopping_list_id": {
+      "type": "integer"
     }
   }
 }

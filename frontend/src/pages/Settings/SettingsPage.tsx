@@ -26,10 +26,10 @@ const useStyles = makeStyles({
 function SettingsPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { setOrders } = useContext(OrdersContext);
+  const { orders, setOrders } = useContext(OrdersContext);
   const classes = useStyles();
-  const { setContacts } = useContext(ContactsContext);
-  const { setReceipts } = useContext(ReceiptContext);
+  const { contacts, setContacts } = useContext(ContactsContext);
+  const { receipts, setReceipts } = useContext(ReceiptContext);
   const usersettingscontext = useContext(UserSettingsContext);
 
   // Fake Data
@@ -311,14 +311,24 @@ function SettingsPage({
         </Toolbar>
       </AppBar>
       <div className={classes.Container}>
-        <Button onClick={resetAll} variant="contained">
+        {/* <Button onClick={resetAll} variant="contained">
           Remove all data
         </Button>
         <Button onClick={setFakeData} variant="contained">
           Set fake data
-        </Button>
+        </Button> */}
         <Button onClick={usersettingscontext.singout} variant="contained">
           Sing OUT
+        </Button>
+        <Button
+          onClick={() => {
+            console.log("receipts: ", receipts);
+            console.log("orders: ", orders);
+            console.log("contacts: ", contacts);
+          }}
+          variant="contained"
+        >
+          Print Context
         </Button>
       </div>
 

@@ -5,10 +5,10 @@ import {
   Divider,
   makeStyles,
   Typography,
-} from "@material-ui/core"
-import React, { useContext } from "react"
-import { OrdersContext } from "../../context/OrdersContext"
-import { ReceiptContext } from "../../context/ReceiptContext"
+} from "@material-ui/core";
+import React, { useContext } from "react";
+import { OrdersContext } from "../../context/OrdersContext";
+import { ReceiptContext } from "../../context/ReceiptContext";
 import {
   BarChart,
   Bar,
@@ -19,15 +19,15 @@ import {
   Tooltip,
   Legend,
   ReferenceLine,
-} from "recharts"
+} from "recharts";
 
-import DateFnsAdapter from "@date-io/date-fns"
+import DateFnsAdapter from "@date-io/date-fns";
 
 const useStyles = makeStyles((theme) => {
   const borderColor =
     theme.palette.type === "light"
       ? "rgba(0, 0, 0, 0.23)"
-      : "rgba(255, 255, 255, 0.23)"
+      : "rgba(255, 255, 255, 0.23)";
   return {
     outline: {
       position: "relative",
@@ -81,31 +81,31 @@ const useStyles = makeStyles((theme) => {
       maxHeight: "100%",
       overflowY: "scroll",
     },
-  }
-})
+  };
+});
 
 function FinancePage() {
-  const classes = useStyles()
-  const { receipts } = useContext(ReceiptContext)
-  const { orders } = useContext(OrdersContext)
+  const classes = useStyles();
+  const { receipts } = useContext(ReceiptContext);
+  const { orders } = useContext(OrdersContext);
 
   const total_gained = orders
-    .filter((order) => order.is_completed)
+    .filter((order) => order !== undefined && order.is_completed)
     .map((order) => (order.price_value !== null ? order.price_value : 0))
-    .reduce((prevNum: number, num: number) => prevNum + num, 0)
+    .reduce((prevNum: number, num: number) => prevNum + num, 0);
 
   const total_spent = orders
     .map((order) =>
-      order.shopping_list_id !== null ? order.shopping_list_id : -1,
+      order.shopping_list_id !== null ? order.shopping_list_id : -1
     )
     .filter((shopping_list_id) => shopping_list_id !== -1)
     .map((shopping_list_id) => receipts[shopping_list_id])
     .map((receipt) =>
       receipt.money_spent !== null && receipt.money_spent !== undefined
         ? receipt.money_spent
-        : 0,
+        : 0
     )
-    .reduce((prevNum: number, num: number) => prevNum + num, 0)
+    .reduce((prevNum: number, num: number) => prevNum + num, 0);
 
   const data = [
     {
@@ -113,22 +113,22 @@ function FinancePage() {
       gained: total_gained / 100.0,
       spent: -total_spent / 100.0,
     },
-  ]
+  ];
 
   const vw = Math.min(
     Math.max(
       document.documentElement.clientWidth || 0,
-      window.innerWidth || 0,
+      window.innerWidth || 0
     ) * 0.9,
-    500,
-  )
+    500
+  );
   const vh = Math.min(
     Math.max(
       document.documentElement.clientHeight || 0,
-      window.innerHeight || 0,
+      window.innerHeight || 0
     ) * 0.9,
-    300,
-  )
+    300
+  );
 
   return (
     <Container maxWidth="md">
@@ -182,7 +182,7 @@ function FinancePage() {
         <CardContent></CardContent>
       </Card>
     </Container>
-  )
+  );
 }
 
-export default FinancePage
+export default FinancePage;

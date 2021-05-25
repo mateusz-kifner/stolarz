@@ -1,8 +1,8 @@
-import { Fab, List, ListItem, makeStyles } from "@material-ui/core"
-import React, { useContext } from "react"
-import OrderCard from "../../components/OrderCard"
-import AddIcon from "@material-ui/icons/Add"
-import { OrdersContext } from "../../context/OrdersContext"
+import { Fab, List, ListItem, makeStyles } from "@material-ui/core";
+import React, { useContext } from "react";
+import OrderCard from "../../components/OrderCard";
+import AddIcon from "@material-ui/icons/Add";
+import { OrdersContext } from "../../context/OrdersContext";
 
 const useStyles = makeStyles((theme) => ({
   ordersContainer: {
@@ -25,31 +25,31 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "10vmin",
     display: "block",
   },
-}))
+}));
 
 function OrdersPage({
   history,
 }: import("react-router-dom").RouteChildrenProps) {
-  const { orders } = useContext(OrdersContext)
-  const classes = useStyles()
+  const { orders } = useContext(OrdersContext);
+  const classes = useStyles();
   const goToAddPage = () => {
-    history.push("/Orders/Add")
-  }
+    history.push("/Orders/Add");
+  };
 
   return (
     <div className={classes.ordersContainer}>
       <List className={classes.listContainer}>
         {orders
-          .filter((value) => !value.is_completed)
+          .filter((value) => value !== undefined && !value.is_completed)
           .sort((prevVal, val) => {
-            return val.id - prevVal.id
+            return val.id - prevVal.id;
           })
           .concat(
             orders
-              .filter((value) => value.is_completed)
+              .filter((value) => value !== undefined && value.is_completed)
               .sort((prevVal, val) => {
-                return val.id - prevVal.id
-              }),
+                return val.id - prevVal.id;
+              })
           )
           .map((value) => {
             return (
@@ -57,15 +57,15 @@ function OrdersPage({
                 <OrderCard
                   {...value}
                   onClick={(id) => {
-                    history.push("/Orders/Id/" + id)
+                    history.push("/Orders/Id/" + id);
                   }}
                   onEditClick={(id) => {
-                    console.log(id)
-                    history.push("/Orders/Edit/" + id)
+                    console.log(id);
+                    history.push("/Orders/Edit/" + id);
                   }}
                 />
               </ListItem>
-            )
+            );
           })}
         <ListItem
           key={"OrdersPageBottomMargin"}
@@ -81,7 +81,7 @@ function OrdersPage({
         <AddIcon />
       </Fab>
     </div>
-  )
+  );
 }
 
-export default OrdersPage
+export default OrdersPage;
