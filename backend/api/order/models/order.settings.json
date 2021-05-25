@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "order",
   "info": {
-    "name": "order"
+    "name": "order",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -53,6 +54,10 @@
     },
     "date_of_completion": {
       "type": "datetime"
+    },
+    "users_permissions_user": {
+      "plugin": "users-permissions",
+      "model": "user"
     }
   }
 }

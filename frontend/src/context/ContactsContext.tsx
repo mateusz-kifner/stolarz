@@ -1,14 +1,14 @@
-import React, { useReducer, Reducer, useEffect } from "react"
-import { Action, ContactsProps, ContactsReducer } from "./ContactsReducer"
-import useLocalStorage from "../hooks/useLocalStorage"
+import React, { useReducer, Reducer, useEffect } from "react";
+import { Action, ContactsProps, ContactsReducer } from "./ContactsReducer";
+import useLocalStorage from "../hooks/useLocalStorage";
 type ContactsContextProps = {
-  contacts: ContactsProps[]
-  setContacts: (contact: ContactsProps[]) => void
-  addContact: (contact: ContactsProps) => void
-  removeContact: (id: number) => void
-  changeContact: (contact: ContactsProps) => void
-  populateContactsWithPlaceholders: () => void
-}
+  contacts: ContactsProps[];
+  setContacts: (contact: ContactsProps[]) => void;
+  addContact: (contact: ContactsProps) => void;
+  removeContact: (id: number) => void;
+  changeContact: (contact: ContactsProps) => void;
+  populateContactsWithPlaceholders: () => void;
+};
 
 const initialContext = {
   contacts: [],
@@ -17,48 +17,47 @@ const initialContext = {
   removeContact: (id: number) => {},
   changeContact: (contact: ContactsProps) => {},
   populateContactsWithPlaceholders: () => {},
-}
+};
 
-export const ContactsContext = React.createContext<ContactsContextProps>(
-  initialContext,
-)
+export const ContactsContext =
+  React.createContext<ContactsContextProps>(initialContext);
 
 type ContactsContextProviderProps = {
-  children: import("react").ReactNode
-}
+  children: import("react").ReactNode;
+};
 
 export function ContactsContextProvider(props: ContactsContextProviderProps) {
   const [contacts, dispatchContacts] = useReducer<
     Reducer<ContactsProps[], Action>
-  >(ContactsReducer, [])
-  const [storage, setStorage] = useLocalStorage<any>("contacts", [])
+  >(ContactsReducer, []);
+  const [storage, setStorage] = useLocalStorage<any>("contacts", []);
 
   useEffect(() => {
-    setContacts(storage)
+    setContacts(storage);
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setStorage(contacts)
-  })
+    setStorage(contacts);
+  });
 
   const setContacts = (contacts: ContactsProps[]) => {
-    dispatchContacts({ type: "set", data: contacts })
-  }
+    dispatchContacts({ type: "set", data: contacts });
+  };
 
   const addContact = (contact: ContactsProps) => {
-    dispatchContacts({ type: "add", data: contact })
-  }
+    dispatchContacts({ type: "add", data: contact });
+  };
   const removeContact = (id: number) => {
-    dispatchContacts({ type: "remove", id: id })
-  }
+    dispatchContacts({ type: "remove", id: id });
+  };
   const changeContact = (contact: ContactsProps) => {
-    dispatchContacts({ type: "change", data: contact })
-  }
+    dispatchContacts({ type: "change", data: contact });
+  };
 
   const populateContactsWithPlaceholders = () => {
-    dispatchContacts({ type: "populateWithPlaceholders" })
-  }
+    dispatchContacts({ type: "populateWithPlaceholders" });
+  };
 
   return (
     <ContactsContext.Provider
@@ -73,5 +72,5 @@ export function ContactsContextProvider(props: ContactsContextProviderProps) {
     >
       {props.children}
     </ContactsContext.Provider>
-  )
+  );
 }
