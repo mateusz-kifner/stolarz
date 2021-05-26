@@ -5,7 +5,11 @@
   "scripts": {
     "develop:backend": "yarn --cwd backend develop",
     "develop:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend develop",
-    "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*"
+    "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*",
+    "init:backend" : "yarn --cwd backend && yarn --cwd backend develop",
+    "init:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend && yarn --cwd frontend develop",
+    "init": "yarn && cross-env FORCE_COLOR=1 npm-run-all -l -p init:*"
+
   },
   "devDependencies": {
     "cross-env": "7.0.3",

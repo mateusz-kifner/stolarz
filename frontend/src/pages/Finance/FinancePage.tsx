@@ -100,6 +100,7 @@ function FinancePage() {
     )
     .filter((shopping_list_id) => shopping_list_id !== -1)
     .map((shopping_list_id) => receipts[shopping_list_id])
+    .filter((data)=>data!==undefined)
     .map((receipt) =>
       receipt.money_spent !== null && receipt.money_spent !== undefined
         ? receipt.money_spent

@@ -197,7 +197,9 @@ function SettingsPage({
         receipt_ids.push(receipt.id);
       }
     }
-
+    console.log("receipt_ids",receipt_ids);
+    console.log("contact_ids",contact_ids);
+    
     for (let order of new_orders) {
       let new_order = { ...order };
       let client_id = contact_ids.pop();
