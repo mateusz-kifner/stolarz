@@ -2,7 +2,7 @@
 
 ## MVP web aplikacji dla stolarza do zleceń, listy zakupów i podliczania finansów.
 Projet to zadanie dodatkowe na studiach.
-Live na GitHub:[https://kifner-mateusz.github.io/stolarz](https://kifner-mateusz.github.io/stolarz)
+Live na GitHub:[https://kifner-mateusz.github.io/stolarz](https://mateusz-kifner.github.io/stolarz)
 
 Dane testowe mozna dodać w ustawieniach
 
